@@ -44,7 +44,7 @@ tr.tot td{font-weight:600;background:var(--ac2)}tr.tot td:first-child{background
 .dr input::-webkit-slider-thumb{pointer-events:auto;-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--ac);border:2px solid var(--card);cursor:pointer}
 .dr input::-moz-range-thumb{pointer-events:auto;width:14px;height:14px;border-radius:50%;background:var(--ac);border:2px solid var(--card);cursor:pointer}
 #perBar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;margin-bottom:12px}.sal td{color:var(--pos);font-weight:700}.sal td:first-child{color:var(--tx);font-weight:600}.sal-v{color:var(--pos);font-weight:700}
-td[title]{cursor:help;text-decoration:underline dotted}.app{display:grid;grid-template-columns:160px minmax(0,1fr);gap:16px;max-width:1280px;margin:0 auto;padding:16px}
+.app{display:grid;grid-template-columns:160px minmax(0,1fr);gap:16px;max-width:1280px;margin:0 auto;padding:16px}
 .side{position:sticky;top:env(safe-area-inset-top,0px);align-self:start;display:flex;flex-direction:column;gap:6px;height:fit-content}
 .side button{text-align:left;border:0;background:none;color:var(--mu);padding:8px 10px;border-radius:8px;cursor:pointer;font:inherit}
 .side button.on{background:var(--ac2);color:var(--tx)}.side .pri{background:var(--ac);color:#fff;margin-top:10px;text-align:center}.brand{font-size:15px;padding:4px 10px 10px}
@@ -71,12 +71,23 @@ td[title]{cursor:help;text-decoration:underline dotted}.app{display:grid;grid-te
 .modal{position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.5);display:flex;align-items:flex-start;justify-content:center;padding:calc(env(safe-area-inset-top,0px) + 24px) 12px 12px;overflow:auto}
 .mbox{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:16px;width:min(760px,100%)}.mbox .card{border:0;padding:0;margin:0}
 .seg{display:flex;gap:4px;flex-wrap:wrap}.seg button{border:1px solid var(--bd);background:var(--bg);color:var(--mu);padding:6px 12px;border-radius:8px;cursor:pointer;font:inherit}.seg button.on{background:var(--ac2);border-color:var(--ac);color:var(--tx)}
+.tipbox{position:fixed;z-index:80;max-width:min(320px,calc(100vw - 16px));background:#12201c;color:#f5f4ef;border:1px solid #2e4a40;border-radius:10px;padding:10px 12px;font-size:13px;line-height:1.5;white-space:pre-line;box-shadow:0 8px 24px rgba(0,0,0,.3);pointer-events:none}
+[data-tip]{cursor:help;text-decoration:underline dotted;text-underline-offset:3px}
+@media(pointer:coarse){.btn,.btn.sm,.seg button,.chip{min-height:40px}.btn.sm{padding:8px 12px}.chip{display:inline-flex;align-items:center;padding:6px 14px}.gr{font-size:24px;padding:8px 10px}
+.dr{height:44px}.dr::before,#gFill{top:20px}.dr input{top:12px}.dr input::-webkit-slider-thumb{width:30px;height:30px}.dr input::-moz-range-thumb{width:26px;height:26px}
+input,select{font-size:16px;min-height:40px}.kpi small[data-tip]{display:inline-block;padding:6px 4px}}
+@media(max-width:760px){.app{padding:10px 10px 84px;gap:10px}
+.side{position:fixed;left:0;right:0;bottom:0;top:auto;z-index:40;flex-direction:row;flex-wrap:nowrap;gap:2px;background:var(--card);border-top:1px solid var(--bd);padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px))}
+.brand{display:none}.side button{flex:1;padding:10px 2px;text-align:center;font-size:12px;border-radius:10px}.side .pri{margin:0;flex:1.1}
+#perBar{position:static}#pre{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px}#pre .chip{white-space:nowrap;flex:0 0 auto}
+.modal{padding:0}.mbox{border-radius:0;min-height:100%;width:100%;padding:14px 14px calc(14px + env(safe-area-inset-bottom,0px))}
+.frow{grid-template-columns:1fr 1fr}.frow>span:first-child{grid-column:1/-1;white-space:normal}.fh{display:none}.kpis{grid-template-columns:1fr 1fr}.cvs{height:240px}}
 .hide{display:none}.mu{color:var(--mu)}
 </style>
 </head>
 <body><div class="app">
 <nav class="side" id="tabs"><b class="brand">Contabilidade</b><button data-t="resumo" class="on">Painel</button><button data-t="lanc">Lançamentos</button><button data-t="graf">Análise</button><button data-t="metas">Metas</button><button class="pri" id="goL">+ Lançar</button></nav>
-<main style="min-width:0"><div class="card" id="perBar"><div class="row" style="align-items:center"><label style="flex:1;min-width:240px">Período: <b id="gPer" style="color:var(--tx)"></b><div class="dr"><div id="gFill"></div><input type="range" id="gDe" min="0" max="0" value="0"><input type="range" id="gAte" min="0" max="0" value="0"></div></label><div class="chips" id="pre" style="margin:0"><span class="chip" data-p="all">Tudo</span><span class="chip" data-p="y">Ano corrente</span><span class="chip" data-p="12">12 meses</span><span class="chip" data-p="3">3 meses</span><span class="chip" data-p="1">Último mês</span></div></div></div>
+<main style="min-width:0"><div class="card" id="perBar"><div class="row" style="align-items:center"><label style="flex:1;min-width:240px">Período: <b id="gPer" style="color:var(--tx)"></b><div class="dr"><div id="gFill"></div><input type="range" id="gDe" min="0" max="0" value="0"><input type="range" id="gAte" min="0" max="0" value="0"></div></label><div class="chips" id="pre" style="margin:0"><span class="chip" data-p="all">Tudo</span><span class="chip" data-p="y">Ano corrente</span><span class="chip" data-p="12">12 meses</span><span class="chip" data-p="3">3 meses</span><span class="chip" data-p="1">Último mês</span><span class="chip" id="ignChip" title="Exclui o mês atual das análises (útil para lançamentos antecipados)">Ignorar mês atual</span></div></div></div>
 
 <section id="t-resumo">
  <div class="kpis" id="kpis"></div>
@@ -94,7 +105,7 @@ td[title]{cursor:help;text-decoration:underline dotted}.app{display:grid;grid-te
  <div class="card">
   <div class="hd"><div><div class="ct">Histórico de lançamentos</div><div class="cs">Edite a observação direto na linha. Para lançar, use o botão + Lançar.</div></div></div>
   <div class="row"><label>Categoria<select id="lCat"></select></label><button class="btn sm" id="reset">Apagar dados locais</button></div>
-  <div class="row" style="margin-top:10px;align-items:center"><span class="mu">Backup:</span><button class="btn sm" id="bkExp">Exportar backup (JSON)</button><label class="btn sm" style="flex-direction:row;font-size:12px;color:var(--tx);cursor:pointer;min-width:0">Importar backup (substitui os dados atuais)<input type="file" id="bkImp" accept=".json,application/json" hidden></label><span id="bkMsg" class="mu"></span></div>
+  <div class="row" style="margin-top:10px;align-items:center"><span class="mu">Backup:</span><button class="btn sm" id="bkExp">Exportar backup (JSON)</button><label class="btn sm" style="flex-direction:row;font-size:12px;color:var(--tx);cursor:pointer;min-width:0">Importar backup (substitui os dados atuais)<input type="file" id="bkImp" hidden></label></div><div id="bkMsg" class="mu" style="margin-top:6px;min-height:18px"></div><details style="margin-top:6px"><summary class="mu" style="cursor:pointer">Importar colando o texto do backup</summary><textarea id="bkTxt" rows="4" style="width:100%;margin-top:6px;font-size:12px" placeholder="Cole aqui o conteúdo do arquivo de backup (.json)"></textarea><button class="btn sm" id="bkPaste" type="button" style="margin-top:6px">Importar texto colado</button></details>
   <div class="scroll" style="margin-top:10px"><table id="lista"></table></div>
  </div>
 </section>
@@ -113,6 +124,7 @@ td[title]{cursor:help;text-decoration:underline dotted}.app{display:grid;grid-te
 </section>
 
 </main></div>
+<div id="tipBox" class="tipbox hide" role="tooltip"></div>
 <div id="modal" class="modal hide"><div class="mbox"><div class="row" style="justify-content:space-between;align-items:center;margin-bottom:12px"><div class="seg" id="seg"><button data-s="fech" class="on">Fechamento do mês</button><button data-s="avulso">Lançamento avulso</button></div><button class="btn sm" id="mClose" aria-label="Fechar">✕</button></div><div id="mFech"><div class="card"><div class="row" style="align-items:flex-end;justify-content:space-between"><div><span class="ct">Fechamento do mês</span><div class="mu">Lance tudo de uma vez: cada item lançado sai da lista até zerar.</div></div><label>Mês<input type="month" id="fcMes"></label></div>
  <div id="fcProg" style="margin:10px 0 4px"></div><div id="fcBox"></div>
  <div class="row" style="margin-top:10px;align-items:center"><button class="btn pri" id="fcAll">Lançar todos os preenchidos</button><button class="btn sm" id="fcUnskip">Restaurar pulados</button><span id="fcMsg" class="mu"></span></div></div>
@@ -164,16 +176,26 @@ function derived(M,m){const rec=CATS.filter(c=>c.t==='r').reduce((s,c)=>s+cell(M
  const des=CATS.filter(c=>c.t==='d').reduce((s,c)=>s+cell(M,c.n,m),0);return{rec,des,sob:rec-des}}
 const years=()=>[...new Set(allMonths().map(m=>m.slice(0,4)))];
 const fillSel=(el,opts,val)=>{el.innerHTML=opts.map(o=>`<option value="${o[0]}">${o[1]}</option>`).join('');if(val!=null)el.value=val};
-function sel(){const all=allMonths();let a=+gDe.value,b=+gAte.value;if(a>b)[a,b]=[b,a];return all.slice(a,b+1)}
-function perUI(){const all=allMonths();let a=+gDe.value,b=+gAte.value;if(a>b)[a,b]=[b,a];gPer.textContent=lblM(all[a])+' → '+lblM(all[b])+' ('+(b-a+1)+(b>a?' meses)':' mês)');const mx=Math.max(1,all.length-1);gFill.style.left=(a/mx*100)+'%';gFill.style.width=((b-a)/mx*100)+'%';gDe.style.zIndex=a>mx/2?3:1;gAte.style.zIndex=2}
+let IGN=false;try{IGN=localStorage.getItem('contab_ign_v1')==='1'}catch(e){}
+const nowM=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')};
+function selAll(){const all=allMonths();let a=+gDe.value,b=+gAte.value;if(a>b)[a,b]=[b,a];return all.slice(a,b+1)}
+function sel(){const r=selAll();return IGN?r.filter(m=>m!==nowM()):r}
+function ignUI(){ignChip.classList.toggle('on',IGN);ignChip.textContent=(IGN?'✓ ':'')+'Ignorar mês atual ('+lblM(nowM())+')'}
+let PRE='all';
+function preUI(){pre.querySelectorAll('[data-p]').forEach(c=>c.classList.toggle('on',c.dataset.p===PRE))}
+function applyPre(p){const all=allMonths(),n=all.length-1,ef=(IGN&&all[n]===nowM()&&n>0)?n-1:n;let a=0;if(p==='12')a=Math.max(0,ef-11);else if(p==='3')a=Math.max(0,ef-2);else if(p==='1')a=ef;else if(p==='y'){const y=all[ef].slice(0,4);a=all.findIndex(m=>m.startsWith(y))}
+ gDe.value=a;gAte.value=n;PRE=p;preUI();perUI();refresh()}
+function perUI(){const all=allMonths();let a=+gDe.value,b=+gAte.value;if(a>b)[a,b]=[b,a];gPer.textContent=(sel().length?lblM(sel()[0])+' → '+lblM(sel()[sel().length-1]):lblM(all[a])+' → '+lblM(all[b]))+' ('+sel().length+(sel().length===1?' mês)':' meses)')+(IGN&&sel().length<b-a+1?' · sem '+lblM(nowM()):'');const mx=Math.max(1,all.length-1);gFill.style.left=(a/mx*100)+'%';gFill.style.width=((b-a)/mx*100)+'%';gDe.style.zIndex=a>mx/2?3:1;gAte.style.zIndex=2}
 const cls=v=>v<0?'neg':'';
 
 const tot=(ms,M)=>{let r=0,d=0;ms.forEach(m=>{const x=derived(M,m);r+=x.rec;d+=x.des});return{r,d,s:r-d}};
-function prevMs(){const all=allMonths();let a=+gDe.value,b=+gAte.value;if(a>b)[a,b]=[b,a];const n=b-a+1;return a-n>=0?all.slice(a-n,a):[]}
-function dl(c,p,inv,abs){if(p==null)return '<small class="mu">sem período anterior</small>';const d=c-p,pc=p?d/Math.abs(p)*100:0,good=inv?d<=0:d>=0;return `<small class="${good?'up':'dn'}" title="vs. ${PL}">${d>=0?'▲':'▼'} ${abs?brl(Math.abs(d)):Math.abs(pc).toFixed(0)+'%'} vs. anterior</small>`}
-function kpis(ms,M){const pm=prevMs();PL=rng(pm);const has=pm.length===ms.length&&pm.length>0,c=tot(ms,M),p=has?tot(pm,M):null;
- const sal=CATS.find(x=>x.t==='s').n,lo=a=>{const m=[...a].reverse().find(m=>M[sal][m]);return m?M[sal][m]:null},cs=lo(ms),ps=has?lo(pm):null;
- const K=[['Salário',brl(c.r),'',dl(c.r,p&&p.r,0,0)],['Despesas',brl(c.d),'',dl(c.d,p&&p.d,1,0)],['Sobrou',brl(c.s),cls(c.s),dl(c.s,p&&p.s,0,1)],['% que sobrou',c.r?(c.s/c.r*100).toFixed(1)+'%':'-','',''],['Carteira',cs?brl(cs):'-','',cs!=null&&ps!=null?dl(cs,ps,0,1):'']];
+function prevMs(){const all=allMonths();let a=+gDe.value,b=+gAte.value;if(a>b)[a,b]=[b,a];const n=sel().length;return n&&a-n>=0?all.slice(a-n,a):[]}
+function dl(c,p,inv,abs,tp){if(p==null)return '<small class="mu">sem período anterior</small>';const d=c-p,pc=p?d/Math.abs(p)*100:null,good=inv?d<=0:d>=0;
+ return `<small class="${good?'up':'dn'}" data-tip="${esc(tp(c,p,d,pc))}">${d>=0?'▲':'▼'} ${abs?brl(Math.abs(d)):(pc==null?'n/d':Math.abs(pc).toFixed(0)+'%')} vs. anterior ⓘ</small>`}
+const tpf=(nome,fa,fb)=>(c,p,d,pc)=>nome+'\nAtual ('+fa+'): '+brl(c)+'\nAnterior ('+fb+'): '+brl(p)+'\nDiferença: '+(d>=0?'+':'−')+brl(Math.abs(d))+(pc==null||p<=0?'':' ('+(pc>=0?'+':'−')+Math.abs(pc).toFixed(1).replace('.',',')+'%)');
+function kpis(ms,M){const pm=prevMs(),has=pm.length===ms.length&&pm.length>0,c=tot(ms,M),p=has?tot(pm,M):null,ra=rng(ms),rb=rng(pm);
+ const sal=CATS.find(x=>x.t==='s').n,lo=a=>{const m=[...a].reverse().find(m=>M[sal][m]);return m?{v:M[sal][m],m}:null},cs=lo(ms),ps=has?lo(pm):null;
+ const K=[['Salário',brl(c.r),'',dl(c.r,p&&p.r,0,0,tpf('Salário',ra,rb))],['Despesas',brl(c.d),'',dl(c.d,p&&p.d,1,0,tpf('Despesas',ra,rb))],['Sobrou',(c.s>0?'+':'')+brl(c.s),c.s>0?'pos':c.s<0?'neg':'',dl(c.s,p&&p.s,0,1,tpf('Sobrou (receita − despesas)',ra,rb))],['% que sobrou',c.r?(c.s/c.r*100).toFixed(1)+'%':'-','',''],['Carteira',cs?brl(cs.v):'-','',cs&&ps?dl(cs.v,ps.v,0,1,tpf('Carteira (último saldo lançado)',lblM(cs.m),lblM(ps.m))):'']];
  document.getElementById('kpis').innerHTML=K.map(k=>`<div class="kpi"><small>${k[0]}</small><b class="${k[2]}">${k[1]}</b>${k[3]}</div>`).join('')}
 let PL='';let CFG={};const FIX=new Set(['Vivo celular','PUC Pós Graduação','Estacionamento MRV','Blink internet','Moradia','Caixinha']);
 try{CFG=JSON.parse(localStorage.getItem('contab_cfg_v1')||'{}')}catch(e){}
@@ -183,16 +205,28 @@ const CH={};function mk(id,cfg){if(CH[id])CH[id].destroy();CH[id]=new Chart(docu
 const PALS={sage:['#8fb39a','#e6b98a'],slate:['#8fa8c4','#dcc79f'],lagoon:['#79aaa4','#cf9ca6']};let PK='sage';try{PK=localStorage.getItem('contab_pal_v1')||'sage'}catch(e){}
 const rng=a=>a.length?(a.length>1?lblM(a[0])+'–'+lblM(a[a.length-1]):lblM(a[0])):'';
 const cmp=v=>v>=1000?(v/1000).toFixed(1).replace('.',',')+'k':String(Math.round(v));
-const dPlug={id:'dl',afterDatasetsDraw(ch){const ctx=ch.ctx,m0=ch.getDatasetMeta(0),m1=ch.getDatasetMeta(1),d0=ch.data.datasets[0].data,d1=ch.data.datasets[1].data,n=d0.length,rot=n>14,css=getComputedStyle(document.documentElement),pos=css.getPropertyValue('--pos').trim(),neg=css.getPropertyValue('--neg').trim();
- ctx.save();ctx.font='600 '+(rot?10:11)+'px system-ui,sans-serif';ctx.textAlign=rot?'left':'center';ctx.textBaseline=rot?'middle':'bottom';
- for(let i=0;i<n;i++){const A=m0.data[i],B=m1.data[i];if(!A||!B)continue;const d=d0[i]-d1[i],x=(A.x+B.x)/2,y=Math.min(A.y,B.y)-6,num=(n<=6||rot)?Math.round(Math.abs(d)).toLocaleString('pt-BR'):cmp(Math.abs(d)),txt=(d>=0?'▲ +':'▼ −')+num;ctx.fillStyle=d>=0?pos:neg;
-  if(rot){ctx.save();ctx.translate(x,y);ctx.rotate(-Math.PI/2);ctx.fillText(txt,0,0);ctx.restore()}else ctx.fillText(txt,x,y)}ctx.restore()}};
+const dMode=gw=>gw>=84?'full':gw>=56?'cmp':gw>=13?'rot':'dot';
+const dTxt=(d,m)=>(m==='rot'?(d>=0?'+':'−'):(d>=0?'▲ +':'▼ −'))+((m==='cmp'||m==='rot')?cmp(Math.abs(d)):Math.round(Math.abs(d)).toLocaleString('pt-BR'));
+const dFont=m=>m==='rot'?10:m==='cmp'?11:12;
+function dHead(s,D){const ch=s.chart,n=D.length,m=dMode((ch.width-70)/Math.max(1,n));let px=24;
+ if(m==='dot')px=18;else if(m==='rot'){const c=ch.ctx;c.save();c.font='600 10px system-ui,sans-serif';px=Math.max(...D.map(d=>c.measureText(dTxt(d.rec-d.des,'rot')).width))+14;c.restore()}
+ const H=Math.max(140,ch.height-100),r=s.max-s.min;if(r>0&&H>px+20)s.max+=r*px/(H-px)}
+const dPlug={id:'dl',afterDatasetsDraw(ch){const ctx=ch.ctx,ca=ch.chartArea,m0=ch.getDatasetMeta(0),m1=ch.getDatasetMeta(1),d0=ch.data.datasets[0].data,d1=ch.data.datasets[1].data,n=d0.length,mode=dMode(ca.width/n),css=getComputedStyle(document.documentElement),pos=css.getPropertyValue('--pos').trim(),neg=css.getPropertyValue('--neg').trim();
+ ctx.save();ctx.font='600 '+dFont(mode)+'px system-ui,sans-serif';
+ for(let i=0;i<n;i++){const A=m0.data[i],B=m1.data[i];if(!A||!B)continue;const d=d0[i]-d1[i],x=(A.x+B.x)/2,top=Math.min(A.y,B.y),col=d>=0?pos:neg,g=d>=0?'▲':'▼';ctx.fillStyle=col;
+  if(mode==='dot'){ctx.textAlign='center';ctx.textBaseline='bottom';ctx.fillText(g,x,top-3);continue}
+  const txt=dTxt(d,mode),len=ctx.measureText(txt).width;
+  if(mode==='rot'){if(top-6-len<ca.top-2){ctx.textAlign='center';ctx.textBaseline='bottom';ctx.fillText(g,x,top-3);continue}
+   ctx.save();ctx.translate(x,top-6);ctx.rotate(-Math.PI/2);ctx.textAlign='left';ctx.textBaseline='middle';ctx.fillText(txt,0,0);ctx.restore()}
+  else{ctx.textAlign='center';ctx.textBaseline='bottom';ctx.fillText(top-6-dFont(mode)<ca.top-2?g:txt,x,top-6)}}
+ ctx.restore()}};
 function painel(ms,M){if(!window.Chart)return;const css=getComputedStyle(document.documentElement),tx=css.getPropertyValue('--mu').trim(),gr=css.getPropertyValue('--bd').trim(),neg=css.getPropertyValue('--neg').trim(),pos=css.getPropertyValue('--pos').trim();
  const lab=ms.map(lblM),D=ms.map(m=>derived(M,m)),ds=CATS.filter(c=>c.t==='d'),n=ms.length,PC=PALS[PK]||PALS.sage;
  const sc=st=>({x:{stacked:st,ticks:{color:tx},grid:{color:gr}},y:{stacked:st,grace:'12%',ticks:{color:tx,callback:v=>v.toLocaleString('pt-BR')},grid:{color:gr}}});
  const op=(s,fn,ft,pd)=>({responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},layout:{padding:{top:pd||0}},scales:s,plugins:{legend:{labels:{color:tx}},tooltip:{callbacks:{label:fn,footer:ft}}}});
  const lf=c=>' '+c.dataset.label+': '+brl(c.parsed.y);
- mk('cvA',{type:'bar',data:{labels:lab,datasets:[{label:'Receita',data:D.map(d=>d.rec),backgroundColor:'#0f6e56'},{label:'Despesas',data:D.map(d=>d.des),backgroundColor:'#d4742c'}]},options:op(sc(false),lf,its=>{const d=D[its[0].dataIndex].sob;return 'Sobrou: '+(d>=0?'+':'−')+brl(Math.abs(d))},n>14?64:20),plugins:[dPlug]});
+ const scA=sc(false);delete scA.y.grace;scA.y.afterDataLimits=s=>dHead(s,D);
+ mk('cvA',{type:'bar',data:{labels:lab,datasets:[{label:'Receita',data:D.map(d=>d.rec),backgroundColor:'#0f6e56'},{label:'Despesas',data:D.map(d=>d.des),backgroundColor:'#d4742c'}]},options:op(scA,lf,its=>{const d=D[its[0].dataIndex].sob;return 'Sobrou: '+(d>=0?'+':'−')+brl(Math.abs(d))},4),plugins:[dPlug]});
  const fx=ms.map(m=>ds.filter(c=>kind(c.n)==='f').reduce((s,c)=>s+cell(M,c.n,m),0)),vr=ms.map(m=>ds.filter(c=>kind(c.n)==='v').reduce((s,c)=>s+cell(M,c.n,m),0)),F=fx.reduce((a,b)=>a+b,0),V=vr.reduce((a,b)=>a+b,0);
  fvTxt.textContent=F+V>0?'— fixos '+(F/(F+V)*100).toFixed(0)+'% · variáveis '+(V/(F+V)*100).toFixed(0)+'%':'';
  const br=(kd,i)=>ds.filter(c=>kind(c.n)===kd).map(c=>({n:c.n,v:cell(M,c.n,ms[i])})).filter(x=>x.v).sort((a,b)=>b.v-a.v);
@@ -208,7 +242,7 @@ function painel(ms,M){if(!window.Chart)return;const css=getComputedStyle(documen
  varBox.innerHTML=vv.length?'<div class="vr h"><span></span><span>Atual</span><span>Anterior</span><span>Diferença</span></div>'+vv.map(x=>`<div class="vr"><span>${x.n}</span><span>${brl(x.a)}</span><span>${brl(x.p)}</span><span class="${x.d>0?'dn':'pos'}">${x.d>0?'▲ +':'▼ −'}${brl(Math.abs(x.d))}</span></div>`).join('')+'<div class="mu" style="font-size:11px;margin-top:6px">▲ gastou mais que no período anterior · ▼ gastou menos</div>':'<span class="mu">Sem variações relevantes.</span>'}
 function metas(){const M=matrix(),ms=sel();metaTb.innerHTML='<thead><tr><th>Categoria</th><th>Tipo</th><th>Meta mensal (R$)</th><th>Média no período</th></tr></thead><tbody>'+CATS.filter(c=>c.t==='d').map(c=>{const avg=ms.length?ms.reduce((s,m)=>s+cell(M,c.n,m),0)/ms.length:0,mt=meta(c.n);return `<tr><td>${c.n}</td><td><select data-k="${esc(c.n)}"><option value="f"${kind(c.n)==='f'?' selected':''}>Fixo</option><option value="v"${kind(c.n)==='v'?' selected':''}>Variável</option></select></td><td><input type="number" min="0" step="10" data-m="${esc(c.n)}" value="${mt??''}" style="width:110px"></td><td class="${mt&&avg>mt?'neg':''}">${brl(avg)}</td></tr>`}).join('')+'</tbody>'}
 function tip(cat,m){let a=L.filter(x=>x.c===cat&&x.m===m).sort((p,q)=>p.id-q.id);if(tipo(cat)==='s')a=a.slice(-1);if(!a.some(x=>x.f))return '';
- return ' title="'+esc(a.map(x=>x.f?'Memória de cálculo: '+x.f+' = '+brl(x.v):'Lançamento sem fórmula: '+brl(x.v)).join('\n'))+'"'}
+ return ' data-tip="'+esc(a.map(x=>x.f?'Memória de cálculo: '+x.f+' = '+brl(x.v):'Lançamento sem fórmula: '+brl(x.v)).join('\n'))+'"'}
 function resumo(){const M=matrix(),ms=sel();
  kpis(ms,M);painel(ms,M);
  let h='<thead><tr><th>Conta</th>'+ms.map(m=>`<th>${lblM(m)}</th>`).join('')+'<th>Total</th></tr></thead><tbody>';
@@ -221,9 +255,9 @@ function resumo(){const M=matrix(),ms=sel();
  CATS.filter(c=>c.t==='s').forEach(c=>{h+=row(c.n,ms.map(m=>cell(M,c.n,m)),null,'',c.n)});
  pivot.innerHTML=h+'</tbody>'}
 
-function lista(){const c=lCat.value,S=new Set(sel());
+function lista(){const c=lCat.value,S=new Set(selAll());
  const r=L.filter(x=>(c==='all'||x.c===c)&&S.has(x.m)).sort((x,y)=>y.m.localeCompare(x.m)||y.id-x.id).slice(0,300);
- lista_.innerHTML='<colgroup><col style="width:64px"><col style="width:170px"><col style="width:130px"><col><col style="width:92px"></colgroup><thead><tr><th>Mês</th><th style="text-align:left">Categoria</th><th>Valor</th><th style="text-align:left">Observação</th><th></th></tr></thead><tbody>'+r.map(x=>`<tr><td>${lblM(x.m)}</td><td>${x.c}</td><td class="${tipo(x.c)==='r'?'sal-v':cls(x.v)}"${x.f?` title="Memória de cálculo: ${esc(x.f)} = ${brl(x.v)}"`:''}>${brl(x.v)}${x.f?' ƒ':''}</td><td><input data-o="${x.id}" value="${esc(x.o||'')}" placeholder="adicionar observação"></td><td><button class="btn sm" data-edit="${x.id}" title="Editar">✎</button> <button class="btn sm" data-del="${x.id}" title="Excluir">×</button></td></tr>`).join('')+'</tbody>'}
+ lista_.innerHTML='<colgroup><col style="width:64px"><col style="width:170px"><col style="width:130px"><col><col style="width:92px"></colgroup><thead><tr><th>Mês</th><th style="text-align:left">Categoria</th><th>Valor</th><th style="text-align:left">Observação</th><th></th></tr></thead><tbody>'+r.map(x=>`<tr><td>${lblM(x.m)}</td><td>${x.c}</td><td class="${tipo(x.c)==='r'?'sal-v':cls(x.v)}"${x.f?` data-tip="Memória de cálculo: ${esc(x.f)} = ${brl(x.v)}"`:''}>${brl(x.v)}${x.f?' ƒ':''}</td><td><input data-o="${x.id}" value="${esc(x.o||'')}" placeholder="adicionar observação"></td><td><button class="btn sm" data-edit="${x.id}" title="Editar">✎</button> <button class="btn sm" data-del="${x.id}" title="Excluir">×</button></td></tr>`).join('')+'</tbody>'}
 const lista_=document.getElementById('lista');
 
 let SK={};try{SK=JSON.parse(localStorage.getItem('contab_skip_v1')||'{}')}catch(e){}
@@ -248,7 +282,7 @@ function initSelects(){const ys=years();
  if(fc)fCat.value=fc;
  const ms=allMonths(),nm=ms.length-1,old=+gAte.max;
  if(!gAte.dataset.i){gDe.max=gAte.max=nm;gDe.value=0;gAte.value=nm;gAte.dataset.i=1}else{gDe.max=gAte.max=nm;if(+gAte.value===old)gAte.value=nm}
- if(!fMes.value)fMes.value=ms[ms.length-1];if(!fcMes.value)fcMes.value=ms[ms.length-1];perUI()}
+ if(!fMes.value)fMes.value=ms[ms.length-1];if(!fcMes.value)fcMes.value=ms[ms.length-1];perUI();ignUI();preUI()}
 
 // ---- gráficos
 let SEL=null,chart=null;
@@ -281,9 +315,10 @@ function graf(){if(!window.Chart)return;const M=matrix(),g=gAgg.value,modo=gModo
 tabs.onclick=e=>{const t=e.target.dataset.t;if(!t)return;[...tabs.children].forEach(b=>b.classList.toggle('on',b===e.target));
  ['resumo','lanc','graf','metas'].forEach(k=>document.getElementById('t-'+k).classList.toggle('hide',k!==t));if(t==='graf')graf()};
 lCat.onchange=lista;
+ignChip.onclick=()=>{IGN=!IGN;try{localStorage.setItem('contab_ign_v1',IGN?'1':'0')}catch(e){}ignUI();if(PRE)applyPre(PRE);else{perUI();refresh()}};
 [gModo,gTipo,gAgg].forEach(el=>el.onchange=()=>{chips();graf()});
-[gDe,gAte].forEach(el=>el.oninput=()=>{if(+gDe.value>+gAte.value){if(el===gDe)gDe.value=gAte.value;else gAte.value=gDe.value}perUI();refresh()});
-pre.onclick=e=>{const p=e.target.dataset.p;if(!p)return;const all=allMonths(),n=all.length-1;let a=0;if(p==='12')a=Math.max(0,n-11);else if(p==='3')a=Math.max(0,n-2);else if(p==='1')a=n;else if(p==='y'){const y=all[n].slice(0,4);a=all.findIndex(m=>m.startsWith(y))}gDe.value=a;gAte.value=n;perUI();refresh()};
+[gDe,gAte].forEach(el=>el.oninput=()=>{if(+gDe.value>+gAte.value){if(el===gDe)gDe.value=gAte.value;else gAte.value=gDe.value}PRE=null;preUI();perUI();refresh()});
+pre.onclick=e=>{const p=e.target.dataset.p;if(p)applyPre(p)};
 nCatBtn.onclick=()=>{nCatBox.classList.toggle('hide');nCatN.focus()};
 nCatOk.onclick=()=>{const n=nCatN.value.trim();if(!n){fMsg.textContent='Informe o nome da categoria.';return}
  if(CATS.some(c=>c.n.toLowerCase()===n.toLowerCase())){fMsg.textContent='Essa categoria já existe.';return}
@@ -305,7 +340,7 @@ async function saveFile(name,text,mime){try{const d=window.claude&&claude.use?aw
  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([text],{type:mime||'application/json'}));a.download=name;a.click()}
 function mkBackup(){let ord=null;try{ord=JSON.parse(localStorage.getItem(OK)||'null')}catch(e){}
  return JSON.stringify({app:'contabilidade',v:1,at:new Date().toISOString(),lancamentos:L,categoriasExtras:CATS.slice(SEED.cats.length),metas:CFG,pulados:SK,paleta:PK,ordem:ord},null,1)}
-function restore(txt){const j=JSON.parse(txt);if(!j||j.app!=='contabilidade'||!Array.isArray(j.lancamentos))throw new Error('arquivo inválido');
+function restore(txt){const j=JSON.parse(String(txt).replace(/^\uFEFF/,'').trim());if(!j||j.app!=='contabilidade'||!Array.isArray(j.lancamentos))throw new Error('arquivo inválido');
  const ex=Array.isArray(j.categoriasExtras)?j.categoriasExtras:[];CATS=SEED.cats.slice();ex.forEach(c=>{if(c&&c.n&&c.t&&'rds'.includes(c.t)&&!CATS.some(x=>x.n===c.n))CATS.push({n:String(c.n),t:c.t})});
  const ok=j.lancamentos.filter(x=>x&&CATS.some(c=>c.n===x.c)&&/^\d{4}-\d{2}$/.test(x.m)&&Number.isFinite(+x.v));
  L=ok.map((x,i)=>({id:i+1,c:x.c,m:x.m,v:+x.v,o:String(x.o||''),s:x.s||'novo',f:String(x.f||'')}));uid=L.length+1;
@@ -313,7 +348,16 @@ function restore(txt){const j=JSON.parse(txt);if(!j||j.app!=='contabilidade'||!A
  save();saveCats();saveCfg();saveSk();try{localStorage.setItem('contab_pal_v1',PK);if(j.ordem)localStorage.setItem(OK,JSON.stringify(j.ordem));else localStorage.removeItem(OK)}catch(e){}
  palSel.value=PK;SEL=null;applyOrd();initSelects();chips();refresh();return [ok.length,j.lancamentos.length-ok.length]}
 bkExp.onclick=async()=>{await saveFile('backup-contabilidade-'+new Date().toISOString().slice(0,10)+'.json',mkBackup());bkMsg.textContent='Backup gerado com '+L.length+' lançamentos.'};
-bkImp.onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const n=restore(String(r.result));bkMsg.textContent='Backup importado: '+n[0]+' lançamentos'+(n[1]?' ('+n[1]+' ignorados)':'')}catch(x){bkMsg.textContent='Não consegui ler o arquivo: '+(x.message||'formato inválido')}bkImp.value=''};r.readAsText(f)};
+const bkSay=(s,ok)=>{bkMsg.textContent=s;bkMsg.style.color=ok===true?'var(--pos)':ok===false?'var(--neg)':''};
+function bkDo(txt){try{const n=restore(txt);bkSay('Backup importado: '+n[0]+' lançamentos'+(n[1]?' ('+n[1]+' ignorados)':''),true)}catch(x){bkSay('Arquivo não reconhecido como backup deste app ('+(x.message||'erro')+').',false)}}
+bkImp.onchange=e=>{const f=e.target.files[0];if(!f)return;bkSay('Lendo '+f.name+'…');const r=new FileReader();r.onload=()=>bkDo(String(r.result));r.onerror=()=>bkSay('Não consegui abrir o arquivo. Use a opção "Importar colando o texto" abaixo.',false);r.onloadend=()=>{bkImp.value=''};r.readAsText(f)};
+bkPaste.onclick=()=>bkDo(bkTxt.value);
+const tipBox=document.getElementById('tipBox');let tipEl=null;
+function showTip(el){tipBox.textContent=el.dataset.tip;tipBox.classList.remove('hide');const r=el.getBoundingClientRect(),bw=tipBox.offsetWidth,bh=tipBox.offsetHeight;let x=Math.min(Math.max(8,r.left+r.width/2-bw/2),innerWidth-bw-8),y=r.top-bh-8;if(y<8)y=r.bottom+8;tipBox.style.left=x+'px';tipBox.style.top=y+'px';tipEl=el}
+function hideTip(){tipBox.classList.add('hide');tipEl=null}
+document.addEventListener('click',e=>{const el=e.target.closest?e.target.closest('[data-tip]'):null;if(el&&el!==tipEl)showTip(el);else hideTip()});
+document.addEventListener('mouseover',e=>{if(!matchMedia('(hover:hover)').matches)return;const el=e.target.closest?e.target.closest('[data-tip]'):null;if(el&&el!==tipEl)showTip(el);else if(!el&&tipEl)hideTip()});
+addEventListener('scroll',hideTip,true);addEventListener('resize',hideTip);
 matchMedia('(prefers-color-scheme:dark)').addEventListener('change',()=>refresh());
 fcMes.onchange=()=>fech(1);
 fcBox.onclick=e=>{const row=e.target.closest('.frow');if(!row)return;const inp=row.querySelector('input'),m=fcMes.value;
@@ -337,13 +381,14 @@ function saveOrd(){try{localStorage.setItem(OK,JSON.stringify({order:[...pgrid.c
 function flip(fn){const cs=[...pgrid.querySelectorAll('.pc')].filter(c=>c!==drag),bf=new Map(cs.map(c=>[c,c.getBoundingClientRect()]));
  cs.forEach(c=>{c.style.transition='none';c.style.transform=''});fn();
  cs.forEach(c=>{const a=c.getBoundingClientRect(),o=bf.get(c),dx=o.left-a.left,dy=o.top-a.top;if(!dx&&!dy)return;c.style.transform='translate('+dx+'px,'+dy+'px)';c.getBoundingClientRect();c.style.transition='transform .3s cubic-bezier(.2,.8,.2,1)';c.style.transform='';setTimeout(()=>{c.style.transition=''},330)})}
-let drag=null,gx=0,gy=0,px=0,py=0,lastSw=0;
+let drag=null,gx=0,gy=0,px=0,py=0,lastSw=0,asR=0;
 function place(){if(!drag)return;drag.style.transform='';const r=drag.getBoundingClientRect();drag.style.transform='translate('+(px-gx-r.left)+'px,'+(py-gy-r.top)+'px)'}
 function ovl(a,b){const w=Math.min(a.right,b.right)-Math.max(a.left,b.left),h=Math.min(a.bottom,b.bottom)-Math.max(a.top,b.top);return w>0&&h>0?w*h/Math.min(a.width*a.height,b.width*b.height):0}
-pgrid.addEventListener('pointerdown',e=>{const h=e.target.closest('.gr');if(!h)return;drag=h.closest('.pc');const r=drag.getBoundingClientRect();gx=e.clientX-r.left;gy=e.clientY-r.top;px=e.clientX;py=e.clientY;drag.style.transition='none';drag.classList.add('dragging');h.setPointerCapture(e.pointerId);e.preventDefault()});
-pgrid.addEventListener('pointermove',e=>{if(!drag)return;px=e.clientX;py=e.clientY;place();if(Date.now()-lastSw<250)return;
- const dr=drag.getBoundingClientRect(),tg=[...pgrid.querySelectorAll('.pc')].find(c=>c!==drag&&ovl(dr,c.getBoundingClientRect())>=.8);if(!tg)return;lastSw=Date.now();
- flip(()=>{if(tg.compareDocumentPosition(drag)&Node.DOCUMENT_POSITION_FOLLOWING)pgrid.insertBefore(drag,tg);else pgrid.insertBefore(drag,tg.nextSibling)});place()});
+function trySwap(){if(!drag||Date.now()-lastSw<250)return;const dr=drag.getBoundingClientRect(),tg=[...pgrid.querySelectorAll('.pc')].find(c=>c!==drag&&ovl(dr,c.getBoundingClientRect())>=.8);if(!tg)return;lastSw=Date.now();
+ flip(()=>{if(tg.compareDocumentPosition(drag)&Node.DOCUMENT_POSITION_FOLLOWING)pgrid.insertBefore(drag,tg);else pgrid.insertBefore(drag,tg.nextSibling)});place()}
+function auto(){if(!drag){asR=0;return}const v=py<90?-16:py>innerHeight-90?16:0;if(v){scrollBy(0,v);place();trySwap()}asR=requestAnimationFrame(auto)}
+pgrid.addEventListener('pointerdown',e=>{const h=e.target.closest('.gr');if(!h)return;hideTip();drag=h.closest('.pc');const r=drag.getBoundingClientRect();gx=e.clientX-r.left;gy=e.clientY-r.top;px=e.clientX;py=e.clientY;drag.style.transition='none';drag.classList.add('dragging');h.setPointerCapture(e.pointerId);e.preventDefault();if(!asR)asR=requestAnimationFrame(auto)});
+pgrid.addEventListener('pointermove',e=>{if(!drag)return;px=e.clientX;py=e.clientY;place();trySwap()});
 const endDrag=()=>{if(!drag)return;const d=drag;drag=null;d.style.transition='transform .25s cubic-bezier(.2,.8,.2,1)';d.style.transform='';d.classList.remove('dragging');setTimeout(()=>{d.style.transition=''},270);saveOrd();rsz()};
 pgrid.addEventListener('pointerup',endDrag);pgrid.addEventListener('pointercancel',endDrag);
 pgrid.addEventListener('click',e=>{const b=e.target.closest('.sz');if(!b)return;flip(()=>b.closest('.pc').classList.toggle('full'));saveOrd();setTimeout(rsz,60);setTimeout(rsz,340)});
