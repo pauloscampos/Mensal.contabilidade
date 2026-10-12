@@ -83,9 +83,17 @@ input,select{font-size:16px;min-height:40px}.kpi small[data-tip]{display:inline-
 .modal{padding:0}.mbox{border-radius:0;min-height:100%;width:100%;padding:14px 14px calc(14px + env(safe-area-inset-bottom,0px))}
 .frow{grid-template-columns:1fr 1fr}.frow>span:first-child{grid-column:1/-1;white-space:normal}.fh{display:none}.kpis{grid-template-columns:1fr 1fr}.cvs{height:240px}}
 @media(max-width:760px){#pre{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;overflow:visible;flex-wrap:wrap}#pre .chip{justify-content:center;text-align:center;padding:8px 4px;font-size:13px;white-space:nowrap;min-width:0}#pre #ignChip{grid-column:1/-1}}
-.dvg{padding:12px;border:1px solid var(--bd);border-radius:10px;margin-top:10px;cursor:pointer}.dvg:hover{border-color:var(--ac)}
+.dvg{display:flex;gap:12px;align-items:center;padding:12px;border:1px solid var(--bd);border-radius:12px;margin-top:10px;cursor:pointer}
+.av{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;color:#fff;font-size:11px;font-weight:700;flex:none;vertical-align:middle}.av.lg{width:40px;height:40px;font-size:14px}
+.avs{display:inline-flex;vertical-align:middle}.avs .av{margin-left:-8px;border:2px solid var(--card)}.avs .av:first-child{margin-left:0}.gh .avs .av{border-color:rgba(255,255,255,.7)}
+.gic{display:inline-flex;align-items:center;justify-content:center;width:46px;height:46px;border-radius:14px;font-size:24px;flex:none}.gic.sm{width:38px;height:38px;font-size:19px;border-radius:12px}
+.gh{display:flex;align-items:center;gap:12px;padding:14px;border-radius:14px;color:#fff;margin-bottom:14px}.dvbal{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:6px}.dvmh{padding:10px 0 2px;font-size:12px;text-transform:uppercase}
+.chp{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border:1px solid var(--bd);border-radius:20px;cursor:pointer;background:var(--bg);font-size:13px;color:var(--tx);font:inherit;font-size:13px}.chp.on{border-color:var(--ac);background:var(--ac2)}.chp input{display:none}
+.seg2{display:flex;gap:4px}.seg2 button{flex:1;border:1px solid var(--bd);background:var(--bg);color:var(--mu);padding:9px 4px;border-radius:10px;cursor:pointer;font:inherit}.seg2 button.on{background:var(--ac2);border-color:var(--ac);color:var(--tx);font-weight:600}
+.xpr{display:grid;grid-template-columns:1fr 120px;gap:8px;align-items:center;padding:4px 0}.xpr input{min-width:0}
+.dvg-old{display:none}.dvg:hover{border-color:var(--ac)}
 .dvr{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--bd);cursor:pointer}
-.dvf label{margin-bottom:10px}.dvp{display:grid;grid-template-columns:auto 1fr 110px;gap:8px;align-items:center;padding:4px 0}.dvp .xv{min-width:0}.dvp .xv.loginov{position:fixed;inset:0;z-index:100;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:20px}.dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:#9aa;margin-left:6px;vertical-align:middle}
+.dvf label{margin-bottom:10px}.dvp{display:grid;grid-template-columns:1fr 110px;gap:8px;align-items:center;padding:4px 0}.dvp .chp{justify-self:start}.dvp .xv{min-width:0}.dvp .xv.loginov{position:fixed;inset:0;z-index:100;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:20px}.dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:#9aa;margin-left:6px;vertical-align:middle}
 .hide{display:none}
 @media(max-width:760px){.side button{padding:10px 0;font-size:11.5px}#goL{position:fixed;right:16px;bottom:calc(78px + env(safe-area-inset-bottom,0px));width:56px;height:56px;padding:0;border-radius:50%;font-size:0;box-shadow:0 6px 18px rgba(0,0,0,.35);z-index:45;flex:none}#goL::before{content:'+';font-size:32px;line-height:56px;display:block}}
 .hide{display:none}.mu{color:var(--mu)}
@@ -111,7 +119,7 @@ input,select{font-size:16px;min-height:40px}.kpi small[data-tip]{display:inline-
 <section id="t-metas" class="hide"><div class="card"><div class="ct">Categorias</div><div class="cs" style="margin:6px 0 10px">Crie, renomeie, reordene e defina o tipo de cada categoria (Receita, Despesa ou Saldo). Renomear atualiza os lançamentos; excluir apaga os lançamentos da categoria.</div>
 <div class="row"><label>Nome<input id="catN" placeholder="Ex.: Mercado"></label><label>Tipo<select id="catT"><option value="d">Despesa</option><option value="r">Receita</option><option value="s">Saldo</option></select></label><button class="btn pri" id="catBtnAdd">Adicionar</button></div>
 <div id="catMsg" class="mu" style="min-height:18px;margin:6px 0"></div><div class="row" style="margin-bottom:10px"><button class="btn sm" id="catTpl">Adicionar modelo básico</button><button class="btn sm" id="catImp">Importar planilha</button></div><div class="scroll"><table id="catTb"></table></div></div><div class="card"><div class="ct">Metas e classificação</div><div class="cs" style="margin-bottom:8px">Defina se cada despesa é fixa ou variável e um teto mensal (R$). Sem meta, a categoria não é acompanhada.</div><div class="scroll"><table id="metaTb"></table></div></div>
-<div class="card"><div class="ct">Conta e sincronização</div><div class="cs" id="syncSt" style="margin:6px 0 4px">…</div><div class="cs" style="margin:0 0 10px">Versão do app: 2026-10-12.2</div><button class="btn" id="btnLogout">Sair da conta</button></div></section>
+<div class="card"><div class="ct">Conta e sincronização</div><div class="cs" id="syncSt" style="margin:6px 0 4px">…</div><div class="cs" style="margin:0 0 10px">Versão do app: 2026-10-12.3</div><button class="btn" id="btnLogout">Sair da conta</button></div></section>
 <section id="t-div" class="hide"><div id="divRoot"></div></section>
 <section id="t-lanc" class="hide">
  <div class="card">
@@ -483,86 +491,158 @@ function impGo(){const r=IMPST.res,out=$id('impOut'),sel=[];
  if(m==='replace'&&!confirm('Isto vai APAGAR os '+L.length+' lançamentos atuais e trocar pelos da planilha. Continuar?'))return;
  const res=impApply(sel,m);out.innerHTML='<div class="okm">Importados '+res.n+' lançamentos'+(res.skip?' ('+res.skip+' já existiam e foram pulados)':'')+'.</div>'}
 
-const DV={on:false,groups:[],gid:null,exps:[],me:null,uid:null,name:'',api:null,unsub:null,named:new Set()};
+const DV={on:false,groups:[],ex:{},gid:null,me:null,uid:null,name:'',api:null,subs:{},named:new Set()};
+const DVCOL=['#1f6f58','#d4742c','#3b6fb6','#c2477a','#8a6bbf','#4aa3a0'],DVIC=['🍖','🏠','✈️','🏖️','🎉','🚗','💼','🎓','❤️','🛒','⚽','🎮','🍻','🎁'];
+const DVCATS=[['food','🍽️','Alimentação',/almoc|jantar|restaur|lanche|pizz|hamburg|comida|cafe|padaria|ifood|sushi|churrasc|marmita|sorvete|doce|burger|bolo/],
+ ['market','🛒','Mercado',/mercado|supermerc|feira|hortifruti|acougue|atacad|carrefour|assai|compras do mes/],
+ ['drinks','🍻','Bebidas',/\bbar\b|cerveja|drink|chop|vinho|bebida|boteco|balada|caipirinha|cachaca|whisky/],
+ ['transport','🚗','Transporte',/uber|\b99\b|taxi|gasolina|combustivel|estacionamento|pedagio|onibus|metro|corrida|etanol|posto|lavagem/],
+ ['travel','✈️','Viagem',/viagem|\bvoo\b|passagem|hotel|hospedagem|airbnb|pousada|resort|hostel|bagagem/],
+ ['home','🏠','Casa',/aluguel|condominio|\bluz\b|energia|\bagua\b|internet|\bgas\b|iptu|reforma|limpeza|faxina|moveis|conserto/],
+ ['leisure','🎬','Lazer',/cinema|show|ingresso|teatro|festa|parque|jogo|museu|passeio|karaoke|boliche/],
+ ['health','💊','Saúde',/farmacia|remedio|medico|consulta|exame|dentista|hospital/],
+ ['shop','🛍️','Compras',/presente|roupa|\bloja\b|shopping|amazon|mercado livre|shein|sapato/],
+ ['subs','📺','Assinaturas',/netflix|spotify|assinatura|disney|prime video|hbo|youtube|celular|telefone/],
+ ['pets','🐾','Pets',/\bpet\b|veterinario|racao|cachorro|gato/],['other','🧾','Outros',null]];
+const dvNorm=s=>String(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+function dvCatOf(desc){const s=dvNorm(desc);for(const c of DVCATS)if(c[3]&&c[3].test(s))return c[0];return 'other'}
+const dvCI=id=>DVCATS.find(c=>c[0]===id)||DVCATS[DVCATS.length-1];
 const dvC=v=>Math.round(v*100),dvF=c=>brl(c/100),dvLoc=e=>{const s=String(e).split('@')[0];return s.charAt(0).toUpperCase()+s.slice(1)};
 const dvName=(g,e)=>{const m=(g.members||[]).find(x=>x.e===e);return (m&&m.n)||dvLoc(e)};
-const dvCur=()=>DV.groups.find(y=>y.id===DV.gid);
+const dvPix=(g,e)=>{const m=(g.members||[]).find(x=>x.e===e);return (m&&m.pix)||''};
+const dvCur=()=>DV.groups.find(y=>y.id===DV.gid),dvExps=()=>DV.ex[DV.gid]||[];
+const dvToday=()=>{const d=new Date();return d.getFullYear()+'-'+p2(d.getMonth()+1)+'-'+p2(d.getDate())};
 function dvSplit(total,emails){const es=[...emails].sort(),n=es.length,b=Math.floor(total/n),r=total-b*n;return es.map((e,i)=>({e,a:b+(i<r?1:0)}))}
+function dvSplitW(A,items){const tw=items.reduce((s,i)=>s+i.w,0),raw=items.map(i=>A*i.w/tw),fl=raw.map(Math.floor);let rem=A-fl.reduce((a,b)=>a+b,0);const ord=raw.map((r,i)=>[r-fl[i],i]).sort((a,b)=>b[0]-a[0]||a[1]-b[1]);for(let k=0;k<ord.length&&rem>0;k++,rem--)fl[ord[k][1]]++;return items.map((it,i)=>({e:it.e,a:fl[i]}))}
 function dvBal(g,exps){const b={};(g.memberEmails||[]).forEach(e=>{b[e]=0});exps.forEach(x=>{(x.p||[]).forEach(p=>{b[p.e]=(b[p.e]||0)+p.a});(x.s||[]).forEach(s=>{b[s.e]=(b[s.e]||0)-s.a})});return b}
 function dvSimplify(b){const d=[],c=[];Object.entries(b).forEach(([e,v])=>{if(v<0)d.push({e,a:-v});else if(v>0)c.push({e,a:v})});d.sort((x,y)=>y.a-x.a||(x.e<y.e?-1:1));c.sort((x,y)=>y.a-x.a||(x.e<y.e?-1:1));
  const out=[];let i=0,j=0;while(i<d.length&&j<c.length){const a=Math.min(d[i].a,c[j].a);if(a>0)out.push({f:d[i].e,t:c[j].e,a});d[i].a-=a;c[j].a-=a;if(d[i].a===0)i++;if(c[j].a===0)j++}return out}
-function dvGroups(list){DV.groups=list.slice().sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
- DV.groups.forEach(g=>{const m=(g.members||[]).find(x=>x.e===DV.me);if(DV.name&&(!m||!m.n)&&!DV.named.has(g.id)){DV.named.add(g.id);DV.api.groupSave(g.id,{members:(g.members||[]).filter(x=>x.e!==DV.me).concat([{e:DV.me,n:DV.name}])})}});
- if(DV.gid&&!DV.groups.some(g=>g.id===DV.gid))dvBack();else divRender()}
-function dvOpen(gid){DV.gid=gid;DV.exps=[];if(DV.unsub){DV.unsub();DV.unsub=null}DV.unsub=DV.api.expStart(gid,list=>{DV.exps=list;divRender()});divRender()}
-function dvBack(){if(DV.unsub){DV.unsub();DV.unsub=null}DV.gid=null;DV.exps=[];divRender()}
+function dvAv(g,e,big){const n=dvName(g,e),ini=n.split(/\s+/).filter(Boolean).slice(0,2).map(w=>w[0]).join('').toUpperCase()||'?';let h=0;for(const ch of e)h=(h*31+ch.charCodeAt(0))>>>0;return `<span class="av${big?' lg':''}" style="background:${DVCOL[h%DVCOL.length]}">${esc(ini)}</span>`}
+const dvSum=g=>(dvBal(g,DV.ex[g.id]||[])[DV.me])||0;
+function dvReset(){Object.values(DV.subs).forEach(f=>f());DV.subs={};DV.ex={};DV.gid=null;DV.groups=[];DV.on=false;DV.named=new Set()}
+function dvGroups(list){DV.groups=list.slice().sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));const ids=new Set(DV.groups.map(g=>g.id));
+ Object.keys(DV.subs).forEach(id=>{if(!ids.has(id)){DV.subs[id]();delete DV.subs[id];delete DV.ex[id]}});
+ DV.groups.forEach(g=>{if(!DV.subs[g.id])DV.subs[g.id]=DV.api.expStart(g.id,l=>{DV.ex[g.id]=l;divRender()});
+  const m=(g.members||[]).find(x=>x.e===DV.me);if(DV.name&&(!m||!m.n)&&!DV.named.has(g.id)){DV.named.add(g.id);DV.api.groupSave(g.id,{members:(g.members||[]).filter(x=>x.e!==DV.me).concat([{...(m||{e:DV.me}),n:DV.name}])})}});
+ if(DV.gid&&!ids.has(DV.gid))dvBack();else divRender()}
+function dvOpen(gid){DV.gid=gid;divRender();scrollTo(0,0)}
+function dvBack(){DV.gid=null;divRender()}
 function divRender(){const root=$id('divRoot');if(!root||$id('t-div').classList.contains('hide'))return;
  if(!DV.on){root.innerHTML='<div class="card"><div class="ct">Dividir contas</div><div class="cs" style="margin-top:6px">Disponível na versão com login (a publicada no GitHub).</div></div>';return}
- if(DV.gid)dvGroup(root);else dvList(root)}
-function dvList(root){root.innerHTML='<div class="card"><div class="hd"><div><div class="ct">Dividir contas</div><div class="cs">Grupos para dividir despesas com outras pessoas</div></div><button class="btn pri sm" id="dvNew">+ Novo grupo</button></div>'+
- (DV.groups.length?DV.groups.map(g=>`<div class="dvg" data-g="${g.id}"><b>${esc(g.name)}</b><div class="mu">${g.memberEmails.length} pessoa(s): ${g.memberEmails.map(e=>esc(dvName(g,e))).join(', ')}</div></div>`).join(''):'<div class="mu" style="padding:12px 0">Você ainda não tem grupos. Crie um e convide pessoas pelo e-mail do Google delas.</div>')+'</div>';
+ DV.gid?dvGroup(root):dvList(root)}
+function dvList(root){let owe=0,get=0;DV.groups.forEach(g=>{const v=dvSum(g);if(v<0)owe-=v;else get+=v});
+ root.innerHTML=`<div class="card"><div class="hd"><div><div class="ct">Dividir contas</div><div class="cs">Grupos para dividir despesas com outras pessoas</div></div><button class="btn pri" id="dvNew">+ Novo grupo</button></div>`+
+ (DV.groups.length?`<div class="dvbal" style="margin-bottom:6px"><div class="kpi"><small>Você deve (total)</small><b style="color:#c2610f">${dvF(owe)}</b></div><div class="kpi"><small>Te devem (total)</small><b class="pos">${dvF(get)}</b></div></div>`+
+  DV.groups.map(g=>{const v=dvSum(g),col=g.color||DVCOL[0];return `<div class="dvg" data-g="${g.id}" style="border-left:6px solid ${col}"><div class="gic" style="background:${col}22">${g.icon||'👥'}</div><div style="flex:1;min-width:0"><b>${esc(g.name)}</b><div class="mu" style="margin-top:4px"><span class="avs">${g.memberEmails.slice(0,5).map(e=>dvAv(g,e)).join('')}</span> <small>${g.memberEmails.length} pessoas</small></div></div><div style="text-align:right">${v<0?`<small style="color:#c2610f">você deve<br><b>${dvF(-v)}</b></small>`:v>0?`<small class="pos">te devem<br><b>${dvF(v)}</b></small>`:'<small class="mu">em dia</small>'}</div></div>`}).join(''):'<div class="mu" style="padding:14px 0">Você ainda não tem grupos. Crie um e convide pessoas pelo e-mail do Google delas.</div>')+'</div>';
  $id('dvNew').onclick=dvNewGroup;root.querySelectorAll('.dvg').forEach(el=>{el.onclick=()=>dvOpen(el.dataset.g)})}
-function dvRow(g,x){const me=DV.me,paid=(x.p||[]).reduce((s,p)=>s+(p.e===me?p.a:0),0),owe=(x.s||[]).reduce((s,q)=>s+(q.e===me?q.a:0),0),net=paid-owe,dt=(x.dt||'').split('-').reverse().slice(0,2).join('/');
- if(x.k==='p')return `<div class="dvr" data-x="${x.id}"><span>${dt} · Pagamento: ${esc(dvName(g,x.p[0].e))} → ${esc(dvName(g,x.s[0].e))}</span><b>${dvF(x.a)}</b></div>`;
- return `<div class="dvr" data-x="${x.id}"><span>${dt} · ${esc(x.d)}<br><small class="mu">${esc(dvName(g,x.p[0].e))} pagou ${dvF(x.a)}</small></span><span style="text-align:right">${net>0?`<small class="pos">você emprestou<br>${dvF(net)}</small>`:net<0?`<small style="color:#c2610f">você deve<br>${dvF(-net)}</small>`:'<small class="mu">não participou</small>'}</span></div>`}
+function dvRow(g,x){const me=DV.me,paid=(x.p||[]).reduce((s,p)=>s+(p.e===me?p.a:0),0),owe=(x.s||[]).reduce((s,q)=>s+(q.e===me?q.a:0),0),net=paid-owe;
+ if(x.k==='p')return `<div class="dvr" data-x="${x.id}"><span class="gic sm" style="background:var(--ac2)">💸</span><span style="flex:1">Pagamento<br><small class="mu">${esc(dvName(g,x.p[0].e))} → ${esc(dvName(g,x.s[0].e))}</small></span><b>${dvF(x.a)}</b></div>`;
+ const ci=dvCI(x.cat),who=(x.p||[]).length>1?(x.p||[]).map(p=>dvName(g,p.e)).join(' + ')+' pagaram':dvName(g,x.p[0].e)+' pagou';
+ return `<div class="dvr" data-x="${x.id}"><span class="gic sm" style="background:var(--ac2)">${ci[1]}</span><span style="flex:1;min-width:0">${esc(x.d)}<br><small class="mu">${esc(who)} ${dvF(x.a)}</small></span><span style="text-align:right">${net>0?`<small class="pos">você emprestou<br>${dvF(net)}</small>`:net<0?`<small style="color:#c2610f">você deve<br>${dvF(-net)}</small>`:'<small class="mu">não participou</small>'}</span></div>`}
+function dvPixBox(g,e){const k=dvPix(g,e);return k?`<span class="chp" data-copy="${esc(k)}" title="Toque para copiar">Pix: ${esc(k.length>22?k.slice(0,20)+'…':k)} ⧉</span>`:`<span class="mu" style="font-size:12px">sem chave Pix</span>`}
 function dvGroup(root){const g=dvCur();if(!g){dvBack();return}
- const exps=DV.exps.slice().sort((a,b)=>(b.dt||'').localeCompare(a.dt||'')||(b.t||0)-(a.t||0)),bal=dvBal(g,exps),debts=dvSimplify(bal),mine=bal[DV.me]||0;
- const pos=mine>0?`<b class="pos">Te devem ${dvF(mine)}</b>`:mine<0?`<b style="color:#c2610f">Você deve ${dvF(-mine)}</b>`:'<b>Você está em dia</b>';
- root.innerHTML=`<div class="card"><div class="hd"><button class="btn sm" id="dvBack" aria-label="Voltar">←</button><div><div class="ct">${esc(g.name)}</div><div class="cs">${g.memberEmails.map(e=>esc(dvName(g,e))).join(', ')}</div></div><button class="btn sm" id="dvMng">Gerenciar</button></div>
- <div style="font-size:20px;margin:4px 0 12px">${pos}</div><div class="row"><button class="btn pri" id="dvAdd">+ Despesa</button><button class="btn" id="dvPay">Registrar pagamento</button></div></div>
- <div class="card"><div class="ct">Quem deve a quem</div><div style="margin-top:8px">${debts.length?debts.map((d,i)=>`<div class="dvr" style="cursor:default"><span>${esc(dvName(g,d.f))} deve a ${esc(dvName(g,d.t))}</span><span><b>${dvF(d.a)}</b> <button class="btn sm" data-q="${i}">Quitar</button></span></div>`).join(''):'<div class="mu">Tudo acertado.</div>'}</div></div>
- <div class="card"><div class="ct">Despesas</div><div style="margin-top:8px">${exps.length?exps.map(x=>dvRow(g,x)).join(''):'<div class="mu">Nenhuma despesa ainda.</div>'}</div></div>`;
- $id('dvBack').onclick=dvBack;$id('dvMng').onclick=dvManage;$id('dvAdd').onclick=()=>dvExpForm(null);$id('dvPay').onclick=()=>dvPayForm(null);
- root.querySelectorAll('[data-q]').forEach(b=>{b.onclick=()=>dvPayForm(debts[+b.dataset.q])});
+ const exps=dvExps().slice().sort((a,b)=>(b.dt||'').localeCompare(a.dt||'')||(b.t||0)-(a.t||0)),bal=dvBal(g,exps),debts=dvSimplify(bal),mine=bal[DV.me]||0,col=g.color||DVCOL[0];
+ const owe=debts.filter(d=>d.f===DV.me),recv=debts.filter(d=>d.t===DV.me),others=debts.filter(d=>d.f!==DV.me&&d.t!==DV.me);
+ const status=mine<0?`<div style="font-size:13px" class="mu">Você precisa pagar</div><div style="font-size:26px;font-weight:800;color:#c2610f">${dvF(-mine)}</div>`:mine>0?`<div style="font-size:13px" class="mu">Você tem a receber</div><div style="font-size:26px;font-weight:800" class="pos">${dvF(mine)}</div>`:`<div style="font-size:22px;font-weight:800">Tudo certo por aqui ✔</div>`;
+ const catSum={};exps.filter(x=>x.k!=='p').forEach(x=>{const c=x.cat||'other';catSum[c]=(catSum[c]||0)+x.a});const tot=Object.values(catSum).reduce((a,b)=>a+b,0);
+ let lastM='',list='';exps.forEach(x=>{const m=(x.dt||'').slice(0,7);if(m!==lastM){lastM=m;list+=`<div class="mu dvmh">${m?lblM(m):''}</div>`}list+=dvRow(g,x)});
+ root.innerHTML=`<div class="gh" style="background:${col}"><button class="btn sm" id="dvBack" aria-label="Voltar">←</button><span class="gic" style="background:#ffffff33">${g.icon||'👥'}</span><div style="flex:1;min-width:0"><div class="ct" style="color:#fff">${esc(g.name)}</div><span class="avs">${g.memberEmails.map(e=>dvAv(g,e)).join('')}</span></div><button class="btn sm" id="dvMng" aria-label="Gerenciar grupo">⚙</button></div>
+ <div class="card">${status}<div class="row" style="margin-top:12px"><button class="btn pri" id="dvAdd">+ Despesa</button><button class="btn" id="dvQuit">Quitar contas</button></div></div>
+ ${owe.length?`<div class="card"><div class="ct">Você deve pagar</div>${owe.map(d=>`<div class="dvr" style="cursor:default">${dvAv(g,d.t,1)}<span style="flex:1;min-width:0"><b>${esc(dvName(g,d.t))}</b><br>${dvPixBox(g,d.t)}</span><b style="color:#c2610f">${dvF(d.a)}</b></div>`).join('')}</div>`:''}
+ ${recv.length?`<div class="card"><div class="ct">Te devem</div>${recv.map(d=>`<div class="dvr" style="cursor:default">${dvAv(g,d.f,1)}<span style="flex:1"><b>${esc(dvName(g,d.f))}</b></span><b class="pos">${dvF(d.a)}</b></div>`).join('')}</div>`:''}
+ ${others.length?`<div class="card"><div class="ct">Entre os outros</div>${others.map(d=>`<div class="dvr" style="cursor:default"><span>${esc(dvName(g,d.f))} deve a ${esc(dvName(g,d.t))}</span><b>${dvF(d.a)}</b></div>`).join('')}</div>`:''}
+ ${tot?`<div class="card"><div class="ct">Gastos por categoria</div><div style="margin-top:8px">${Object.entries(catSum).sort((a,b)=>b[1]-a[1]).map(([c,v])=>{const ci=dvCI(c);return `<div class="mrow" style="grid-template-columns:130px 1fr auto"><span>${ci[1]} ${ci[2]}</span><div class="bar"><i style="width:${Math.round(v/tot*100)}%;background:${col}"></i></div><span>${dvF(v)}</span></div>`}).join('')}</div></div>`:''}
+ <div class="card"><div class="ct">Despesas</div><div style="margin-top:6px">${exps.length?list:'<div class="mu" style="padding:8px 0">Nenhuma despesa ainda. Toque em "+ Despesa" para começar.</div>'}</div></div>`;
+ $id('dvBack').onclick=dvBack;$id('dvMng').onclick=dvManage;$id('dvAdd').onclick=()=>dvExpForm(null);$id('dvQuit').onclick=dvQuit;
+ root.querySelectorAll('[data-copy]').forEach(b=>{b.onclick=()=>dvCopy(b.dataset.copy)});
  root.querySelectorAll('[data-x]').forEach(el=>{el.onclick=()=>{const x=exps.find(y=>y.id===el.dataset.x);if(x)x.k==='p'?dvPayForm(null,x):dvExpForm(x)}})}
+function dvCopy(t){try{navigator.clipboard.writeText(t).then(()=>dvToast('Copiado!'),()=>dvToast(t))}catch(e){dvToast(t)}}
+function dvToast(t){let el=$id('dvToast');if(!el){el=document.createElement('div');el.id='dvToast';el.className='tipbox';el.style.cssText='left:50%;transform:translateX(-50%);bottom:90px;pointer-events:none;text-align:center';document.body.appendChild(el)}el.textContent=t;el.classList.remove('hide');clearTimeout(el._t);el._t=setTimeout(()=>el.classList.add('hide'),1800)}
 function dvEmails(txt){return [...new Set(String(txt||'').toLowerCase().split(/[\s,;]+/).filter(Boolean))]}
 const dvOkMail=e=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
-function dvNewGroup(){openSheet('Novo grupo',`<div class="dvf"><label>Nome do grupo<input id="gN" placeholder="Ex.: Viagem, Casa, Churrasco"></label><label>Pessoas (e-mails do Google, um por linha)<textarea id="gE" rows="4" style="width:100%" placeholder="amigo@gmail.com"></textarea></label><div id="gS" class="mu" style="margin-bottom:8px">Você entra automaticamente. Cada pessoa precisa entrar no app com o Google do e-mail informado.</div><button class="btn pri" id="gOk">Criar grupo</button></div>`);
+const dvPicks=(ic,co)=>`<div class="mu" style="margin:6px 0 4px">Ícone</div><div class="chips" id="gIc">${DVIC.map(i=>`<button type="button" class="chp${i===ic?' on':''}" data-ic="${i}">${i}</button>`).join('')}</div><div class="mu" style="margin:8px 0 4px">Cor</div><div class="chips" id="gCo">${DVCOL.map(c=>`<button type="button" class="chp${c===co?' on':''}" data-co="${c}" style="min-width:36px;background:${c}"> </button>`).join('')}</div>`;
+function dvPickWire(st){$id('gIc').onclick=e=>{const b=e.target.closest('[data-ic]');if(!b)return;st.ic=b.dataset.ic;$id('gIc').querySelectorAll('.chp').forEach(x=>x.classList.toggle('on',x===b))};$id('gCo').onclick=e=>{const b=e.target.closest('[data-co]');if(!b)return;st.co=b.dataset.co;$id('gCo').querySelectorAll('.chp').forEach(x=>x.classList.toggle('on',x===b))}}
+function dvNewGroup(){const st={ic:'🍖',co:DVCOL[0]};openSheet('Novo grupo',`<div class="dvf"><label>Nome do grupo<input id="gN" placeholder="Ex.: Viagem, Casa, Churrasco"></label>${dvPicks(st.ic,st.co)}<label style="margin-top:10px">Pessoas (e-mails do Google, um por linha)<textarea id="gE" rows="4" style="width:100%" placeholder="amigo@gmail.com"></textarea></label><div id="gS" class="mu" style="margin-bottom:8px">Você entra automaticamente. Cada pessoa precisa entrar no app com o Google do e-mail informado.</div><button class="btn pri" id="gOk">Criar grupo</button></div>`);dvPickWire(st);
  $id('gOk').onclick=()=>{const n=$id('gN').value.trim(),es=dvEmails($id('gE').value).filter(e=>e!==DV.me);if(!n){$id('gS').textContent='Informe o nome do grupo.';return}const bad=es.find(e=>!dvOkMail(e));if(bad){$id('gS').textContent='E-mail inválido: '+bad;return}
-  const all=[DV.me,...es],obj={name:n,ownerUid:DV.uid,ownerEmail:DV.me,memberEmails:all,members:all.map(e=>({e,n:e===DV.me?DV.name||'':''})),createdAt:Date.now()},id=DV.api.groupSave(null,obj);DV.groups.unshift({id,...obj});closeSheet();dvOpen(id)}}
-function dvManage(){const g=dvCur(),bal=dvBal(g,DV.exps),own=g.ownerUid===DV.uid,msg=t=>{$id('mMsg').textContent=t};
- openSheet('Gerenciar grupo',`<div class="dvf"><label>Nome do grupo<div class="row"><input id="mN" value="${esc(g.name)}" style="flex:1"><button class="btn sm" id="mNs">Salvar</button></div></label>
- <label>Meu nome neste grupo<div class="row"><input id="mMe" value="${esc(dvName(g,DV.me))}" style="flex:1"><button class="btn sm" id="mMes">Salvar</button></div></label>
+  const all=[DV.me,...es],obj={name:n,icon:st.ic,color:st.co,ownerUid:DV.uid,ownerEmail:DV.me,memberEmails:all,members:all.map(e=>({e,n:e===DV.me?DV.name||'':''})),createdAt:Date.now()},id=DV.api.groupSave(null,obj);DV.groups.unshift({id,...obj});closeSheet();dvOpen(id)}}
+function dvSaveMembers(g,ms){DV.api.groupSave(g.id,{members:ms});g.members=ms}
+function dvSetMember(g,e,patch){const cur=(g.members||[]).find(m=>m.e===e)||{e,n:''};dvSaveMembers(g,(g.members||[]).filter(m=>m.e!==e).concat([{...cur,...patch}]))}
+function dvManage(){const g=dvCur(),bal=dvBal(g,dvExps()),own=g.ownerUid===DV.uid,msg=t=>{$id('mMsg').textContent=t},st={ic:g.icon||'🍖',co:g.color||DVCOL[0]};
+ openSheet('Gerenciar grupo',`<div class="dvf"><label>Nome do grupo<div class="row"><input id="mN" value="${esc(g.name)}" style="flex:1"><button class="btn sm" id="mNs">Salvar</button></div></label>${dvPicks(st.ic,st.co)}<button class="btn sm" id="mIs" style="margin-top:8px">Salvar ícone e cor</button>
+ <label style="margin-top:10px">Meu nome neste grupo<div class="row"><input id="mMe" value="${esc(dvName(g,DV.me))}" style="flex:1"><button class="btn sm" id="mMes">Salvar</button></div></label>
  <label>Adicionar pessoa (e-mail do Google)<div class="row"><input id="mE" type="email" placeholder="nome@gmail.com" style="flex:1"><button class="btn sm" id="mEa">Adicionar</button></div></label><div id="mMsg" class="mu" style="min-height:18px"></div>
- <div class="ct" style="margin:10px 0 4px">Pessoas</div>${g.memberEmails.map(e=>`<div class="dvr" style="cursor:default"><span>${esc(dvName(g,e))}<br><small class="mu">${esc(e)}</small></span><button class="btn sm" data-rm="${esc(e)}">${e===DV.me?'Sair':'Remover'}</button></div>`).join('')}
- <div class="row" style="margin-top:12px"><button class="btn" id="mInv">Copiar convite</button>${own?'<button class="btn" id="mDel">Excluir grupo</button>':''}</div></div>`);
+ <div class="ct" style="margin:10px 0 4px">Pessoas e chaves Pix</div><div class="mu" style="font-size:12px;margin-bottom:6px">Qualquer pessoa do grupo pode editar a chave. Confirme com a pessoa antes de pagar.</div>
+ ${g.memberEmails.map(e=>`<div class="dvr" style="cursor:default;flex-wrap:wrap">${dvAv(g,e,1)}<span style="flex:1;min-width:0"><b>${esc(dvName(g,e))}</b>${e===DV.me?' (você)':''}<br><small class="mu">${esc(e)}</small></span><button class="btn sm" data-rm="${esc(e)}">${e===DV.me?'Sair':'Remover'}</button><div class="row" style="width:100%;flex-wrap:nowrap"><input class="pxi" data-e="${esc(e)}" value="${esc(dvPix(g,e))}" placeholder="Chave Pix (CPF, e-mail, telefone ou aleatória)" style="flex:1"><button class="btn sm" data-pxs="${esc(e)}">Salvar Pix</button></div></div>`).join('')}
+ <div class="row" style="margin-top:12px"><button class="btn" id="mInv">Copiar convite</button>${own?'<button class="btn" id="mDel">Excluir grupo</button>':''}</div></div>`);dvPickWire(st);
  $id('mNs').onclick=()=>{const v=$id('mN').value.trim();if(!v){msg('Informe o nome.');return}DV.api.groupSave(g.id,{name:v});g.name=v;dvManage();msg('Nome salvo.')};
- $id('mMes').onclick=()=>{const v=$id('mMe').value.trim();const ms=(g.members||[]).filter(m=>m.e!==DV.me).concat([{e:DV.me,n:v}]);DV.api.groupSave(g.id,{members:ms});g.members=ms;dvManage();msg('Nome salvo.')};
+ $id('mIs').onclick=()=>{DV.api.groupSave(g.id,{icon:st.ic,color:st.co});g.icon=st.ic;g.color=st.co;dvManage();msg('Ícone e cor salvos.')};
+ $id('mMes').onclick=()=>{dvSetMember(g,DV.me,{n:$id('mMe').value.trim()});dvManage();msg('Nome salvo.')};
  $id('mEa').onclick=()=>{const e=$id('mE').value.trim().toLowerCase();if(!dvOkMail(e)){msg('E-mail inválido.');return}if(g.memberEmails.includes(e)){msg('Essa pessoa já está no grupo.');return}
   const p={memberEmails:[...g.memberEmails,e],members:[...(g.members||[]),{e,n:''}]};DV.api.groupSave(g.id,p);Object.assign(g,p);dvManage();msg('Adicionado. Peça para a pessoa entrar no app com esse e-mail do Google.')};
+ $id('shBody').querySelectorAll('[data-pxs]').forEach(b=>{b.onclick=()=>{const e=b.dataset.pxs,v=$id('shBody').querySelector('.pxi[data-e="'+e+'"]').value.trim();dvSetMember(g,e,{pix:v});dvManage();msg(v?'Chave Pix salva.':'Chave Pix removida.')}});
  $id('shBody').querySelectorAll('[data-rm]').forEach(b=>{b.onclick=()=>{const e=b.dataset.rm;if((bal[e]||0)!==0){msg('Só é possível remover quem está com o saldo zerado.');return}
-  const rest=g.memberEmails.filter(x=>x!==e);if(!rest.length){if(confirm('Você é a última pessoa. Excluir o grupo?')){DV.api.groupDel(g.id,DV.exps.map(x=>x.id));closeSheet();dvBack()}return}
+  const rest=g.memberEmails.filter(x=>x!==e);if(!rest.length){if(confirm('Você é a última pessoa. Excluir o grupo?')){DV.api.groupDel(g.id,dvExps().map(x=>x.id));closeSheet();dvBack()}return}
   const p={memberEmails:rest,members:(g.members||[]).filter(m=>m.e!==e)};DV.api.groupSave(g.id,p);Object.assign(g,p);if(e===DV.me){closeSheet();dvBack()}else{dvManage();msg('Pessoa removida.')}}});
- $id('mInv').onclick=()=>{const t='Entre em '+location.href.split('#')[0]+' com o Google ('+'e-mail que eu cadastrei'+') para ver o grupo "'+g.name+'" e dividir as contas.';try{navigator.clipboard.writeText(t);msg('Convite copiado.')}catch(x){msg(t)}};
- if($id('mDel'))$id('mDel').onclick=()=>{if(confirm('Excluir o grupo "'+g.name+'" e todas as despesas dele para todos? Isso não pode ser desfeito.')){DV.api.groupDel(g.id,DV.exps.map(x=>x.id));closeSheet();dvBack()}}}
-function dvExpForm(x){const g=dvCur(),em=g.memberEmails,today=new Date().toISOString().slice(0,10),opt=(e,sel)=>`<option value="${esc(e)}"${sel===e?' selected':''}>${esc(dvName(g,e))}</option>`;
- openSheet(x?'Editar despesa':'Nova despesa',`<div class="dvf"><label>Descrição<input id="xD" value="${esc(x?x.d:'')}" placeholder="Ex.: Mercado"></label>
- <div class="row"><label>Valor (R$)<input id="xA" value="${x?String(x.a/100).replace('.',','):''}" placeholder="0,00 ou =12+30"></label><label>Data<input type="date" id="xT" value="${x?x.dt:today}"></label></div>
- <label>Pago por<select id="xP">${em.map(e=>opt(e,x?x.p[0].e:DV.me)).join('')}</select></label>
- <label>Dividir<select id="xM"><option value="equal">Igualmente</option><option value="exact">Valores exatos</option><option value="percent">Porcentagem</option></select></label>
- <div id="xL"></div><div id="xS" class="mu" style="min-height:20px;margin:6px 0"></div>
- <div class="row"><button class="btn pri" id="xOk">Salvar</button>${x?'<button class="btn" id="xDel">Excluir</button>':''}</div></div>`);
- const mode=$id('xM'),list=$id('xL'),st=$id('xS');if(x)mode.value=x.mo&&x.mo!=='payment'?x.mo:'equal';
- const inSplit=e=>x?(x.s||[]).some(s=>s.e===e):true;
- function draw(keep){const md=mode.value,cur={};if(keep)list.querySelectorAll('.dvp').forEach(r=>{cur[r.dataset.e]={c:r.querySelector('input[type=checkbox]').checked,v:r.querySelector('input.xv').value}});
-  list.innerHTML=em.map(e=>{const sx=x&&(x.s||[]).find(s=>s.e===e),c=keep?cur[e].c:inSplit(e);let v='';if(keep)v=cur[e].v;else if(x&&x.mo===md&&sx)v=md==='exact'?String(sx.a/100).replace('.',','):md==='percent'?String(+(sx.a/x.a*100).toFixed(2)).replace('.',','):'';
-   return `<div class="dvp" data-e="${esc(e)}"><input type="checkbox"${c?' checked':''} style="min-width:0"><span>${esc(dvName(g,e))}</span><input class="xv${md==='equal'?' hide':''}" value="${esc(v)}" placeholder="${md==='percent'?'%':'R$'}"></div>`}).join('');show()}
- function read(){const d=$id('xD').value.trim(),av=calc($id('xA').value),dt=$id('xT').value,pb=$id('xP').value,md=mode.value;
-  if(!d)return{err:'Informe a descrição.'};if(!av||av.err||!(av.v>0))return{err:'Informe um valor maior que zero.'};if(!dt)return{err:'Informe a data.'};
-  const A=dvC(av.v),rows=[...list.querySelectorAll('.dvp')].filter(r=>r.querySelector('input[type=checkbox]').checked);if(!rows.length)return{err:'Marque quem divide a despesa.'};let s;
-  if(md==='equal')s=dvSplit(A,rows.map(r=>r.dataset.e));
-  else if(md==='exact'){s=rows.map(r=>{const c=calc(r.querySelector('input.xv').value);return{e:r.dataset.e,a:c&&!c.err?dvC(c.v):0}});const t=s.reduce((a,b)=>a+b.a,0);if(t!==A)return{err:(t<A?'Faltam ':'Passou ')+dvF(Math.abs(A-t))+' para fechar o valor.'}}
-  else{const ps=rows.map(r=>{const c=calc(r.querySelector('input.xv').value);return{e:r.dataset.e,p:c&&!c.err?c.v:0}}),tp=ps.reduce((a,b)=>a+b.p,0);if(Math.abs(tp-100)>0.009)return{err:'As porcentagens somam '+tp.toFixed(2).replace('.',',')+'%. O total deve ser 100%.'};
-   s=ps.map(q=>({e:q.e,a:Math.floor(A*q.p/100+1e-9)}));let rem=A-s.reduce((a,b)=>a+b.a,0);for(let i=0;rem>0;i=(i+1)%s.length,rem--)s[i].a++}
-  return{obj:{k:'e',d,a:A,dt,p:[{e:pb,a:A}],s,mo:md,by:x?x.by:DV.me,t:x?x.t:Date.now(),ed:Date.now()},info:md==='equal'?'Cada pessoa: '+dvF(s[0].a)+(s.some(q=>q.a!==s[0].a)?' (centavos distribuídos)':''):'Divisão confere.'}}
- function show(){const r=read();st.textContent=r.err||r.info||'';st.style.color=r.err?'var(--neg)':''}
- mode.onchange=()=>draw(true);$id('shBody').oninput=show;$id('shBody').onchange=e=>{if(e.target!==mode)show()};
- $id('xOk').onclick=()=>{const r=read();if(r.err){st.textContent=r.err;st.style.color='var(--neg)';return}DV.api.expSave(g.id,x?x.id:null,r.obj);closeSheet()};
- if(x)$id('xDel').onclick=()=>{if(confirm('Excluir esta despesa?')){DV.api.expDel(g.id,x.id);closeSheet()}};draw(false)}
-function dvPayForm(d,x){const g=dvCur(),em=g.memberEmails,today=new Date().toISOString().slice(0,10),opt=(e,sel)=>`<option value="${esc(e)}"${sel===e?' selected':''}>${esc(dvName(g,e))}</option>`;
+ $id('mInv').onclick=()=>{dvCopy('Entre em '+location.href.split('#')[0]+' com o Google do e-mail que eu cadastrei para ver o grupo "'+g.name+'" e dividir as contas.')};
+ if($id('mDel'))$id('mDel').onclick=()=>{if(confirm('Excluir o grupo "'+g.name+'" e todas as despesas dele para todos? Isso não pode ser desfeito.')){DV.api.groupDel(g.id,dvExps().map(x=>x.id));closeSheet();dvBack()}}}
+function dvPay(g,f,t,a,dt){DV.api.expSave(g.id,null,{k:'p',d:'Pagamento',a,dt:dt||dvToday(),p:[{e:f,a}],s:[{e:t,a}],mo:'payment',by:DV.me,t:Date.now(),ed:Date.now()})}
+function dvQuit(){const g=dvCur(),debts=dvSimplify(dvBal(g,dvExps())),owe=debts.filter(d=>d.f===DV.me),recv=debts.filter(d=>d.t===DV.me),msg=t=>{$id('qMsg').textContent=t};
+ openSheet('Quitar contas',`<div class="dvf">${owe.length?`<div class="ct">Você deve pagar</div><div class="mu" style="font-size:12px;margin:4px 0 8px">Pague pelo app do seu banco e depois toque em "Já paguei".</div>`+owe.map((d,i)=>`<div class="dvr" style="cursor:default;flex-wrap:wrap">${dvAv(g,d.t,1)}<span style="flex:1;min-width:0"><b>${esc(dvName(g,d.t))}</b><br><span style="font-size:18px;font-weight:800;color:#c2610f">${dvF(d.a)}</span></span><button class="btn sm pri" data-paid="${i}">Já paguei</button>
+  <div class="row" style="width:100%;align-items:center">${dvPix(g,d.t)?dvPixBox(g,d.t):`<input class="pxi" data-e="${esc(d.t)}" placeholder="Cadastrar chave Pix de ${esc(dvName(g,d.t))}" style="flex:1"><button class="btn sm" data-pxs="${esc(d.t)}">Salvar Pix</button>`}</div></div>`).join('')+(owe.length>1?`<div class="row" style="margin-top:10px"><button class="btn" id="qAll">Quitar tudo (${dvF(owe.reduce((s,d)=>s+d.a,0))})</button></div>`:''):'<div class="okm" style="padding:8px 0">Você não deve nada neste grupo ✔</div>'}
+ ${recv.length?`<div class="ct" style="margin-top:14px">Te devem</div><div class="mu" style="font-size:12px;margin:4px 0 8px">Quando a pessoa pagar, toque em "Recebi".</div>`+recv.map((d,i)=>`<div class="dvr" style="cursor:default">${dvAv(g,d.f,1)}<span style="flex:1"><b>${esc(dvName(g,d.f))}</b><br><span class="pos" style="font-size:18px;font-weight:800">${dvF(d.a)}</span></span><button class="btn sm" data-rec="${i}">Recebi</button></div>`).join(''):''}
+ <div id="qMsg" class="mu" style="min-height:18px;margin-top:8px"></div><div class="row" style="margin-top:6px"><button class="btn sm" id="qOther">Registrar outro pagamento</button></div></div>`);
+ const after=()=>setTimeout(()=>{if(!$id('sheet').classList.contains('hide')&&$id('qMsg'))dvQuit()},120);
+ $id('shBody').querySelectorAll('[data-paid]').forEach(b=>{b.onclick=()=>{const d=owe[+b.dataset.paid];dvPay(g,DV.me,d.t,d.a);after()}});
+ $id('shBody').querySelectorAll('[data-rec]').forEach(b=>{b.onclick=()=>{const d=recv[+b.dataset.rec];dvPay(g,d.f,DV.me,d.a);after()}});
+ $id('shBody').querySelectorAll('[data-copy]').forEach(b=>{b.onclick=()=>dvCopy(b.dataset.copy)});
+ $id('shBody').querySelectorAll('[data-pxs]').forEach(b=>{b.onclick=()=>{const e=b.dataset.pxs,v=$id('shBody').querySelector('.pxi[data-e="'+e+'"]').value.trim();if(!v){msg('Digite a chave Pix.');return}dvSetMember(g,e,{pix:v});dvQuit()}});
+ if($id('qAll'))$id('qAll').onclick=()=>{if(confirm('Registrar que você pagou '+dvF(owe.reduce((s,d)=>s+d.a,0))+' no total?')){owe.forEach(d=>dvPay(g,DV.me,d.t,d.a));after()}};
+ $id('qOther').onclick=()=>dvPayForm(null)}
+function dvExpForm(x){const g=dvCur(),em=g.memberEmails;
+ let cat=x?(x.cat||'other'):'other',catAuto=!x,mode=x&&x.mo&&x.mo!=='payment'?x.mo:'equal',multi=!!x&&(x.p||[]).length>1;const wv=x&&x.w?x.w:{};
+ openSheet(x?'Editar despesa':'Nova despesa',`<div class="dvf"><div class="row" style="align-items:flex-end;flex-wrap:nowrap"><span class="gic" id="xI" style="background:var(--ac2)">${dvCI(cat)[1]}</span><label style="flex:1">Descrição<input id="xD" value="${esc(x?x.d:'')}" placeholder="Ex.: Jantar, Uber, Mercado"></label></div>
+ <div class="row" style="margin-top:8px"><label style="flex:1">Valor (R$)<input id="xA" inputmode="decimal" value="${x?String(x.a/100).replace('.',','):''}" placeholder="0,00 ou =12+30"></label><label>Data<input type="date" id="xT" value="${x?x.dt:dvToday()}"></label></div>
+ <div class="mu" style="margin:10px 0 4px">Categoria</div><div id="xC" class="chips"></div>
+ <div class="mu" style="margin:12px 0 4px">Quem pagou</div><div class="seg2" id="xPm"><button type="button" data-pm="one">Uma pessoa</button><button type="button" data-pm="multi">Mais de uma</button></div><div id="xPL" style="margin:8px 0"></div>
+ <div class="mu" style="margin:6px 0 4px">Dividir entre</div><div class="seg2" id="xMd"><button type="button" data-md="equal">Igual</button><button type="button" data-md="exact">Valores</button><button type="button" data-md="percent">%</button><button type="button" data-md="shares">Partes</button></div><div id="xL" style="margin:8px 0"></div>
+ <div id="xS" class="mu" style="min-height:20px;margin:6px 0"></div><div class="row"><button class="btn pri" id="xOk">Salvar</button>${x?'<button class="btn" id="xDel">Excluir</button>':''}</div></div>`);
+ const L$=$id('xL'),P$=$id('xPL');
+ const segOn=()=>{$id('xPm').querySelectorAll('button').forEach(b=>b.classList.toggle('on',(b.dataset.pm==='multi')===multi));$id('xMd').querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.md===mode))};
+ const drawCats=()=>{$id('xC').innerHTML=DVCATS.map(c=>`<button type="button" class="chp${c[0]===cat?' on':''}" data-cat="${c[0]}">${c[1]} ${c[2]}</button>`).join('');$id('xI').textContent=dvCI(cat)[1]};
+ function drawPayers(keep){const cur={};if(keep){P$.querySelectorAll('input.xpv').forEach(i=>{cur[i.closest('[data-e]').dataset.e]=i.value});const r=P$.querySelector('input[name=xP]:checked');if(r)cur._one=r.value}
+  if(!multi){const sel=keep&&cur._one?cur._one:(x&&x.p&&x.p[0]?x.p[0].e:DV.me);P$.innerHTML='<div class="chips">'+em.map(e=>`<label class="chp${e===sel?' on':''}"><input type="radio" name="xP" value="${esc(e)}"${e===sel?' checked':''}>${dvAv(g,e)} ${esc(dvName(g,e))}</label>`).join('')+'</div>'}
+  else P$.innerHTML=em.map(e=>{const pv=keep&&cur[e]!==undefined?cur[e]:(x&&(x.p||[]).find(p=>p.e===e)?String(x.p.find(p=>p.e===e).a/100).replace('.',','):'');return `<div class="xpr" data-e="${esc(e)}"><span>${dvAv(g,e)} ${esc(dvName(g,e))}</span><input class="xpv" inputmode="decimal" value="${esc(pv)}" placeholder="R$ pago"></div>`}).join('')}
+ function drawSplit(keep){const cur={};if(keep)L$.querySelectorAll('.dvp').forEach(r=>{cur[r.dataset.e]={c:r.querySelector('input[type=checkbox]').checked,v:r.querySelector('input.xv').value}});
+  L$.innerHTML=em.map(e=>{const sx=x&&(x.s||[]).find(s=>s.e===e),c=keep?(cur[e]?cur[e].c:true):(x?!!sx:true);let v='';
+   if(keep&&cur[e])v=cur[e].v;else if(x&&x.mo===mode&&sx)v=mode==='exact'?String(sx.a/100).replace('.',','):(mode==='percent'||mode==='shares')&&wv[e]!==undefined?String(wv[e]).replace('.',','):'';
+   else if(mode==='shares')v='1';
+   return `<div class="dvp" data-e="${esc(e)}"><label class="chp${c?' on':''}"><input type="checkbox"${c?' checked':''}>${dvAv(g,e)} ${esc(dvName(g,e))}</label><input class="xv${mode==='equal'?' hide':''}" inputmode="decimal" value="${esc(v)}" placeholder="${mode==='percent'?'%':mode==='shares'?'partes':'R$'}"></div>`}).join('')}
+ function read(){const d=$id('xD').value.trim(),av=calc($id('xA').value),dt=$id('xT').value;
+  if(!d)return{err:'Informe a descrição.'};if(!av||av.err||!(av.v>0))return{err:'Informe um valor maior que zero.'};if(!dt)return{err:'Informe a data.'};const A=dvC(av.v);let p;
+  if(!multi){const r=P$.querySelector('input[name=xP]:checked');if(!r)return{err:'Escolha quem pagou.'};p=[{e:r.value,a:A}]}
+  else{p=[...P$.querySelectorAll('.xpr')].map(r=>{const c=calc(r.querySelector('input.xpv').value);return{e:r.dataset.e,a:c&&!c.err&&c.v>0?dvC(c.v):0}}).filter(q=>q.a>0);const t=p.reduce((a,b)=>a+b.a,0);if(!p.length)return{err:'Informe quanto cada pessoa pagou.'};if(t!==A)return{err:(t<A?'Faltam ':'Passou ')+dvF(Math.abs(A-t))+' no que foi pago.'}}
+  const rows=[...L$.querySelectorAll('.dvp')].filter(r=>r.querySelector('input[type=checkbox]').checked);if(!rows.length)return{err:'Marque quem divide a despesa.'};let s,w=null;
+  const num=r=>{const c=calc(r.querySelector('input.xv').value);return c&&!c.err?c.v:0};
+  if(mode==='equal')s=dvSplit(A,rows.map(r=>r.dataset.e));
+  else if(mode==='exact'){s=rows.map(r=>({e:r.dataset.e,a:dvC(num(r))}));const t=s.reduce((a,b)=>a+b.a,0);if(t!==A)return{err:(t<A?'Faltam ':'Passou ')+dvF(Math.abs(A-t))+' para fechar o valor.'}}
+  else if(mode==='percent'){const ps=rows.map(r=>({e:r.dataset.e,w:num(r)})),tp=ps.reduce((a,b)=>a+b.w,0);if(Math.abs(tp-100)>0.009)return{err:'As porcentagens somam '+tp.toFixed(2).replace('.',',')+'%. O total deve ser 100%.'};s=dvSplitW(A,ps);w=Object.fromEntries(ps.map(q=>[q.e,q.w]))}
+  else{const ps=rows.map(r=>({e:r.dataset.e,w:num(r)}));if(ps.some(q=>!(q.w>0)))return{err:'Informe as partes de cada pessoa (maior que zero).'};s=dvSplitW(A,ps);w=Object.fromEntries(ps.map(q=>[q.e,q.w]))}
+  const obj={k:'e',d,a:A,dt,cat,p,s,mo:mode,by:x?x.by:DV.me,t:x?x.t:Date.now(),ed:Date.now()};if(w)obj.w=w;
+  return{obj,info:mode==='equal'?'Cada pessoa: '+dvF(s[0].a)+(s.some(q=>q.a!==s[0].a)?' (centavos distribuídos)':''):s.map(q=>dvName(g,q.e)+' '+dvF(q.a)).join(' · ')}}
+ const show=()=>{const r=read();$id('xS').textContent=r.err||r.info||'';$id('xS').style.color=r.err?'var(--neg)':''};
+ const sync=()=>{$id('shBody').querySelectorAll('.chp').forEach(l=>{const i=l.querySelector('input');if(i)l.classList.toggle('on',i.checked)})};
+ $id('xD').addEventListener('input',()=>{if(catAuto){cat=dvCatOf($id('xD').value);drawCats()}});
+ $id('xC').onclick=e=>{const b=e.target.closest('[data-cat]');if(!b)return;cat=b.dataset.cat;catAuto=false;drawCats()};
+ $id('xPm').onclick=e=>{const b=e.target.closest('[data-pm]');if(!b)return;drawPayers(true);multi=b.dataset.pm==='multi';drawPayers(false);segOn();show()};
+ $id('xMd').onclick=e=>{const b=e.target.closest('[data-md]');if(!b)return;drawSplit(true);mode=b.dataset.md;drawSplit(false);segOn();show()};
+ $id('shBody').oninput=()=>{sync();show()};$id('shBody').onchange=()=>{sync();show()};
+ $id('xOk').onclick=()=>{const r=read();if(r.err){$id('xS').textContent=r.err;$id('xS').style.color='var(--neg)';return}DV.api.expSave(g.id,x?x.id:null,r.obj);closeSheet()};
+ if(x)$id('xDel').onclick=()=>{if(confirm('Excluir esta despesa?')){DV.api.expDel(g.id,x.id);closeSheet()}};
+ drawCats();drawPayers(false);drawSplit(false);segOn()}
+function dvPayForm(d,x){const g=dvCur(),em=g.memberEmails,opt=(e,sel)=>`<option value="${esc(e)}"${sel===e?' selected':''}>${esc(dvName(g,e))}</option>`;
  const f0=x?x.p[0].e:d?d.f:DV.me,t0=x?x.s[0].e:d?d.t:(em.find(e=>e!==DV.me)||DV.me),a0=x?x.a:d?d.a:0;
  openSheet(x?'Pagamento':'Registrar pagamento',`<div class="dvf"><label>Quem pagou<select id="pF">${em.map(e=>opt(e,f0)).join('')}</select></label><label>Quem recebeu<select id="pT">${em.map(e=>opt(e,t0)).join('')}</select></label>
- <div class="row"><label>Valor (R$)<input id="pA" value="${a0?String(a0/100).replace('.',','):''}" placeholder="0,00"></label><label>Data<input type="date" id="pD" value="${x?x.dt:today}"></label></div><div id="pS" class="mu" style="min-height:20px;margin:6px 0"></div>
+ <div class="row"><label style="flex:1">Valor (R$)<input id="pA" inputmode="decimal" value="${a0?String(a0/100).replace('.',','):''}" placeholder="0,00"></label><label>Data<input type="date" id="pD" value="${x?x.dt:dvToday()}"></label></div><div id="pS" class="mu" style="min-height:20px;margin:6px 0"></div>
  <div class="row"><button class="btn pri" id="pOk">Salvar</button>${x?'<button class="btn" id="pDel">Excluir</button>':''}</div></div>`);
  $id('pOk').onclick=()=>{const a=calc($id('pA').value),f=$id('pF').value,t=$id('pT').value,dt=$id('pD').value,msg=s=>{$id('pS').textContent=s;$id('pS').style.color='var(--neg)'};
   if(f===t){msg('Quem pagou e quem recebeu devem ser pessoas diferentes.');return}if(!a||a.err||!(a.v>0)){msg('Informe um valor maior que zero.');return}if(!dt){msg('Informe a data.');return}
@@ -631,7 +711,7 @@ function cloudL(list,meta){cs.pending=!!meta.pending;gotL=true;const s=list.slic
  if(sig!==lastSig){lastSig=sig;L=s.map((x,i)=>({...x,id:i+1}));uid=L.length+1;if(resolved){initSelects();refresh()}}
  if(!resolved)cloudResolve();cloudStatus()}
 function cloudAuth(u){authSeen=true;const ov=$('login');lastSig='';lastCfg='';gotL=false;gotC=false;resolved=false;cfgDoc=null;
- if(DV.unsub){DV.unsub();DV.unsub=null}DV.gid=null;DV.groups=[];DV.exps=[];DV.on=false;DV.named=new Set();
+ dvReset();
  if(!u){CLOUD.on=false;cloudUser=null;L=[];uid=1;CATS=[];initSelects();refresh();$('loadBox').classList.add('hide');$('loginBox').classList.remove('hide');ov.classList.remove('hide');return}
  cloudUser=u;CLOUD.on=true;CLOUD.put=x=>CLOUDAPI.put(x).catch(cloudErr);CLOUD.del=x=>CLOUDAPI.del(x).catch(cloudErr);CLOUD.cfg=o=>CLOUDAPI.cfg(o).catch(cloudErr);CLOUD.bulk=(i,o)=>CLOUDAPI.bulk(i,o).catch(cloudErr);
  DV.on=true;DV.me=String(u.email||'').toLowerCase();DV.uid=u.uid;DV.name=u.name||'';DV.api=CLOUDAPI;
