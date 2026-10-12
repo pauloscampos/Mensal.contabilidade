@@ -183,9 +183,9 @@ const newCid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,8);
 function addL(o){const x={...o};if(CLOUD.on){x.cid=newCid();x.t=Date.now();CLOUD.put(x)}x.id=uid++;L.push(x);if(!CLOUD.on)save()}
 function updL(x,p){Object.assign(x,p);if(CLOUD.on)CLOUD.put(x);else save()}
 function delL(x){L=L.filter(y=>y!==x);if(CLOUD.on)CLOUD.del(x);else save()}
-let cfgT=0,applyingCfg=false;
+let cfgT=0,applyingCfg=false,cfgDirty=false;
 const cfgObj=()=>JSON.parse(JSON.stringify({catsAll:CATS.map(c=>({n:c.n,t:c.t})),metas:CFG,pulados:SK,paleta:PK}));
-function cfgUp(){if(!CLOUD.on||applyingCfg)return;clearTimeout(cfgT);cfgT=setTimeout(()=>CLOUD.cfg(cfgObj()),400)}
+function cfgUp(){if(!CLOUD.on||applyingCfg)return;cfgDirty=true;clearTimeout(cfgT);cfgT=setTimeout(()=>{cfgDirty=false;CLOUD.cfg(cfgObj())},400)}
 function save(){if(CLOUD.on)return;try{localStorage.setItem(KEY,JSON.stringify(L))}catch(e){}}
 loadCats();load();
 
@@ -424,26 +424,27 @@ function impMonth(v){
 function impNum(v){if(typeof v==='number')return isFinite(v)?v:null;if(typeof v!=='string')return null;let s=v.trim();if(!s||s==='-'||s==='—')return null;let neg=false;
  if(/^\(.*\)$/.test(s)){neg=true;s=s.slice(1,-1)}s=s.replace(/R\$|\s/g,'');if(s[0]==='-'){neg=!neg;s=s.slice(1)}if(!/^[\d.,]+$/.test(s))return null;
  if(s.includes(',')&&s.includes('.'))s=s.lastIndexOf(',')>s.lastIndexOf('.')?s.replace(/\./g,'').replace(',','.'):s.replace(/,/g,'');
- else if(s.includes(','))s=s.replace(',','.');else if((s.match(/\./g)||[]).length>1)s=s.replace(/\./g,'');
+ else if(s.includes(','))s=s.replace(',','.');else if(/^\d{1,3}(\.\d{3})+$/.test(s))s=s.replace(/\./g,'');
  const n=parseFloat(s);return isNaN(n)?null:(neg?-n:n)}
+const rnd2=v=>v==null?null:Math.round(v*100)/100;
 const impF=f=>typeof f==='string'&&/^[0-9+\-*/().\s]+$/.test(f)&&/[0-9)]\s*[+\-*/]/.test(f)?'='+f.replace(/\s/g,''):'';
 function impGrid(X,ws){const g=[],f=[];if(!ws||!ws['!ref'])return{g,f};const rg=X.utils.decode_range(ws['!ref']);
  for(let r=rg.s.r;r<=Math.min(rg.e.r,3000);r++){g[r]=[];f[r]=[];for(let c=rg.s.c;c<=Math.min(rg.e.c,200);c++){const cell=ws[X.utils.encode_cell({r,c})];g[r][c]=cell?cell.v:null;f[r][c]=cell?cell.f:null}}return{g,f}}
 const impTr=a=>{const n=Math.max(0,...a.map(r=>r?r.length:0)),o=[];for(let c=0;c<n;c++){o[c]=[];for(let r=0;r<a.length;r++)o[c][r]=a[r]?a[r][c]:null}return o};
 function impWide(g,f){let best=null;
  for(let r=0;r<Math.min(g.length,40);r++){const mc=[];(g[r]||[]).forEach((v,c)=>{const m=impMonth(v);if(m)mc.push({c,m})});if(mc.length>=3&&(!best||mc.length>best.mc.length))best={r,mc}}
- if(!best)return null;const c0=best.mc[0].c;let lc=-1,bt=0;
- for(let c=0;c<c0;c++){let t=0;for(let r=best.r+1;r<g.length;r++){const x=(g[r]||[])[c];if(typeof x==='string'&&x.trim())t++}if(t>0&&t>=bt){bt=t;lc=c}}
+ if(!best)return null;const c0=best.mc[0].c;let lc=-1;
+ for(let c=c0-1;c>=0&&lc<0;c--){let t=0;for(let r=best.r+1;r<g.length;r++){const x=(g[r]||[])[c];if(typeof x==='string'&&x.trim())t++}if(t>=3)lc=c}
  if(lc<0)return null;const rows=[];let blank=0;
  for(let r=best.r+1;r<g.length;r++){const row=g[r]||[],n=typeof row[lc]==='string'?row[lc].trim():'';if(!n){if(++blank>=2&&rows.length)break;continue}blank=0;
-  const vals=[];best.mc.forEach(({c,m})=>{const v=impNum(row[c]);if(v!=null&&v!==0)vals.push({m,v,f:impF((f[r]||[])[c])})});rows.push({n,vals})}
+  const vals=[];best.mc.forEach(({c,m})=>{const v=rnd2(impNum(row[c]));if(v!=null&&v!==0)vals.push({m,v,f:impF((f[r]||[])[c])})});rows.push({n,vals})}
  return rows.length?{mode:'wide',rows}:null}
 function impLong(g){let hr=-1,dc=-1,cc=-1,vc=-1;
  for(let r=0;r<Math.min(g.length,15)&&hr<0;r++){const row=g[r]||[];let d=-1,c=-1,v=-1;row.forEach((x,i)=>{const s=String(x==null?'':x).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim();
   if(d<0&&/^(data|date|mes|periodo|competencia)/.test(s))d=i;else if(c<0&&/^(categoria|category|conta|grupo|descricao)/.test(s))c=i;else if(v<0&&/^(valor|value|amount|quantia|total)/.test(s))v=i});
   if(d>=0&&c>=0&&v>=0){hr=r;dc=d;cc=c;vc=v}}
  if(hr<0)return null;const rows=new Map();
- for(let r=hr+1;r<g.length;r++){const row=g[r]||[],m=impMonth(row[dc]),n=String(row[cc]==null?'':row[cc]).trim(),v=impNum(row[vc]);if(!m||!n||v==null)continue;if(!rows.has(n))rows.set(n,{n,vals:[]});const e=rows.get(n),o=e.vals.find(y=>y.m===m);if(o)o.v+=v;else e.vals.push({m,v,f:''})}
+ for(let r=hr+1;r<g.length;r++){const row=g[r]||[],m=impMonth(row[dc]),n=String(row[cc]==null?'':row[cc]).trim(),v=rnd2(impNum(row[vc]));if(!m||!n||v==null)continue;if(!rows.has(n))rows.set(n,{n,vals:[]});const e=rows.get(n),o=e.vals.find(y=>y.m===m);if(o)o.v+=v;else e.vals.push({m,v,f:''})}
  return rows.size?{mode:'long',rows:[...rows.values()]}:null}
 const IMP_DER=/^(total|totais|total geral|despesas?|receitas?|sobrou|sobra|% ?sobrou|% ?sobra|resultado|soma|subtotal|saldo do m[eê]s|super[aá]vit|d[eé]ficit)\s*:?$/i;
 function impType(n){const s=n.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');if(/saldo|carteira|patrimonio|rendimento/.test(s))return 's';if(/salario|receita|renda\b|ganho|provento|freela|bonus|pro.?labore|13o|ferias/.test(s))return 'r';return 'd'}
@@ -462,7 +463,8 @@ const loadX=()=>window.XLSX?Promise.resolve(window.XLSX):new Promise((ok,no)=>{c
 let IMPST=null;
 function openImport(){openSheet('Importar planilha','<p class="mu" style="margin-bottom:10px">Envie um arquivo .xlsx, .xls ou .csv. O app procura os meses e as categorias e mostra o que encontrou para você conferir antes de importar.</p><input type="file" id="impFile" accept=".xlsx,.xls,.csv,.ods"><div id="impOut" style="margin-top:12px"></div>');
  $id('impFile').onchange=async e=>{const f=e.target.files[0];if(!f)return;const out=$id('impOut');out.textContent='Lendo o arquivo…';
-  try{const X=await loadX(),wb=X.read(await f.arrayBuffer(),{type:'array',cellDates:true});IMPST={X,wb};let best=null;
+  try{const X=await loadX(),buf=await f.arrayBuffer();let wb;
+   if(/\.(csv|txt)$/i.test(f.name)){let txt;try{txt=new TextDecoder('utf-8',{fatal:true}).decode(buf)}catch(x){txt=new TextDecoder('windows-1252').decode(buf)}wb=X.read(txt,{type:'string',raw:true})}else wb=X.read(buf,{type:'array',cellDates:true});IMPST={X,wb};let best=null;
    wb.SheetNames.forEach(sn=>{const r=impDetect(X,wb,sn);if(r){const n=r.cats.reduce((a,c)=>a+c.vals.length,0);if(!best||n>best.n)best={sn,n}}});
    if(!best){out.innerHTML='<div class="dn">Não consegui reconhecer o formato desta planilha.</div><p class="mu">O app espera os meses nas colunas (ex.: jan/25, fev/25…) com as categorias nas linhas, ou uma lista com as colunas Data, Categoria e Valor. Você ainda pode criar as categorias manualmente na aba Metas.</p>';return}
    IMPST.sn=best.sn;impShow()}catch(x){out.innerHTML='<div class="dn">'+esc(x.message||'Erro ao ler o arquivo')+'</div>'}}}
@@ -517,20 +519,20 @@ function dvEmails(txt){return [...new Set(String(txt||'').toLowerCase().split(/[
 const dvOkMail=e=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
 function dvNewGroup(){openSheet('Novo grupo',`<div class="dvf"><label>Nome do grupo<input id="gN" placeholder="Ex.: Viagem, Casa, Churrasco"></label><label>Pessoas (e-mails do Google, um por linha)<textarea id="gE" rows="4" style="width:100%" placeholder="amigo@gmail.com"></textarea></label><div id="gS" class="mu" style="margin-bottom:8px">Você entra automaticamente. Cada pessoa precisa entrar no app com o Google do e-mail informado.</div><button class="btn pri" id="gOk">Criar grupo</button></div>`);
  $id('gOk').onclick=()=>{const n=$id('gN').value.trim(),es=dvEmails($id('gE').value).filter(e=>e!==DV.me);if(!n){$id('gS').textContent='Informe o nome do grupo.';return}const bad=es.find(e=>!dvOkMail(e));if(bad){$id('gS').textContent='E-mail inválido: '+bad;return}
-  const all=[DV.me,...es],id=DV.api.groupSave(null,{name:n,ownerUid:DV.uid,ownerEmail:DV.me,memberEmails:all,members:all.map(e=>({e,n:e===DV.me?DV.name||'':''})),createdAt:Date.now()});closeSheet();dvOpen(id)}}
+  const all=[DV.me,...es],obj={name:n,ownerUid:DV.uid,ownerEmail:DV.me,memberEmails:all,members:all.map(e=>({e,n:e===DV.me?DV.name||'':''})),createdAt:Date.now()},id=DV.api.groupSave(null,obj);DV.groups.unshift({id,...obj});closeSheet();dvOpen(id)}}
 function dvManage(){const g=dvCur(),bal=dvBal(g,DV.exps),own=g.ownerUid===DV.uid,msg=t=>{$id('mMsg').textContent=t};
  openSheet('Gerenciar grupo',`<div class="dvf"><label>Nome do grupo<div class="row"><input id="mN" value="${esc(g.name)}" style="flex:1"><button class="btn sm" id="mNs">Salvar</button></div></label>
  <label>Meu nome neste grupo<div class="row"><input id="mMe" value="${esc(dvName(g,DV.me))}" style="flex:1"><button class="btn sm" id="mMes">Salvar</button></div></label>
  <label>Adicionar pessoa (e-mail do Google)<div class="row"><input id="mE" type="email" placeholder="nome@gmail.com" style="flex:1"><button class="btn sm" id="mEa">Adicionar</button></div></label><div id="mMsg" class="mu" style="min-height:18px"></div>
  <div class="ct" style="margin:10px 0 4px">Pessoas</div>${g.memberEmails.map(e=>`<div class="dvr" style="cursor:default"><span>${esc(dvName(g,e))}<br><small class="mu">${esc(e)}</small></span><button class="btn sm" data-rm="${esc(e)}">${e===DV.me?'Sair':'Remover'}</button></div>`).join('')}
  <div class="row" style="margin-top:12px"><button class="btn" id="mInv">Copiar convite</button>${own?'<button class="btn" id="mDel">Excluir grupo</button>':''}</div></div>`);
- $id('mNs').onclick=()=>{const v=$id('mN').value.trim();if(!v){msg('Informe o nome.');return}DV.api.groupSave(g.id,{name:v});msg('Nome salvo.')};
- $id('mMes').onclick=()=>{const v=$id('mMe').value.trim();DV.api.groupSave(g.id,{members:(g.members||[]).filter(m=>m.e!==DV.me).concat([{e:DV.me,n:v}])});msg('Nome salvo.')};
+ $id('mNs').onclick=()=>{const v=$id('mN').value.trim();if(!v){msg('Informe o nome.');return}DV.api.groupSave(g.id,{name:v});g.name=v;dvManage();msg('Nome salvo.')};
+ $id('mMes').onclick=()=>{const v=$id('mMe').value.trim();const ms=(g.members||[]).filter(m=>m.e!==DV.me).concat([{e:DV.me,n:v}]);DV.api.groupSave(g.id,{members:ms});g.members=ms;dvManage();msg('Nome salvo.')};
  $id('mEa').onclick=()=>{const e=$id('mE').value.trim().toLowerCase();if(!dvOkMail(e)){msg('E-mail inválido.');return}if(g.memberEmails.includes(e)){msg('Essa pessoa já está no grupo.');return}
-  DV.api.groupSave(g.id,{memberEmails:[...g.memberEmails,e],members:[...(g.members||[]),{e,n:''}]});$id('mE').value='';msg('Adicionado. Peça para a pessoa entrar no app com esse e-mail do Google.')};
+  const p={memberEmails:[...g.memberEmails,e],members:[...(g.members||[]),{e,n:''}]};DV.api.groupSave(g.id,p);Object.assign(g,p);dvManage();msg('Adicionado. Peça para a pessoa entrar no app com esse e-mail do Google.')};
  $id('shBody').querySelectorAll('[data-rm]').forEach(b=>{b.onclick=()=>{const e=b.dataset.rm;if((bal[e]||0)!==0){msg('Só é possível remover quem está com o saldo zerado.');return}
   const rest=g.memberEmails.filter(x=>x!==e);if(!rest.length){if(confirm('Você é a última pessoa. Excluir o grupo?')){DV.api.groupDel(g.id,DV.exps.map(x=>x.id));closeSheet();dvBack()}return}
-  DV.api.groupSave(g.id,{memberEmails:rest,members:(g.members||[]).filter(m=>m.e!==e)});if(e===DV.me){closeSheet();dvBack()}else msg('Pessoa removida.')}});
+  const p={memberEmails:rest,members:(g.members||[]).filter(m=>m.e!==e)};DV.api.groupSave(g.id,p);Object.assign(g,p);if(e===DV.me){closeSheet();dvBack()}else{dvManage();msg('Pessoa removida.')}}});
  $id('mInv').onclick=()=>{const t='Entre em '+location.href.split('#')[0]+' com o Google ('+'e-mail que eu cadastrei'+') para ver o grupo "'+g.name+'" e dividir as contas.';try{navigator.clipboard.writeText(t);msg('Convite copiado.')}catch(x){msg(t)}};
  if($id('mDel'))$id('mDel').onclick=()=>{if(confirm('Excluir o grupo "'+g.name+'" e todas as despesas dele para todos? Isso não pode ser desfeito.')){DV.api.groupDel(g.id,DV.exps.map(x=>x.id));closeSheet();dvBack()}}}
 function dvExpForm(x){const g=dvCur(),em=g.memberEmails,today=new Date().toISOString().slice(0,10),opt=(e,sel)=>`<option value="${esc(e)}"${sel===e?' selected':''}>${esc(dvName(g,e))}</option>`;
@@ -624,7 +626,7 @@ function cloudResolve(){if(!gotL||!gotC)return;applyingCfg=true;
   if(cfgDoc){CFG=cfgDoc.metas||{};SK=cfgDoc.pulados||{};if(PALS[cfgDoc.paleta])PK=cfgDoc.paleta;palSel.value=PK}}
  finally{applyingCfg=false}
  resolved=true;SEL=null;initSelects();chips();refresh();$('login').classList.add('hide');$('cloudErr').classList.add('hide');if(migrate){migrate=false;cfgUp()}cloudStatus()}
-function cloudCfg(d,meta){gotC=true;if(resolved&&meta&&meta.pending)return;const s=JSON.stringify(d);if(resolved&&s===lastCfg)return;lastCfg=s;cfgDoc=d;cloudResolve()}
+function cloudCfg(d,meta){gotC=true;if(resolved&&(cfgDirty||(meta&&meta.pending)))return;const s=JSON.stringify(d);if(resolved&&s===lastCfg)return;lastCfg=s;cfgDoc=d;cloudResolve()}
 function cloudL(list,meta){cs.pending=!!meta.pending;gotL=true;const s=list.slice().sort((a,b)=>(a.t||0)-(b.t||0)||(a.cid<b.cid?-1:1)),sig=JSON.stringify(s.map(x=>[x.cid,x.c,x.m,x.v,x.o,x.f,x.s,x.t]));
  if(sig!==lastSig){lastSig=sig;L=s.map((x,i)=>({...x,id:i+1}));uid=L.length+1;if(resolved){initSelects();refresh()}}
  if(!resolved)cloudResolve();cloudStatus()}
