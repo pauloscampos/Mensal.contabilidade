@@ -119,7 +119,7 @@ input,select{font-size:16px;min-height:40px}.kpi small[data-tip]{display:inline-
 <section id="t-metas" class="hide"><div class="card"><div class="ct">Categorias</div><div class="cs" style="margin:6px 0 10px">Crie, renomeie, reordene e defina o tipo de cada categoria (Receita, Despesa ou Saldo). Renomear atualiza os lançamentos; excluir apaga os lançamentos da categoria.</div>
 <div class="row"><label>Nome<input id="catN" placeholder="Ex.: Mercado"></label><label>Tipo<select id="catT"><option value="d">Despesa</option><option value="r">Receita</option><option value="s">Saldo</option></select></label><button class="btn pri" id="catBtnAdd">Adicionar</button></div>
 <div id="catMsg" class="mu" style="min-height:18px;margin:6px 0"></div><div class="row" style="margin-bottom:10px"><button class="btn sm" id="catTpl">Adicionar modelo básico</button><button class="btn sm" id="catImp">Importar planilha</button></div><div class="scroll"><table id="catTb"></table></div></div><div class="card"><div class="ct">Metas e classificação</div><div class="cs" style="margin-bottom:8px">Defina se cada despesa é fixa ou variável e um teto mensal (R$). Sem meta, a categoria não é acompanhada.</div><div class="scroll"><table id="metaTb"></table></div></div>
-<div class="card"><div class="ct">Conta e sincronização</div><div class="cs" id="syncSt" style="margin:6px 0 4px">…</div><div class="cs" style="margin:0 0 10px">Versão do app: 2026-10-13.3</div><button class="btn" id="btnLogout">Sair da conta</button></div></section>
+<div class="card"><div class="ct">Conta e sincronização</div><div class="cs" id="syncSt" style="margin:6px 0 4px">…</div><div class="cs" style="margin:0 0 10px">Versão do app: 2026-10-13.5</div><button class="btn" id="btnLogout">Sair da conta</button></div></section>
 <section id="t-div" class="hide"><div id="divRoot"></div></section>
 <section id="t-lanc" class="hide">
  <div class="card">
@@ -209,6 +209,7 @@ const years=()=>[...new Set(allMonths().map(m=>m.slice(0,4)))];
 const fillSel=(el,opts,val)=>{el.innerHTML=opts.map(o=>`<option value="${o[0]}">${o[1]}</option>`).join('');if(val!=null)el.value=val};
 let IGN=false;try{IGN=localStorage.getItem('contab_ign_v1')==='1'}catch(e){}
 const nowM=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')};
+const defI=ms=>{let ci=ms.indexOf(nowM());if(ci<0)ci=ms.length-1;if(IGN&&ms[ci]===nowM()&&ci>0)ci--;return ci};
 function selAll(){const all=allMonths();let a=+gDe.value,b=+gAte.value;if(a>b)[a,b]=[b,a];return all.slice(a,b+1)}
 function sel(){const r=selAll();return IGN?r.filter(m=>m!==nowM()):r}
 function ignUI(){ignChip.classList.toggle('on',IGN);ignChip.textContent=(IGN?'✓ ':'')+'Ignorar mês atual ('+lblM(nowM())+')'}
@@ -313,7 +314,7 @@ function initSelects(){const ys=years();
  const fc=fCat.value;fCat.innerHTML=g('r','Receita')+g('d','Despesas')+g('s','Saldos / rendimentos');
  if(fc)fCat.value=fc;
  const ms=allMonths(),nm=ms.length-1,old=+gAte.max;
- if(!gAte.dataset.i){gDe.max=gAte.max=nm;gDe.value=0;gAte.value=nm;gAte.dataset.i=1}else{gDe.max=gAte.max=nm;if(+gAte.value===old)gAte.value=nm}
+ if(!gAte.dataset.i){gDe.max=gAte.max=nm;gDe.value=gAte.value=defI(ms);PRE='1';gAte.dataset.i=1}else{gDe.max=gAte.max=nm;if(+gAte.value===old){if(PRE==='1')gDe.value=gAte.value=defI(ms);else gAte.value=nm}}
  if(!fMes.value)fMes.value=ms[ms.length-1];if(!fcMes.value)fcMes.value=ms[ms.length-1];perUI();ignUI();preUI()}
 
 // ---- gráficos
@@ -344,8 +345,10 @@ function graf(){if(!window.Chart)return;const M=matrix(),g=gAgg.value,modo=gModo
  chart=new Chart(cv,cfg)}
 
 // ---- eventos
-tabs.onclick=e=>{const t=e.target.dataset.t;if(!t)return;[...tabs.children].forEach(b=>b.classList.toggle('on',b===e.target));
- ['resumo','lanc','graf','metas','div'].forEach(k=>document.getElementById('t-'+k).classList.toggle('hide',k!==t));if(t==='graf')graf();if(t==='div')divRender()};
+let TAB='resumo';
+function setTab(t){TAB=t;[...tabs.children].forEach(b=>b.classList.toggle('on',b.dataset.t===t));
+ ['resumo','lanc','graf','metas','div'].forEach(k=>document.getElementById('t-'+k).classList.toggle('hide',k!==t));if(t==='graf')graf();if(t==='div')divRender()}
+tabs.onclick=e=>{const t=e.target.dataset.t;if(!t)return;setTab(t);navSync()};
 lCat.onchange=lista;
 ignChip.onclick=()=>{IGN=!IGN;try{localStorage.setItem('contab_ign_v1',IGN?'1':'0')}catch(e){}ignUI();if(PRE)applyPre(PRE);else{perUI();refresh()}};
 [gModo,gTipo,gAgg].forEach(el=>el.onchange=()=>{chips();graf()});
@@ -723,6 +726,32 @@ ordReset.onclick=()=>{try{localStorage.removeItem(OK)}catch(e){}flip(()=>{DEF.fo
 applyOrd();
 metaTb.onchange=e=>{const k=e.target.dataset.k,m=e.target.dataset.m;if(k!==undefined)(CFG[k]=CFG[k]||{}).k=e.target.value;else if(m!==undefined){const v=parseFloat(e.target.value);(CFG[m]=CFG[m]||{}).m=isNaN(v)?undefined:v}saveCfg();refresh()};
 initSelects();chips();refresh();
+
+// ---- botão "voltar" do celular/navegador: volta à tela anterior em vez de sair do app
+let H=null,navApplying=false;
+const navSnap=()=>({nv:1,tab:TAB,s:!$id('sheet').classList.contains('hide'),m:!modal.classList.contains('hide'),g:(typeof DV!=='undefined'&&DV.gid)||null});
+function navSync(){if(navApplying||!H)return;const c=navSnap();let op=0,cl=0;
+ ['s','m'].forEach(k=>{if(c[k]&&!H[k])op++;if(!c[k]&&H[k])cl++});
+ if(c.g&&c.g!==H.g)op++;if(!c.g&&H.g)cl++;
+ try{
+  if(op&&cl){history.replaceState(c,'');H=c}
+  else if(op||c.tab!==H.tab){history.pushState(c,'');H=c}
+  else if(cl){H=c;history.back()}
+ }catch(e){}}
+function navApply(s){navApplying=true;
+ try{
+  if(!s.s&&!$id('sheet').classList.contains('hide'))closeSheet();
+  if(!s.m&&!modal.classList.contains('hide'))closeM();
+  if(s.tab&&s.tab!==TAB)setTab(s.tab);
+  if(typeof DV!=='undefined'&&(s.g||null)!==(DV.gid||null)){if(s.g&&DV.groups.some(y=>y.id===s.g))dvOpen(s.g);else if(DV.gid)dvBack()}
+ }catch(e){}
+ H=navSnap();try{history.replaceState(H,'')}catch(e){}navApplying=false}
+(function(){
+ const so=dvOpen,sb=dvBack;dvOpen=function(g){so(g);navSync()};dvBack=function(){sb();navSync()};
+ const mo=new MutationObserver(()=>navSync());[$id('sheet'),modal].forEach(el=>mo.observe(el,{attributes:true,attributeFilter:['class']}));
+ H=navSnap();try{history.replaceState(H,'')}catch(e){}
+ window.addEventListener('popstate',e=>{const s=e.state;if(s&&s.nv)navApply(s)});
+})();
 if('serviceWorker' in navigator&&/^https?:/.test(location.protocol))navigator.serviceWorker.register('sw.js').catch(()=>{});
 </script>
 <script>
