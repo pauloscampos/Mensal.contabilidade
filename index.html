@@ -119,7 +119,7 @@ input,select{font-size:16px;min-height:40px}.kpi small[data-tip]{display:inline-
 <section id="t-metas" class="hide"><div class="card"><div class="ct">Categorias</div><div class="cs" style="margin:6px 0 10px">Crie, renomeie, reordene e defina o tipo de cada categoria (Receita, Despesa ou Saldo). Renomear atualiza os lançamentos; excluir apaga os lançamentos da categoria.</div>
 <div class="row"><label>Nome<input id="catN" placeholder="Ex.: Mercado"></label><label>Tipo<select id="catT"><option value="d">Despesa</option><option value="r">Receita</option><option value="s">Saldo</option></select></label><button class="btn pri" id="catBtnAdd">Adicionar</button></div>
 <div id="catMsg" class="mu" style="min-height:18px;margin:6px 0"></div><div class="row" style="margin-bottom:10px"><button class="btn sm" id="catTpl">Adicionar modelo básico</button><button class="btn sm" id="catImp">Importar planilha</button></div><div class="scroll"><table id="catTb"></table></div></div><div class="card"><div class="ct">Metas e classificação</div><div class="cs" style="margin-bottom:8px">Defina se cada despesa é fixa ou variável e um teto mensal (R$). Sem meta, a categoria não é acompanhada.</div><div class="scroll"><table id="metaTb"></table></div></div>
-<div class="card"><div class="ct">Conta e sincronização</div><div class="cs" id="syncSt" style="margin:6px 0 4px">…</div><div class="cs" style="margin:0 0 10px">Versão do app: 2026-10-12.4</div><button class="btn" id="btnLogout">Sair da conta</button></div></section>
+<div class="card"><div class="ct">Conta e sincronização</div><div class="cs" id="syncSt" style="margin:6px 0 4px">…</div><div class="cs" style="margin:0 0 10px">Versão do app: 2026-10-13.3</div><button class="btn" id="btnLogout">Sair da conta</button></div></section>
 <section id="t-div" class="hide"><div id="divRoot"></div></section>
 <section id="t-lanc" class="hide">
  <div class="card">
@@ -662,10 +662,29 @@ function dvPayForm(d,x){const g=dvCur(),em=g.memberEmails,opt=(e,sel)=>`<option 
   const A=dvC(a.v);DV.api.expSave(g.id,x?x.id:null,{k:'p',d:'Pagamento',a:A,dt,p:[{e:f,a:A}],s:[{e:t,a:A}],mo:'payment',by:x?x.by:DV.me,t:x?x.t:Date.now(),ed:Date.now()});closeSheet()};
  if(x)$id('pDel').onclick=()=>{if(confirm('Excluir este pagamento?')){DV.api.expDel(g.id,x.id);closeSheet()}}}
 
-(function(){const order=['resumo','lanc','graf','metas','div'];let sx=0,sy=0,ok=false;
- const cur=()=>order.find(k=>!document.getElementById('t-'+k).classList.contains('hide'));
- document.addEventListener('touchstart',e=>{const t=e.touches[0];sx=t.clientX;sy=t.clientY;ok=e.touches.length===1&&sx>28&&sx<innerWidth-28&&!(e.target.closest&&e.target.closest('.scroll,.dr,input,select,textarea,.gr,canvas,.modal,.loginov'))},{passive:true});
- document.addEventListener('touchend',e=>{if(!ok)return;ok=false;const t=e.changedTouches[0],dx=t.clientX-sx,dy=t.clientY-sy;if(Math.abs(dx)<70||Math.abs(dy)>45||Math.abs(dx)<Math.abs(dy)*2)return;const n=order.indexOf(cur())+(dx<0?1:-1);if(n<0||n>=order.length)return;tabs.querySelector('[data-t="'+order[n]+'"]').click();scrollTo(0,0)},{passive:true})})();
+(function(){const order=['resumo','lanc','graf','metas','div'],TH=.5,VF=.4,MD=.15,main=document.querySelector('main'),sec=k=>document.getElementById('t-'+k);
+ let sm=[],sx=0,sy=0,mode=0,dx=0,cur=null,nb=null,nbk=null,dir=0,W=0,busy=false,ck=null;
+ const curK=()=>order.find(k=>!sec(k).classList.contains('hide'));
+ function clr(s){['transform','transition','position','top','left','width','pointerEvents','willChange'].forEach(p=>s.style[p]='')}
+ function setNb(d){if(d===dir)return;if(nb){nb.classList.add('hide');clr(nb);nb=null;nbk=null}dir=d;const i=order.indexOf(ck)+(d<0?1:-1);if(i<0||i>=order.length)return;
+  nbk=order[i];nb=sec(nbk);nb.classList.remove('hide');nb.style.position='absolute';nb.style.top=cur.offsetTop+'px';nb.style.left='0';nb.style.width='100%';nb.style.willChange='transform';nb.style.pointerEvents='none';
+  if(nbk==='graf')graf();if(nbk==='div')divRender()}
+ function begin(){mode=2;sm=[];ck=curK();cur=sec(ck);W=main.clientWidth||innerWidth;dir=0;main.style.position='relative';main.style.overflowX='clip';document.documentElement.style.overflowX='hidden';cur.style.willChange='transform'}
+ function apply(){if(!dx)return;setNb(dx<0?-1:1);let x=nb?Math.max(-W,Math.min(W,dx)):dx*.3;cur.style.transition='none';cur.style.transform='translateX('+x+'px)';if(nb){nb.style.transition='none';nb.style.transform='translateX('+(x-dir*W)+'px)'}}
+ function finish(go){const t=nbk;clr(cur);if(nb){if(!go)nb.classList.add('hide');clr(nb)}main.style.position='';main.style.overflowX='';document.documentElement.style.overflowX='';cur=nb=nbk=null;dir=0;busy=false;
+  if(go){tabs.querySelector('[data-t="'+t+'"]').click();scrollTo(0,0)}}
+ function end(go){if(mode!==2){mode=0;return}mode=0;busy=true;const tr='transform .22s ease-out';cur.style.transition=tr;if(nb)nb.style.transition=tr;
+  if(go&&nb){cur.style.transform='translateX('+(dir*W)+'px)';nb.style.transform='translateX(0)'}else{go=false;cur.style.transform='translateX(0)';if(nb)nb.style.transform='translateX('+(-dir*W)+'px)'}
+  setTimeout(()=>finish(go),240)}
+ document.addEventListener('touchstart',e=>{if(busy){mode=0;return}const t=e.touches[0];sx=t.clientX;sy=t.clientY;dx=0;
+  mode=(e.touches.length===1&&sx>28&&sx<innerWidth-28&&!(e.target.closest&&e.target.closest('.scroll,.dr,input,select,textarea,.gr,canvas,.modal,.loginov')))?1:0},{passive:true});
+ document.addEventListener('touchmove',e=>{if(mode===0||mode===3)return;if(e.touches.length>1){if(mode===2)end(false);mode=3;return}
+  const t=e.touches[0],mx=t.clientX-sx,my=t.clientY-sy;
+  if(mode===1){if(Math.abs(mx)<8&&Math.abs(my)<8)return;if(Math.abs(mx)>Math.abs(my)*1.5)begin();else{mode=3;return}}
+  if(e.cancelable)e.preventDefault();dx=mx;sm.push({x:t.clientX,t:performance.now()});if(sm.length>8)sm.shift();apply()},{passive:false});
+ document.addEventListener('touchend',()=>{if(mode!==2){mode=0;return}const n=performance.now(),r=sm.filter(s=>n-s.t<=120);let v=0;if(r.length>1&&n-r[r.length-1].t<=80){const a=r[0],b=r[r.length-1];v=(b.x-a.x)/Math.max(b.t-a.t,10)}
+  const flick=Math.abs(v)>=VF&&Math.abs(dx)>=MD*W&&(v<0)===(dx<0);end(!!nb&&(Math.abs(dx)>=TH*W||flick))},{passive:true});
+ document.addEventListener('touchcancel',()=>{if(mode===2)end(false);else mode=0},{passive:true})})();
 matchMedia('(prefers-color-scheme:dark)').addEventListener('change',()=>refresh());
 fcMes.onchange=()=>fech(1);
 fcBox.onclick=e=>{const row=e.target.closest('.frow');if(!row)return;const inp=row.querySelector('input'),m=fcMes.value;
