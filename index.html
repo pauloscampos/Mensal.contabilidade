@@ -5,6 +5,7 @@
 <link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#12201c"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Contabilidade</title>
+<script>try{var _t=localStorage.getItem('contab_theme_v1');if(_t==='light'||_t==='dark')document.documentElement.setAttribute('data-theme',_t)}catch(e){}</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
 :root{--bg:#f6f5f1;--card:#fff;--tx:#1d1d1b;--mu:#6b6a64;--bd:#e1dfd7;--ac:#0f6e56;--ac2:#e8f3ef;--neg:#b3382c;--pos:#0f6e56;
@@ -96,36 +97,117 @@ input,select{font-size:16px;min-height:40px}.kpi small[data-tip]{display:inline-
 .dvf label{margin-bottom:10px}.dvp{display:grid;grid-template-columns:1fr 110px;gap:8px;align-items:center;padding:4px 0}.dvp .chp{justify-self:start}.dvp .xv{min-width:0}.dvp .xv.loginov{position:fixed;inset:0;z-index:100;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:20px}.dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:#9aa;margin-left:6px;vertical-align:middle}
 .hide{display:none}
 @media(max-width:760px){.side button{padding:10px 0;font-size:11.5px}#goL{position:fixed;right:16px;bottom:calc(78px + env(safe-area-inset-bottom,0px));width:56px;height:56px;padding:0;border-radius:50%;font-size:0;box-shadow:0 6px 18px rgba(0,0,0,.35);z-index:45;flex:none}#goL::before{content:'+';font-size:32px;line-height:56px;display:block}}
+.side button[data-n]::after{content:attr(data-n);display:inline-block;min-width:16px;height:16px;line-height:16px;margin-left:4px;padding:0 4px;border-radius:8px;background:var(--neg);color:#fff;font-size:10px;font-weight:700;text-align:center;vertical-align:1px}#ntfBtn b{background:var(--neg);color:#fff;border-radius:9px;padding:0 6px;font-size:11px;margin-left:2px}
+/* ---- visual mais amigável: cartões leves, ícones, tipografia suave */
+.ct{font-size:16px;font-weight:600;letter-spacing:0;text-transform:none}.cs{font-size:12.5px}
+.card{border-radius:16px;padding:16px}.mbox{border-radius:18px}
+.btn,.tabs button,.seg button{border-radius:10px;font-weight:500}.btn.pri{font-weight:600}.btn.sm{border-radius:9px}
+input,select,textarea{border-radius:10px}.chip{padding:5px 12px;font-weight:500}.chp{border-radius:20px}
+.kpi{border-radius:14px;padding:12px 14px;position:relative}.kpi b{font-weight:600}
+.kpi[data-ic]{padding-left:64px;min-height:70px;display:flex;flex-direction:column;justify-content:center}
+.kpi[data-ic]::before{content:attr(data-ic);position:absolute;left:13px;top:50%;transform:translateY(-50%);width:40px;height:40px;border-radius:13px;background:var(--ac2);display:flex;align-items:center;justify-content:center;font-size:20px}
+.dvbal .kpi{background:var(--bg);border:0;border-radius:12px}
+td[data-ic]::before,.mrow>span[data-ic]::before,.vr>span[data-ic]::before{content:attr(data-ic);display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:9px;background:var(--ac2);margin-right:8px;font-size:15px;vertical-align:middle;flex:none}
+.mrow>span[data-ic],.vr>span[data-ic]{display:flex;align-items:center;min-width:0}.mrow{grid-template-columns:minmax(120px,176px) 1fr auto;gap:10px;margin:8px 0}.bar{height:8px;border-radius:4px}
+thead th{font-size:12px}th,td{padding:7px 9px}tr.tot td{font-weight:600}
+.dvg{border-radius:14px}.dvr{padding:12px 0}
+.side button{font-weight:500}.side button[data-t]::before{content:var(--i);display:inline-block;font-size:17px;margin-right:8px;vertical-align:-1px}
+.side button[data-t=resumo]{--i:'🏠'}.side button[data-t=lanc]{--i:'🧾'}.side button[data-t=graf]{--i:'📊'}.side button[data-t=metas]{--i:'🎯'}.side button[data-t=div]{--i:'🤝'}
+.side button.on{font-weight:600}
+@media(max-width:760px){
+ .app{padding:10px 10px 96px}
+ .side{padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px));border-radius:18px 18px 0 0}
+ .side button[data-t]{position:relative;display:flex;flex-direction:column;align-items:center;gap:2px;padding:7px 0 6px;font-size:10.5px;line-height:1.2;white-space:nowrap}
+ .side button[data-t]::before{margin:0;font-size:20px;line-height:1}
+ .side button[data-n]::after{position:absolute;top:1px;left:calc(50% + 7px);margin:0}
+ #goL{bottom:calc(88px + env(safe-area-inset-bottom,0px))}
+ .card{padding:14px}
+ #lista{min-width:0;table-layout:auto;display:block}#lista colgroup,#lista thead{display:none}#lista tbody{display:block}
+ #lista tr{display:grid;grid-template-columns:1fr auto;grid-template-areas:"cat val" "mes act" "obs obs";gap:2px 10px;align-items:center;padding:12px;margin-top:10px;background:var(--card);border:1px solid var(--bd);border-radius:14px}
+ #lista td{display:block;border:0;padding:0;text-align:left;white-space:normal;position:static;background:none;overflow:visible}
+ #lista td:nth-child(1){grid-area:mes;font-size:12px;color:var(--mu);padding-left:36px}
+ #lista td:nth-child(2){grid-area:cat;font-weight:600;display:flex;align-items:center;min-width:0}
+ #lista td:nth-child(3){grid-area:val;text-align:right;font-weight:600;font-size:15px}
+ #lista td:nth-child(4){grid-area:obs;margin-top:8px}#lista td:nth-child(5){grid-area:act;text-align:right}
+ #lista input{border-color:var(--bd);background:var(--bg)}
+}
+#dvNew{white-space:nowrap}
+@media(max-width:760px){
+ #perBar{padding:12px 14px}#perBar label{flex-direction:row;flex-wrap:wrap;align-items:baseline;gap:2px 6px}#perBar .dr{flex-basis:100%;height:34px}#perBar .dr::before,#perBar #gFill{top:15px}#perBar .dr input{top:7px}
+ #perBar .chip{min-height:32px;padding:4px 6px;font-size:12.5px}#pre{gap:6px}
+ .kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.kpi[data-ic]{padding:10px 6px 10px 48px;min-height:64px}.kpi[data-ic]::before{left:8px;width:32px;height:32px;font-size:16px;border-radius:10px}.kpi b{font-size:clamp(13px,4vw,16px);white-space:nowrap}.kpi small{font-size:11.5px}
+}
+td[data-ic]>input{vertical-align:middle}
+@media(max-width:760px){
+ #catTb,#metaTb{display:block;min-width:0}#catTb thead,#metaTb thead{display:none}#catTb tbody,#metaTb tbody{display:block}
+ #catTb tr,#metaTb tr{display:grid;grid-template-columns:1fr 1fr;gap:8px 10px;align-items:end;padding:12px;margin-top:10px;border:1px solid var(--bd);border-radius:14px;background:var(--card)}
+ #catTb td,#metaTb td{display:block;border:0;padding:0;position:static;background:none;text-align:left;white-space:normal}
+ #catTb td:nth-child(1){grid-column:1/-1;display:flex;align-items:center}#catTb td:nth-child(1) input{flex:1;min-width:0;width:auto!important}
+ #catTb td:nth-child(2) select{width:100%}#catTb td:nth-child(3){text-align:right;white-space:nowrap}
+ #metaTb td:nth-child(1){grid-column:1/-1;display:flex;align-items:center;font-weight:600}
+ #metaTb td:nth-child(2)::before,#metaTb td:nth-child(3)::before{display:block;font-size:11px;color:var(--mu);margin-bottom:3px}
+ #metaTb td:nth-child(2)::before{content:'Tipo'}#metaTb td:nth-child(3)::before{content:'Meta mensal (R$)'}
+ #metaTb td:nth-child(2) select,#metaTb td:nth-child(3) input{width:100%!important}
+ #metaTb td:nth-child(4){grid-column:1/-1;font-size:12.5px;color:var(--mu)}#metaTb td:nth-child(4)::before{content:'Média no período: '}#metaTb td:nth-child(4).neg{color:var(--neg)}
+}
+#topbar{display:flex;align-items:center;gap:10px;margin:0 0 12px;min-height:42px}#topbar #tbTitle{flex:1;font-size:20px;font-weight:600;min-width:0}
+.gear{width:42px;height:42px;border-radius:13px;border:1px solid var(--bd);background:var(--card);color:var(--mu);display:inline-flex;align-items:center;justify-content:center;padding:0;cursor:pointer;font-size:20px;flex:none}
+.gear svg{transition:transform .25s}.gear:active svg{transform:rotate(60deg)}.gear:hover{color:var(--tx);border-color:var(--ac)}
+.cfr{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-top:1px solid var(--bd)}.cfr>div{min-width:0}.cfr.col{flex-direction:column;align-items:stretch;gap:8px}.cfr.col select{width:100%}body.inconf #goL{display:none}
+input.sw{-webkit-appearance:none;appearance:none;flex:none;width:46px;min-width:46px;height:28px;min-height:28px;padding:0;border:0;border-radius:14px;background:var(--bd);position:relative;cursor:pointer;transition:background .15s}
+input.sw::after{content:'';position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:transform .15s}input.sw:checked{background:var(--ac)}input.sw:checked::after{transform:translateX(18px)}
+#t-conf .seg{margin-bottom:2px}#t-conf .seg button{flex:1}
 .hide{display:none}.mu{color:var(--mu)}
 </style>
 </head>
 <body><div class="app">
 <nav class="side" id="tabs"><b class="brand">Contabilidade<span id="syncDot" class="dot"></span></b><button data-t="resumo" class="on">Painel</button><button data-t="lanc">Lançamentos</button><button data-t="graf">Análise</button><button data-t="metas">Metas</button><button data-t="div">Dividir</button><button class="pri" id="goL">+ Lançar</button></nav>
-<main style="min-width:0"><div id="cloudErr" class="card hide" style="border-color:var(--neg);color:var(--neg)"></div>
+<main style="min-width:0"><div id="topbar"><button class="gear hide" id="cfBack" aria-label="Voltar">←</button><b id="tbTitle">Painel</b><span id="tbDot" class="dot"></span><button class="gear" id="gearBtn" aria-label="Configurações" title="Configurações"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z"/><path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"/></svg></button></div>
+<div id="cloudErr" class="card hide" style="border-color:var(--neg);color:var(--neg)"></div>
 <div class="card" id="perBar"><div class="row" style="align-items:center"><label style="flex:1;min-width:240px">Período: <b id="gPer" style="color:var(--tx)"></b><div class="dr"><div id="gFill"></div><input type="range" id="gDe" min="0" max="0" value="0"><input type="range" id="gAte" min="0" max="0" value="0"></div></label><div class="chips" id="pre" style="margin:0"><span class="chip" data-p="all">Tudo</span><span class="chip" data-p="y">Ano corrente</span><span class="chip" data-p="12">12 meses</span><span class="chip" data-p="3">3 meses</span><span class="chip" data-p="1">Último mês</span><span class="chip" id="ignChip" title="Exclui o mês atual das análises (útil para lançamentos antecipados)">Ignorar mês atual</span></div></div></div>
 
 <section id="t-resumo">
  <div class="card hide" id="welcome"><div class="ct">Bem-vindo</div><div class="cs" style="margin:6px 0 12px">Comece criando suas categorias ou importando uma planilha. Depois é só lançar.</div><div class="row"><button class="btn pri" id="wTpl">Usar modelo básico</button><button class="btn" id="wCat">Criar minhas categorias</button><button class="btn" id="wImp">Importar planilha</button></div></div>
 <div class="kpis" id="kpis"></div>
- <div class="row" style="justify-content:flex-end;align-items:center;margin-bottom:8px"><span class="mu" style="font-size:12px">Arraste ⠿ para reorganizar · ⇔ muda a largura</span><button class="btn sm" id="ordReset">Layout padrão</button></div>
+ <div class="row" style="justify-content:flex-end;align-items:center;margin-bottom:8px"><span class="mu" style="font-size:12px">Arraste ⠿ para reorganizar · ⇔ muda a largura</span></div>
 <div id="pgrid">
 <div class="card pc" data-id="a"><div class="hd"><span class="gr" title="Arraste para mover">⠿</span><div><div class="ct">Receita × despesas</div><div class="cs">Quanto entrou, quanto saiu e o que sobrou em cada mês</div></div><button class="sz" title="Alternar largura" aria-label="Alternar largura">⇔</button></div><div class="cvs"><canvas id="cvA"></canvas></div></div>
-<div class="card pc" data-id="c"><div class="hd"><span class="gr" title="Arraste para mover">⠿</span><div><div class="ct">Custos mensais</div><div class="cs">Fixos × variáveis <b id="fvTxt"></b></div></div><select id="palSel" title="Paleta de cores" style="min-width:0;width:auto;padding:3px 6px;font-size:12px"><option value="sage">Sálvia + damasco</option><option value="slate">Ardósia + areia</option><option value="lagoon">Lagoa + rosé</option></select><button class="sz" title="Alternar largura" aria-label="Alternar largura">⇔</button></div><div class="cvs"><canvas id="cvC"></canvas></div></div>
+<div class="card pc" data-id="c"><div class="hd"><span class="gr" title="Arraste para mover">⠿</span><div><div class="ct">Custos mensais</div><div class="cs">Fixos × variáveis <b id="fvTxt"></b></div></div><button class="sz" title="Alternar largura" aria-label="Alternar largura">⇔</button></div><div class="cvs"><canvas id="cvC"></canvas></div></div>
 <div class="card pc" data-id="m"><div class="hd"><span class="gr" title="Arraste para mover">⠿</span><div><div class="ct">Teto de gastos</div><div class="cs">Média mensal × meta de cada categoria</div></div><button class="sz" title="Alternar largura" aria-label="Alternar largura">⇔</button></div><div id="metaBox"></div></div>
 <div class="card pc" data-id="v"><div class="hd"><span class="gr" title="Arraste para mover">⠿</span><div><div class="ct">O que mudou</div><div class="cs">Maiores variações <span id="varPer"></span></div></div><button class="sz" title="Alternar largura" aria-label="Alternar largura">⇔</button></div><div id="varBox"></div></div>
 <div class="card pc full" data-id="t"><div class="hd"><span class="gr" title="Arraste para mover">⠿</span><div><div class="ct">Extrato do período</div><div class="cs">Todas as contas, mês a mês, com totais</div></div><button class="btn sm" id="csv">Exportar CSV</button><button class="sz" title="Alternar largura" aria-label="Alternar largura">⇔</button></div><div class="scroll"><table id="pivot"></table></div></div>
 </div>
 </section>
-<section id="t-metas" class="hide"><div class="card"><div class="ct">Categorias</div><div class="cs" style="margin:6px 0 10px">Crie, renomeie, reordene e defina o tipo de cada categoria (Receita, Despesa ou Saldo). Renomear atualiza os lançamentos; excluir apaga os lançamentos da categoria.</div>
-<div class="row"><label>Nome<input id="catN" placeholder="Ex.: Mercado"></label><label>Tipo<select id="catT"><option value="d">Despesa</option><option value="r">Receita</option><option value="s">Saldo</option></select></label><button class="btn pri" id="catBtnAdd">Adicionar</button></div>
-<div id="catMsg" class="mu" style="min-height:18px;margin:6px 0"></div><div class="row" style="margin-bottom:10px"><button class="btn sm" id="catTpl">Adicionar modelo básico</button><button class="btn sm" id="catImp">Importar planilha</button></div><div class="scroll"><table id="catTb"></table></div></div><div class="card"><div class="ct">Metas e classificação</div><div class="cs" style="margin-bottom:8px">Defina se cada despesa é fixa ou variável e um teto mensal (R$). Sem meta, a categoria não é acompanhada.</div><div class="scroll"><table id="metaTb"></table></div></div>
-<div class="card"><div class="ct">Conta e sincronização</div><div class="cs" id="syncSt" style="margin:6px 0 4px">…</div><div class="cs" style="margin:0 0 10px">Versão do app: 2026-10-13.5</div><button class="btn" id="btnLogout">Sair da conta</button></div></section>
+<section id="t-metas" class="hide"><div class="card"><div class="ct">Metas e classificação</div><div class="cs" style="margin-bottom:8px">Defina se cada despesa é fixa ou variável e um teto mensal (R$). Sem meta, a categoria não é acompanhada.</div><div class="scroll"><table id="metaTb"></table></div></div></section>
 <section id="t-div" class="hide"><div id="divRoot"></div></section>
+<section id="t-conf" class="hide">
+<div class="card"><div class="ct">Conta</div><div class="cs" id="syncSt" style="margin:6px 0 10px">…</div><button class="btn" id="btnLogout">Sair da conta</button></div>
+<div class="card"><div class="ct">Aparência</div>
+ <div class="cs" style="margin:2px 0 8px">Tema do aplicativo. Automático segue o modo do seu celular.</div>
+ <div class="seg" id="thSeg"><button data-m="auto">Automático</button><button data-m="light">Claro</button><button data-m="dark">Escuro</button></div>
+ <div class="cfr col"><div><b>Cores dos gráficos</b><div class="cs">Paleta usada no Painel e na Análise</div></div><select id="palSel" title="Paleta de cores" style="min-width:0;width:auto"><option value="sage">Sálvia + damasco</option><option value="slate">Ardósia + areia</option><option value="lagoon">Lagoa + rosé</option></select></div>
+ <div class="cfr"><div><b>Layout do Painel</b><div class="cs">Volta os cartões à ordem e largura originais</div></div><button class="btn sm" id="ordReset">Restaurar</button></div>
+</div>
+<div class="card"><div class="ct">Avisos do Dividir</div>
+ <div class="cfr" style="border-top:0"><div><b>Novas contas para mim</b><div class="cs">Avisar quando alguém adicionar uma conta com uma parte minha</div></div><input type="checkbox" class="sw" id="ntfOn" aria-label="Avisar sobre novas contas"></div>
+ <div class="cfr"><div id="ntfSys"></div><button class="btn sm" id="ntfList">Ver avisos</button></div>
+</div>
+<div class="card" id="confCats"><div class="ct">Categorias</div><div class="cs" style="margin:6px 0 10px">Crie, renomeie, reordene e defina o tipo de cada categoria (Receita, Despesa ou Saldo). Renomear atualiza os lançamentos; excluir apaga os lançamentos da categoria.</div>
+<div class="row"><label>Nome<input id="catN" placeholder="Ex.: Mercado"></label><label>Tipo<select id="catT"><option value="d">Despesa</option><option value="r">Receita</option><option value="s">Saldo</option></select></label><button class="btn pri" id="catBtnAdd">Adicionar</button></div>
+<div id="catMsg" class="mu" style="min-height:18px;margin:6px 0"></div><div class="row" style="margin-bottom:10px"><button class="btn sm" id="catTpl">Adicionar modelo básico</button><button class="btn sm" id="catImp">Importar planilha</button></div><div class="scroll"><table id="catTb"></table></div></div>
+<div class="card"><div class="ct">Dados e backup</div><div class="row" style="margin-top:8px"><button class="btn sm" id="reset">Apagar dados locais</button></div>
+  <div class="row" style="margin-top:10px;align-items:center"><span class="mu">Backup:</span><button class="btn sm" id="bkExp">Exportar backup (JSON)</button><label class="btn sm" style="flex-direction:row;font-size:12px;color:var(--tx);cursor:pointer;min-width:0">Importar backup (substitui os dados atuais)<input type="file" id="bkImp" hidden></label></div><div id="bkMsg" class="mu" style="margin-top:6px;min-height:18px"></div><details style="margin-top:6px"><summary class="mu" style="cursor:pointer">Importar colando o texto do backup</summary><textarea id="bkTxt" rows="4" style="width:100%;margin-top:6px;font-size:12px" placeholder="Cole aqui o conteúdo do arquivo de backup (.json)"></textarea><button class="btn sm" id="bkPaste" type="button" style="margin-top:6px">Importar texto colado</button></details></div>
+<div class="card"><div class="ct">Sobre</div>
+ <div class="cfr" style="border-top:0"><span>Versão do app</span><b id="appVer">2026-10-14.1</b></div>
+ <div class="cfr"><span>Atualização</span><button class="btn sm" id="appUpd">Buscar atualização</button></div>
+</div>
+</section>
+
 <section id="t-lanc" class="hide">
  <div class="card">
   <div class="hd"><div><div class="ct">Histórico de lançamentos</div><div class="cs">Edite a observação direto na linha. Para lançar, use o botão + Lançar.</div></div></div>
-  <div class="row"><label>Categoria<select id="lCat"></select></label><button class="btn sm" id="reset">Apagar dados locais</button></div>
-  <div class="row" style="margin-top:10px;align-items:center"><span class="mu">Backup:</span><button class="btn sm" id="bkExp">Exportar backup (JSON)</button><label class="btn sm" style="flex-direction:row;font-size:12px;color:var(--tx);cursor:pointer;min-width:0">Importar backup (substitui os dados atuais)<input type="file" id="bkImp" hidden></label></div><div id="bkMsg" class="mu" style="margin-top:6px;min-height:18px"></div><details style="margin-top:6px"><summary class="mu" style="cursor:pointer">Importar colando o texto do backup</summary><textarea id="bkTxt" rows="4" style="width:100%;margin-top:6px;font-size:12px" placeholder="Cole aqui o conteúdo do arquivo de backup (.json)"></textarea><button class="btn sm" id="bkPaste" type="button" style="margin-top:6px">Importar texto colado</button></details>
+  <div class="row"><label>Categoria<select id="lCat"></select></label></div>
+  
   <div class="scroll" style="margin-top:10px"><table id="lista"></table></div>
  </div>
 </section>
@@ -228,7 +310,7 @@ const tpf=(nome,fa,fb)=>(c,p,d,pc)=>nome+'\nAtual ('+fa+'): '+brl(c)+'\nAnterior
 function kpis(ms,M){const pm=prevMs(),has=pm.length===ms.length&&pm.length>0,c=tot(ms,M),p=has?tot(pm,M):null,ra=rng(ms),rb=rng(pm);
  const sc0=CATS.find(x=>x.t==='s'),sal=sc0?sc0.n:null,lo=a=>{if(!sal)return null;const m=[...a].reverse().find(m=>M[sal][m]);return m?{v:M[sal][m],m}:null},cs=lo(ms),ps=has?lo(pm):null;
  const K=[['Salário',brl(c.r),'',dl(c.r,p&&p.r,0,0,tpf('Salário',ra,rb))],['Despesas',brl(c.d),'',dl(c.d,p&&p.d,1,0,tpf('Despesas',ra,rb))],['Sobrou',(c.s>0?'+':'')+brl(c.s),c.s>0?'pos':c.s<0?'neg':'',(c.r?'<small class="mu">'+(c.s/c.r*100).toFixed(1).replace('.',',')+'% da receita</small>':'')+dl(c.s,p&&p.s,0,1,tpf('Sobrou (receita − despesas)',ra,rb))],['Carteira',cs?brl(cs.v):'-','',cs&&ps?dl(cs.v,ps.v,0,1,tpf('Carteira (último saldo lançado)',lblM(cs.m),lblM(ps.m))):'']];
- document.getElementById('kpis').innerHTML=K.map(k=>`<div class="kpi"><small>${k[0]}</small><b class="${k[2]}">${k[1]}</b>${k[3]}</div>`).join('')}
+ document.getElementById('kpis').innerHTML=K.map(k=>`<div class="kpi"${KIC[k[0]]?` data-ic="${KIC[k[0]]}"`:''}><small>${k[0]}</small><b class="${k[2]}">${k[1]}</b>${k[3]}</div>`).join('')}
 let PL='';let CFG={};const FIX=new Set(['Vivo celular','PUC Pós Graduação','Estacionamento MRV','Blink internet','Moradia','Caixinha']);
 try{CFG=JSON.parse(localStorage.getItem('contab_cfg_v1')||'{}')}catch(e){}
 const saveCfg=()=>{try{localStorage.setItem('contab_cfg_v1',JSON.stringify(CFG))}catch(e){}cfgUp()};
@@ -265,20 +347,20 @@ function painel(ms,M){if(!window.Chart)return;const css=getComputedStyle(documen
  const lf2=c=>[' '+c.dataset.label+': '+brl(c.parsed.y),...br(c.datasetIndex===0?'f':'v',c.dataIndex).map(x=>'     '+x.n+': '+brl(x.v))];
  mk('cvC',{type:'bar',data:{labels:lab,datasets:[{label:'Fixos',data:fx,backgroundColor:PC[0],borderRadius:3},{label:'Variáveis',data:vr,backgroundColor:PC[1],borderRadius:3}]},options:op(sc(true),lf2)});
  const mr=ds.filter(c=>meta(c.n)>0).map(c=>{const avg=ms.reduce((s,m)=>s+cell(M,c.n,m),0)/Math.max(1,n),mt=meta(c.n),pc=avg/mt*100,ov=ms.filter(m=>cell(M,c.n,m)>mt).length;
-  return `<div class="mrow"><span>${c.n}</span><div class="bar"><i style="width:${Math.min(100,Math.max(0,pc))}%;background:${pc>100?neg:pos}"></i></div><span class="${pc>100?'dn':''}">${brl(avg)} / ${brl(mt)}${ov?' · '+ov+' acima':''}</span></div>`});
+  return `<div class="mrow"><span data-ic="${cIc(c.n)}">${c.n}</span><div class="bar"><i style="width:${Math.min(100,Math.max(0,pc))}%;background:${pc>100?neg:pos}"></i></div><span class="${pc>100?'dn':''}">${brl(avg)} / ${brl(mt)}${ov?' · '+ov+' acima':''}</span></div>`});
  metaBox.innerHTML=mr.length?mr.join(''):'<span class="mu">Nenhuma meta definida. Configure na aba Metas.</span>';
  const pm=prevMs(),ok=pm.length===n&&n>0,sum=(c,a)=>a.reduce((s,m)=>s+cell(M,c.n,m),0);
  varPer.textContent=ok?'('+rng(ms)+' vs. '+rng(pm)+')':'';
  if(!ok){varBox.innerHTML='<span class="mu">Sem período anterior completo para comparar.</span>';return}
  const vv=ds.map(c=>{const a=sum(c,ms),p=sum(c,pm);return{n:c.n,a,p,d:a-p}}).filter(x=>Math.abs(x.d)>=1).sort((a,b)=>Math.abs(b.d)-Math.abs(a.d)).slice(0,5);
- varBox.innerHTML=vv.length?'<div class="vr h"><span></span><span>Atual</span><span>Anterior</span><span>Diferença</span></div>'+vv.map(x=>`<div class="vr"><span>${x.n}</span><span>${brl(x.a)}</span><span>${brl(x.p)}</span><span class="${x.d>0?'dn':'pos'}">${x.d>0?'▲ +':'▼ −'}${brl(Math.abs(x.d))}</span></div>`).join('')+'<div class="mu" style="font-size:11px;margin-top:6px">▲ gastou mais que no período anterior · ▼ gastou menos</div>':'<span class="mu">Sem variações relevantes.</span>'}
-function metas(){const M=matrix(),ms=sel();metaTb.innerHTML='<thead><tr><th>Categoria</th><th>Tipo</th><th>Meta mensal (R$)</th><th>Média no período</th></tr></thead><tbody>'+CATS.filter(c=>c.t==='d').map(c=>{const avg=ms.length?ms.reduce((s,m)=>s+cell(M,c.n,m),0)/ms.length:0,mt=meta(c.n);return `<tr><td>${c.n}</td><td><select data-k="${esc(c.n)}"><option value="f"${kind(c.n)==='f'?' selected':''}>Fixo</option><option value="v"${kind(c.n)==='v'?' selected':''}>Variável</option></select></td><td><input type="number" min="0" step="10" data-m="${esc(c.n)}" value="${mt??''}" style="width:110px"></td><td class="${mt&&avg>mt?'neg':''}">${brl(avg)}</td></tr>`}).join('')+'</tbody>'}
+ varBox.innerHTML=vv.length?'<div class="vr h"><span></span><span>Atual</span><span>Anterior</span><span>Diferença</span></div>'+vv.map(x=>`<div class="vr"><span data-ic="${cIc(x.n)}">${x.n}</span><span>${brl(x.a)}</span><span>${brl(x.p)}</span><span class="${x.d>0?'dn':'pos'}">${x.d>0?'▲ +':'▼ −'}${brl(Math.abs(x.d))}</span></div>`).join('')+'<div class="mu" style="font-size:11px;margin-top:6px">▲ gastou mais que no período anterior · ▼ gastou menos</div>':'<span class="mu">Sem variações relevantes.</span>'}
+function metas(){const M=matrix(),ms=sel();metaTb.innerHTML='<thead><tr><th>Categoria</th><th>Tipo</th><th>Meta mensal (R$)</th><th>Média no período</th></tr></thead><tbody>'+CATS.filter(c=>c.t==='d').map(c=>{const avg=ms.length?ms.reduce((s,m)=>s+cell(M,c.n,m),0)/ms.length:0,mt=meta(c.n);return `<tr><td data-ic="${cIc(c.n)}">${c.n}</td><td><select data-k="${esc(c.n)}"><option value="f"${kind(c.n)==='f'?' selected':''}>Fixo</option><option value="v"${kind(c.n)==='v'?' selected':''}>Variável</option></select></td><td><input type="number" min="0" step="10" data-m="${esc(c.n)}" value="${mt??''}" style="width:110px"></td><td class="${mt&&avg>mt?'neg':''}">${brl(avg)}</td></tr>`}).join('')+'</tbody>'}
 function tip(cat,m){let a=L.filter(x=>x.c===cat&&x.m===m).sort((p,q)=>p.id-q.id);if(tipo(cat)==='s')a=a.slice(-1);if(!a.some(x=>x.f))return '';
  return ' data-tip="'+esc(a.map(x=>x.f?'Memória de cálculo: '+x.f+' = '+brl(x.v):'Lançamento sem fórmula: '+brl(x.v)).join('\n'))+'"'}
 function resumo(){const M=matrix(),ms=sel();
  kpis(ms,M);painel(ms,M);
  let h='<thead><tr><th>Conta</th>'+ms.map(m=>`<th>${lblM(m)}</th>`).join('')+'<th>Total</th></tr></thead><tbody>';
- const row=(n,vals,tot,c='',cat)=>`<tr class="${c}"><td>${n}</td>`+vals.map((v,i)=>`<td class="${cls(v)}"${cat?tip(cat,ms[i]):''}>${v?brl(v).replace('R$ ',''):'-'}</td>`).join('')+`<td class="${cls(tot)}">${tot===null?'':brl(tot).replace('R$ ','')}</td></tr>`;
+ const row=(n,vals,tot,c='',cat)=>`<tr class="${c}"><td${cat?` data-ic="${cIc(cat)}"`:''}>${n}</td>`+vals.map((v,i)=>`<td class="${cls(v)}"${cat?tip(cat,ms[i]):''}>${v?brl(v).replace('R$ ',''):'-'}</td>`).join('')+`<td class="${cls(tot)}">${tot===null?'':brl(tot).replace('R$ ','')}</td></tr>`;
  CATS.filter(c=>c.t==='r').forEach(c=>{const v=ms.map(m=>cell(M,c.n,m));h+=row(c.n,v,v.reduce((a,b)=>a+b,0),'sal',c.n)});
  CATS.filter(c=>c.t==='d').forEach(c=>{const v=ms.map(m=>cell(M,c.n,m));h+=row(c.n,v,v.reduce((a,b)=>a+b,0),'',c.n)});
  const D=ms.map(m=>derived(M,m));
@@ -289,7 +371,7 @@ function resumo(){const M=matrix(),ms=sel();
 
 function lista(){const c=lCat.value,S=new Set(selAll());
  const r=L.filter(x=>(c==='all'||x.c===c)&&S.has(x.m)).sort((x,y)=>y.m.localeCompare(x.m)||y.id-x.id).slice(0,300);
- lista_.innerHTML='<colgroup><col style="width:64px"><col style="width:170px"><col style="width:130px"><col><col style="width:92px"></colgroup><thead><tr><th>Mês</th><th style="text-align:left">Categoria</th><th>Valor</th><th style="text-align:left">Observação</th><th></th></tr></thead><tbody>'+r.map(x=>`<tr><td>${lblM(x.m)}</td><td>${x.c}</td><td class="${tipo(x.c)==='r'?'sal-v':cls(x.v)}"${x.f?` data-tip="Memória de cálculo: ${esc(x.f)} = ${brl(x.v)}"`:''}>${brl(x.v)}${x.f?' ƒ':''}</td><td><input data-o="${x.id}" value="${esc(x.o||'')}" placeholder="adicionar observação"></td><td><button class="btn sm" data-edit="${x.id}" title="Editar">✎</button> <button class="btn sm" data-del="${x.id}" title="Excluir">×</button></td></tr>`).join('')+'</tbody>'}
+ lista_.innerHTML='<colgroup><col style="width:64px"><col style="width:170px"><col style="width:130px"><col><col style="width:92px"></colgroup><thead><tr><th>Mês</th><th style="text-align:left">Categoria</th><th>Valor</th><th style="text-align:left">Observação</th><th></th></tr></thead><tbody>'+r.map(x=>`<tr><td>${lblM(x.m)}</td><td data-ic="${cIc(x.c)}">${x.c}</td><td class="${tipo(x.c)==='r'?'sal-v':cls(x.v)}"${x.f?` data-tip="Memória de cálculo: ${esc(x.f)} = ${brl(x.v)}"`:''}>${brl(x.v)}${x.f?' ƒ':''}</td><td><input data-o="${x.id}" value="${esc(x.o||'')}" placeholder="adicionar observação"></td><td><button class="btn sm" data-edit="${x.id}" title="Editar">✎</button> <button class="btn sm" data-del="${x.id}" title="Excluir">×</button></td></tr>`).join('')+'</tbody>'}
 const lista_=document.getElementById('lista');
 
 let SK={};try{SK=JSON.parse(localStorage.getItem('contab_skip_v1')||'{}')}catch(e){}
@@ -346,8 +428,11 @@ function graf(){if(!window.Chart)return;const M=matrix(),g=gAgg.value,modo=gModo
 
 // ---- eventos
 let TAB='resumo';
-function setTab(t){TAB=t;[...tabs.children].forEach(b=>b.classList.toggle('on',b.dataset.t===t));
- ['resumo','lanc','graf','metas','div'].forEach(k=>document.getElementById('t-'+k).classList.toggle('hide',k!==t));if(t==='graf')graf();if(t==='div')divRender()}
+const TTL={resumo:'Painel',lanc:'Lançamentos',graf:'Análise',metas:'Metas',div:'Dividir',conf:'Configurações'};
+function setTab(t){TAB=t;$id('perBar').classList.toggle('hide',t==='div'||t==='conf');[...tabs.children].forEach(b=>b.classList.toggle('on',b.dataset.t===t));
+ ['resumo','lanc','graf','metas','div','conf'].forEach(k=>document.getElementById('t-'+k).classList.toggle('hide',k!==t));
+ document.body.classList.toggle('inconf',t==='conf');$id('tbTitle').textContent=TTL[t]||'';$id('cfBack').classList.toggle('hide',t!=='conf');$id('gearBtn').classList.toggle('hide',t==='conf');
+ if(t==='graf')graf();if(t==='div')divRender();if(t==='conf')confNtfUI()}
 tabs.onclick=e=>{const t=e.target.dataset.t;if(!t)return;setTab(t);navSync()};
 lCat.onchange=lista;
 ignChip.onclick=()=>{IGN=!IGN;try{localStorage.setItem('contab_ign_v1',IGN?'1':'0')}catch(e){}ignUI();if(PRE)applyPre(PRE);else{perUI();refresh()}};
@@ -413,11 +498,11 @@ function catRetype(n,t){const c=CATS.find(x=>x.n===n);if(c){c.t=t;catsChanged()}
 function catMove(n,d){const i=CATS.findIndex(c=>c.n===n),j=i+d;if(i<0||j<0||j>=CATS.length)return;[CATS[i],CATS[j]]=[CATS[j],CATS[i]];catsChanged()}
 function catDelete(n){const k=L.filter(x=>x.c===n);if(!confirm('Excluir a categoria "'+n+'"'+(k.length?' e os seus '+k.length+' lançamentos':'')+'? Isso não pode ser desfeito.'))return;k.forEach(x=>delL(x));CATS=CATS.filter(c=>c.n!==n);delete CFG[n];saveCfg();catsChanged()}
 function catsUI(){const el=$id('catTb');if(!el)return;const TN={r:'Receita',d:'Despesa',s:'Saldo'},ty=t=>['r','d','s'].map(k=>`<option value="${k}"${t===k?' selected':''}>${TN[k]}</option>`).join('');
- el.innerHTML=CATS.length?'<thead><tr><th>Nome</th><th>Tipo</th><th></th></tr></thead><tbody>'+CATS.map((c,i)=>`<tr><td style="text-align:left"><input data-rn="${esc(c.n)}" value="${esc(c.n)}" style="width:100%;min-width:120px"></td><td><select data-rt="${esc(c.n)}">${ty(c.t)}</select></td><td style="white-space:nowrap"><button class="btn sm" data-mv="-1" data-c="${esc(c.n)}"${i?'':' disabled'}>▲</button> <button class="btn sm" data-mv="1" data-c="${esc(c.n)}"${i<CATS.length-1?'':' disabled'}>▼</button> <button class="btn sm" data-cd="${esc(c.n)}">×</button></td></tr>`).join('')+'</tbody>':'<tbody><tr><td class="mu" style="text-align:left">Nenhuma categoria ainda.</td></tr></tbody>'}
+ el.innerHTML=CATS.length?'<thead><tr><th>Nome</th><th>Tipo</th><th></th></tr></thead><tbody>'+CATS.map((c,i)=>`<tr><td style="text-align:left" data-ic="${cIc(c.n)}"><input data-rn="${esc(c.n)}" value="${esc(c.n)}" style="width:100%;min-width:120px"></td><td><select data-rt="${esc(c.n)}">${ty(c.t)}</select></td><td style="white-space:nowrap"><button class="btn sm" data-mv="-1" data-c="${esc(c.n)}"${i?'':' disabled'}>▲</button> <button class="btn sm" data-mv="1" data-c="${esc(c.n)}"${i<CATS.length-1?'':' disabled'}>▼</button> <button class="btn sm" data-cd="${esc(c.n)}">×</button></td></tr>`).join('')+'</tbody>':'<tbody><tr><td class="mu" style="text-align:left">Nenhuma categoria ainda.</td></tr></tbody>'}
 $id('catBtnAdd').onclick=()=>{const m=catAdd($id('catN').value,$id('catT').value);$id('catMsg').textContent=m;if(!m)$id('catN').value=''};
 const addStarter=()=>{STARTER.forEach(([n,t])=>{if(!CATS.some(c=>c.n===n))CATS.push({n,t})});catsChanged()};
 $id('catTpl').onclick=addStarter;$id('wTpl').onclick=addStarter;
-$id('catImp').onclick=()=>openImport();$id('wImp').onclick=()=>openImport();$id('wCat').onclick=()=>tabs.querySelector('[data-t=metas]').click();
+$id('catImp').onclick=()=>openImport();$id('wImp').onclick=()=>openImport();$id('wCat').onclick=()=>{setTab('conf');navSync();scrollTo(0,0);setTimeout(()=>{$id('confCats').scrollIntoView();$id('catN').focus()},60)};
 $id('catTb').onchange=e=>{const o=e.target.dataset.rn,t=e.target.dataset.rt;if(o!==undefined){const m=catRename(o,e.target.value);if(m){$id('catMsg').textContent=m;e.target.value=o}}else if(t!==undefined)catRetype(t,e.target.value)};
 $id('catTb').onclick=e=>{const b=e.target.closest('button');if(!b)return;if(b.dataset.mv)catMove(b.dataset.c,+b.dataset.mv);else if(b.dataset.cd)catDelete(b.dataset.cd)};
 
@@ -494,7 +579,7 @@ function impGo(){const r=IMPST.res,out=$id('impOut'),sel=[];
  if(m==='replace'&&!confirm('Isto vai APAGAR os '+L.length+' lançamentos atuais e trocar pelos da planilha. Continuar?'))return;
  const res=impApply(sel,m);out.innerHTML='<div class="okm">Importados '+res.n+' lançamentos'+(res.skip?' ('+res.skip+' já existiam e foram pulados)':'')+'.</div>'}
 
-const DV={on:false,groups:[],ex:{},gid:null,me:null,uid:null,name:'',api:null,subs:{},named:new Set()};
+const DV={on:false,groups:[],ex:{},gid:null,me:null,uid:null,name:'',api:null,subs:{},named:new Set()};let NTF=null;
 const DVCOL=['#1f6f58','#d4742c','#3b6fb6','#c2477a','#8a6bbf','#4aa3a0'],DVIC=['🍖','🏠','✈️','🏖️','🎉','🚗','💼','🎓','❤️','🛒','⚽','🎮','🍻','🎁'];
 const DVCATS=[['food','🍽️','Alimentação',/almoc|jantar|restaur|lanche|pizz|hamburg|comida|cafe|padaria|ifood|sushi|churrasc|marmita|sorvete|doce|burger|bolo/],
  ['market','🛒','Mercado',/mercado|supermerc|feira|hortifruti|acougue|atacad|carrefour|assai|compras do mes/],
@@ -510,6 +595,9 @@ const DVCATS=[['food','🍽️','Alimentação',/almoc|jantar|restaur|lanche|piz
 const dvNorm=s=>String(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
 function dvCatOf(desc){const s=dvNorm(desc);for(const c of DVCATS)if(c[3]&&c[3].test(s))return c[0];return 'other'}
 const dvCI=id=>DVCATS.find(c=>c[0]===id)||DVCATS[DVCATS.length-1];
+const CICM=[[/salario|receita|renda|pro labore|13o|bonus|freela/,'💰'],[/fatura|cartao|nubank|c6|credito/,'💳'],[/mercado|feira|supermerc|hortifruti|acougue/,'🛒'],[/aluguel|moradia|condomin|\bluz\b|energia|\bagua\b|internet|blink|\bgas\b|iptu/,'🏠'],[/vivo|celular|telefone|claro|\btim\b/,'📱'],[/estacion|uber|combust|gasolina|transporte|carro|onibus|metro|pedagio/,'🚗'],[/puc|pos grad|curso|escola|faculdade|estudo|livro/,'🎓'],[/saude|plano de|farmac|medic|dentista|academia/,'💊'],[/caixinha|poupanc|invest|reserva|carteira|saldo|cdb|tesouro/,'🏦'],[/netflix|spotify|assinatura|disney|prime|hbo|youtube/,'📺'],[/restaur|ifood|comida|lanche|padaria|almoc|jantar|cafe/,'🍽️'],[/lazer|viagem|cinema|show|festa|passeio/,'🎉'],[/\bpet\b|veterin|racao/,'🐾'],[/roupa|loja|shopping|compra|presente/,'🛍️'],[/imposto|taxa|irpf|seguro/,'📄']];
+function cIc(n){const s=dvNorm(n);for(const c of CICM)if(c[0].test(s))return c[1];return dvCI(dvCatOf(n))[1]}
+const KIC={'Salário':'💰','Despesas':'💳','Sobrou':'🌱','Carteira':'👛'};
 const dvGi=(g,bg)=>g.img?`<span class="gic" style="background:url(${g.img}) center/cover"></span>`:`<span class="gic" style="background:${bg}">${g.icon||'👥'}</span>`;
 function dvResize(file){return new Promise((ok,no)=>{const url=URL.createObjectURL(file),im=new Image();im.onload=()=>{try{const S=160,c=document.createElement('canvas');c.width=c.height=S;const m=Math.min(im.width,im.height);c.getContext('2d').drawImage(im,(im.width-m)/2,(im.height-m)/2,m,m,0,0,S,S);URL.revokeObjectURL(url);ok(c.toDataURL('image/jpeg',0.72))}catch(e){no(e)}};im.onerror=()=>{URL.revokeObjectURL(url);no(new Error('imagem inválida'))};im.src=url})}
 function crc16(s){let c=0xFFFF;for(let i=0;i<s.length;i++){c^=s.charCodeAt(i)<<8;for(let j=0;j<8;j++)c=(c&0x8000)?((c<<1)^0x1021)&0xFFFF:(c<<1)&0xFFFF}return c.toString(16).toUpperCase().padStart(4,'0')}
@@ -532,10 +620,10 @@ function dvSimplify(b){const d=[],c=[];Object.entries(b).forEach(([e,v])=>{if(v<
  const out=[];let i=0,j=0;while(i<d.length&&j<c.length){const a=Math.min(d[i].a,c[j].a);if(a>0)out.push({f:d[i].e,t:c[j].e,a});d[i].a-=a;c[j].a-=a;if(d[i].a===0)i++;if(c[j].a===0)j++}return out}
 function dvAv(g,e,big){const n=dvName(g,e),ini=n.split(/\s+/).filter(Boolean).slice(0,2).map(w=>w[0]).join('').toUpperCase()||'?';let h=0;for(const ch of e)h=(h*31+ch.charCodeAt(0))>>>0;return `<span class="av${big?' lg':''}" style="background:${DVCOL[h%DVCOL.length]}">${esc(ini)}</span>`}
 const dvSum=g=>(dvBal(g,DV.ex[g.id]||[])[DV.me])||0;
-function dvReset(){Object.values(DV.subs).forEach(f=>f());DV.subs={};DV.ex={};DV.gid=null;DV.groups=[];DV.on=false;DV.named=new Set()}
+function dvReset(){Object.values(DV.subs).forEach(f=>f());DV.subs={};DV.ex={};DV.gid=null;DV.groups=[];DV.on=false;DV.named=new Set();NTF=null;try{ntfUI()}catch(e){}}
 function dvGroups(list){DV.groups=list.slice().sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));const ids=new Set(DV.groups.map(g=>g.id));
  Object.keys(DV.subs).forEach(id=>{if(!ids.has(id)){DV.subs[id]();delete DV.subs[id];delete DV.ex[id]}});
- DV.groups.forEach(g=>{if(!DV.subs[g.id])DV.subs[g.id]=DV.api.expStart(g.id,l=>{DV.ex[g.id]=l;divRender()});
+ DV.groups.forEach(g=>{if(!DV.subs[g.id])DV.subs[g.id]=DV.api.expStart(g.id,l=>{DV.ex[g.id]=l;try{ntfScan(DV.groups.find(y=>y.id===g.id)||g,l)}catch(e){}divRender()});
   const m=(g.members||[]).find(x=>x.e===DV.me);if(DV.name&&(!m||!m.n)&&!DV.named.has(g.id)){DV.named.add(g.id);DV.api.groupSave(g.id,{members:(g.members||[]).filter(x=>x.e!==DV.me).concat([{...(m||{e:DV.me}),n:DV.name}])})}});
  if(DV.gid&&!ids.has(DV.gid))dvBack();else divRender()}
 function dvOpen(gid){DV.gid=gid;divRender();scrollTo(0,0)}
@@ -544,10 +632,10 @@ function divRender(){const root=$id('divRoot');if(!root||$id('t-div').classList.
  if(!DV.on){root.innerHTML='<div class="card"><div class="ct">Dividir contas</div><div class="cs" style="margin-top:6px">Disponível na versão com login (a publicada no GitHub).</div></div>';return}
  DV.gid?dvGroup(root):dvList(root)}
 function dvList(root){let owe=0,get=0;DV.groups.forEach(g=>{const v=dvSum(g);if(v<0)owe-=v;else get+=v});
- root.innerHTML=`<div class="card"><div class="hd"><div><div class="ct">Dividir contas</div><div class="cs">Grupos para dividir despesas com outras pessoas</div></div><button class="btn pri" id="dvNew">+ Novo grupo</button></div>`+
+ root.innerHTML=`<div class="card"><div class="hd"><div><div class="ct">Dividir contas</div><div class="cs">Grupos para dividir despesas com outras pessoas</div></div><div class="row" style="gap:6px;flex-wrap:nowrap;align-items:center"><button class="btn" id="ntfBtn" aria-label="Avisos">🔔</button><button class="btn pri" id="dvNew">+ Novo grupo</button></div></div>`+
  (DV.groups.length?`<div class="dvbal" style="margin-bottom:6px"><div class="kpi"><small>Você deve (total)</small><b style="color:#c2610f">${dvF(owe)}</b></div><div class="kpi"><small>Te devem (total)</small><b class="pos">${dvF(get)}</b></div></div>`+
   DV.groups.map(g=>{const v=dvSum(g),col=g.color||DVCOL[0];return `<div class="dvg" data-g="${g.id}" style="border-left:6px solid ${col}">${dvGi(g,col+'22')}<div style="flex:1;min-width:0"><b>${esc(g.name)}</b><div class="mu" style="margin-top:4px"><span class="avs">${g.memberEmails.slice(0,5).map(e=>dvAv(g,e)).join('')}</span> <small>${g.memberEmails.length} pessoas</small></div></div><div style="text-align:right">${v<0?`<small style="color:#c2610f">você deve<br><b>${dvF(-v)}</b></small>`:v>0?`<small class="pos">te devem<br><b>${dvF(v)}</b></small>`:'<small class="mu">em dia</small>'}</div></div>`}).join(''):'<div class="mu" style="padding:14px 0">Você ainda não tem grupos. Crie um e convide pessoas pelo e-mail do Google delas.</div>')+'</div>';
- $id('dvNew').onclick=dvNewGroup;root.querySelectorAll('.dvg').forEach(el=>{el.onclick=()=>dvOpen(el.dataset.g)})}
+ $id('dvNew').onclick=dvNewGroup;$id('ntfBtn').onclick=ntfOpen;ntfUI();root.querySelectorAll('.dvg').forEach(el=>{el.onclick=()=>dvOpen(el.dataset.g)})}
 function dvRow(g,x){const me=DV.me,paid=(x.p||[]).reduce((s,p)=>s+(p.e===me?p.a:0),0),owe=(x.s||[]).reduce((s,q)=>s+(q.e===me?q.a:0),0),net=paid-owe;
  if(x.k==='p')return `<div class="dvr" data-x="${x.id}"><span class="gic sm" style="background:var(--ac2)">💸</span><span style="flex:1">Pagamento<br><small class="mu">${esc(dvName(g,x.p[0].e))} → ${esc(dvName(g,x.s[0].e))}</small></span><b>${dvF(x.a)}</b></div>`;
  const ci=dvCI(x.cat),who=(x.p||[]).length>1?(x.p||[]).map(p=>dvName(g,p.e)).join(' + ')+' pagaram':dvName(g,x.p[0].e)+' pagou';
@@ -680,7 +768,7 @@ function dvPayForm(d,x){const g=dvCur(),em=g.memberEmails,opt=(e,sel)=>`<option 
   if(go&&nb){cur.style.transform='translateX('+(dir*W)+'px)';nb.style.transform='translateX(0)'}else{go=false;cur.style.transform='translateX(0)';if(nb)nb.style.transform='translateX('+(-dir*W)+'px)'}
   setTimeout(()=>finish(go),240)}
  document.addEventListener('touchstart',e=>{if(busy){mode=0;return}const t=e.touches[0];sx=t.clientX;sy=t.clientY;dx=0;
-  mode=(e.touches.length===1&&sx>28&&sx<innerWidth-28&&!(e.target.closest&&e.target.closest('.scroll,.dr,input,select,textarea,.gr,canvas,.modal,.loginov')))?1:0},{passive:true});
+  mode=(e.touches.length===1&&curK()&&sx>28&&sx<innerWidth-28&&!(e.target.closest&&e.target.closest('.scroll,.dr,input,select,textarea,.gr,canvas,.modal,.loginov')))?1:0},{passive:true});
  document.addEventListener('touchmove',e=>{if(mode===0||mode===3)return;if(e.touches.length>1){if(mode===2)end(false);mode=3;return}
   const t=e.touches[0],mx=t.clientX-sx,my=t.clientY-sy;
   if(mode===1){if(Math.abs(mx)<8&&Math.abs(my)<8)return;if(Math.abs(mx)>Math.abs(my)*1.5)begin();else{mode=3;return}}
@@ -727,6 +815,60 @@ applyOrd();
 metaTb.onchange=e=>{const k=e.target.dataset.k,m=e.target.dataset.m;if(k!==undefined)(CFG[k]=CFG[k]||{}).k=e.target.value;else if(m!==undefined){const v=parseFloat(e.target.value);(CFG[m]=CFG[m]||{}).m=isNaN(v)?undefined:v}saveCfg();refresh()};
 initSelects();chips();refresh();
 
+// ---- avisos: contas do Dividir atribuídas a você
+const NTK=()=>'contab_ntf_v1_'+(DV.uid||'x');
+const NTON='contab_ntf_on_v1',ntfEnabled=()=>{try{return localStorage.getItem(NTON)!=='0'}catch(e){return true}};
+function ntfLoad(){if(NTF&&NTF.u===DV.uid)return NTF;let o=null;try{o=JSON.parse(localStorage.getItem(NTK())||'null')}catch(e){}
+ NTF={seen:(o&&o.seen)||{},list:(o&&o.list)||[],fresh:{},u:DV.uid};return NTF}
+function ntfSave(){if(!NTF)return;try{localStorage.setItem(NTK(),JSON.stringify({seen:NTF.seen,list:NTF.list}))}catch(e){}}
+const ntfUnread=()=>NTF?NTF.list.filter(n=>!n.r).length:0;
+function ntfUI(){const n=ntfUnread(),b=tabs.querySelector('[data-t=div]');if(b){if(n)b.dataset.n=n>9?'9+':String(n);else delete b.dataset.n}
+ const nb=$id('ntfBtn');if(nb)nb.innerHTML='🔔'+(n?' <b>'+n+'</b>':'')}
+function ntfAgo(t){const s=(Date.now()-t)/1000;if(s<60)return 'agora';if(s<3600)return Math.floor(s/60)+' min';if(s<86400)return Math.floor(s/3600)+' h';if(s<172800)return 'ontem';const d=new Date(t);return p2(d.getDate())+'/'+p2(d.getMonth()+1)}
+// Detecta contas NOVAS, criadas por outra pessoa, em que você tem uma parte a pagar.
+// Na primeira vez que um grupo é visto neste aparelho, o que já existe vira "visto" sem avisar.
+function ntfScan(g,l){if(!DV.on||!DV.me)return;const N=ntfLoad(),id=g.id;
+ if(!N.seen[id]){N.seen[id]=[];N.fresh[id]=Date.now()}
+ const quiet=!ntfEnabled()||(N.fresh[id]&&Date.now()-N.fresh[id]<4000),known=new Set(N.seen[id]),add=[];let ch=false;
+ l.forEach(x=>{if(known.has(x.id))return;known.add(x.id);N.seen[id].push(x.id);ch=true;
+  if(quiet||x.k==='p'||x.by===DV.me)return;
+  const mine=(x.s||[]).reduce((s,q)=>s+(q.e===DV.me?q.a:0),0);if(mine<=0)return;
+  const here=TAB==='div'&&DV.gid===id&&!document.hidden;
+  add.push({i:x.id,g:id,gn:g.name,n:dvName(g,x.by),d:x.d||'Despesa',a:mine,c:x.cat,t:x.t||Date.now(),r:here?1:0})});
+ if(N.seen[id].length>600)N.seen[id]=N.seen[id].slice(-400);
+ if(add.length){add.sort((a,b)=>b.t-a.t);N.list=add.concat(N.list).slice(0,60)}
+ if(ch)ntfSave();if(add.length){ntfUI();ntfAnnounce(add)}}
+function ntfToastShow(html,fn){let el=$id('ntfToast');if(!el){el=document.createElement('div');el.id='ntfToast';el.className='tipbox hide';el.style.cssText='top:calc(env(safe-area-inset-top,0px) + 10px);left:50%;transform:translateX(-50%);pointer-events:auto;cursor:pointer;text-align:left;white-space:normal;width:max-content';document.body.appendChild(el)}
+ el.innerHTML=html;el.onclick=()=>{el.classList.add('hide');fn()};el.classList.remove('hide');clearTimeout(el._t);el._t=setTimeout(()=>el.classList.add('hide'),7000)}
+function ntfAnnounce(add){const one=add.length===1?add[0]:null;
+ ntfToastShow(one?`<b>🔔 ${esc(one.n)}</b> adicionou <b>${esc(one.d)}</b> em ${esc(one.gn)}<br>Sua parte: <b>${dvF(one.a)}</b>`:`<b>🔔 ${add.length} novas contas</b> atribuídas a você<br><small>Toque para ver</small>`,()=>one?ntfGo(one.g):ntfOpen());
+ try{if(document.hidden&&'Notification' in window&&Notification.permission==='granted')add.slice(0,3).forEach(n=>new Notification(n.n+' adicionou uma conta',{body:n.d+' · '+n.gn+' · sua parte '+dvF(n.a),tag:'ntf-'+n.i}))}catch(e){}}
+function ntfGo(gid){if(!$id('sheet').classList.contains('hide'))closeSheet();if(TAB!=='div')tabs.querySelector('[data-t=div]').click();if(DV.groups.some(y=>y.id===gid))dvOpen(gid);
+ if(NTF){NTF.list.forEach(n=>{if(n.g===gid)n.r=1});ntfSave();ntfUI()}}
+function ntfOpen(){const N=ntfLoad(),list=N.list.slice(),un=list.map(n=>!n.r),perm='Notification' in window?Notification.permission:'na';
+ N.list.forEach(n=>{n.r=1});ntfSave();ntfUI();
+ const rows=list.length?list.map((n,i)=>`<div class="dvr" data-n="${i}" style="${un[i]?'border-left:3px solid var(--ac);padding-left:8px;background:var(--ac2)':''}"><span class="gic sm" style="background:var(--ac2)">${dvCI(n.c)[1]}</span><span style="flex:1;min-width:0"><b>${esc(n.n)}</b> adicionou <b>${esc(n.d)}</b><br><small class="mu">${esc(n.gn)} · ${ntfAgo(n.t)}</small></span><span style="text-align:right"><small style="color:#c2610f">sua parte<br><b>${dvF(n.a)}</b></small></span></div>`).join(''):'<div class="mu" style="padding:14px 0">Nenhum aviso por enquanto. Quando alguém adicionar uma conta no Dividir com uma parte para você, ela aparece aqui.</div>';
+ const b=openSheet('Avisos',rows+`<div class="row" style="margin-top:12px;gap:8px;flex-wrap:wrap">${list.length?'<button class="btn sm" id="ntfClr">Limpar avisos</button>':''}${perm==='default'?'<button class="btn sm" id="ntfPerm">Ativar avisos do sistema</button>':''}</div><p class="mu" style="font-size:12px;margin-top:10px">Você é avisado quando alguém adiciona uma conta no Dividir com uma parte para você. Os avisos chegam enquanto o app estiver aberto, mesmo em segundo plano. Com o app fechado, eles aparecem aqui assim que você abrir.</p>`);
+ b.querySelectorAll('.dvr[data-n]').forEach(el=>{el.onclick=()=>ntfGo(list[+el.dataset.n].g)});
+ const c=b.querySelector('#ntfClr');if(c)c.onclick=()=>{N.list=[];ntfSave();ntfUI();closeSheet()};
+ const p=b.querySelector('#ntfPerm');if(p)p.onclick=()=>{try{Notification.requestPermission().then(()=>ntfOpen())}catch(e){}}}
+
+// ---- Configurações: engrenagem, tema, avisos, versão
+const THK='contab_theme_v1';let THM='auto';try{THM=localStorage.getItem(THK)||'auto'}catch(e){}
+function themeApply(m,save){THM=m;const r=document.documentElement;if(m==='light'||m==='dark')r.setAttribute('data-theme',m);else r.removeAttribute('data-theme');
+ document.querySelectorAll('#thSeg button').forEach(b=>b.classList.toggle('on',b.dataset.m===m));
+ if(save){try{localStorage.setItem(THK,m)}catch(e){}try{refresh()}catch(e){}}}
+function confNtfUI(){const on=$id('ntfOn');if(on)on.checked=ntfEnabled();const s=$id('ntfSys');if(!s)return;const p='Notification' in window?Notification.permission:'na';
+ s.innerHTML=p==='na'?'<span class="mu">Este navegador não oferece avisos do sistema.</span>':p==='granted'?'<span class="pos">✓ Avisos do sistema ativados</span>':p==='denied'?'<span class="mu">Avisos do sistema bloqueados. Libere nas configurações do navegador.</span>':'<button class="btn sm" id="ntfPerm2">Ativar avisos do sistema</button>';
+ const b=$id('ntfPerm2');if(b)b.onclick=()=>{try{Notification.requestPermission().then(confNtfUI)}catch(e){}}}
+$id('thSeg').onclick=e=>{const m=e.target.dataset&&e.target.dataset.m;if(m)themeApply(m,true)};themeApply(THM,false);
+$id('gearBtn').onclick=()=>{if(TAB==='conf')return;setTab('conf');navSync();scrollTo(0,0)};
+$id('cfBack').onclick=()=>history.back();
+$id('ntfOn').onchange=e=>{try{localStorage.setItem(NTON,e.target.checked?'1':'0')}catch(err){}};
+$id('ntfList').onclick=()=>ntfOpen();
+$id('appUpd').onclick=()=>{const go=()=>setTimeout(()=>location.reload(),300);try{navigator.serviceWorker&&navigator.serviceWorker.getRegistration().then(r=>r?r.update():0).then(go,go)}catch(e){go()}};
+confNtfUI();
+
 // ---- botão "voltar" do celular/navegador: volta à tela anterior em vez de sair do app
 let H=null,navApplying=false;
 const navSnap=()=>({nv:1,tab:TAB,s:!$id('sheet').classList.contains('hide'),m:!modal.classList.contains('hide'),g:(typeof DV!=='undefined'&&DV.gid)||null});
@@ -734,7 +876,7 @@ function navSync(){if(navApplying||!H)return;const c=navSnap();let op=0,cl=0;
  ['s','m'].forEach(k=>{if(c[k]&&!H[k])op++;if(!c[k]&&H[k])cl++});
  if(c.g&&c.g!==H.g)op++;if(!c.g&&H.g)cl++;
  try{
-  if(op&&cl){history.replaceState(c,'');H=c}
+  if((op||c.tab!==H.tab)&&cl){history.replaceState(c,'');H=c}
   else if(op||c.tab!==H.tab){history.pushState(c,'');H=c}
   else if(cl){H=c;history.back()}
  }catch(e){}}
@@ -758,7 +900,7 @@ if('serviceWorker' in navigator&&/^https?:/.test(location.protocol))navigator.se
 let cloudUser=null,authSeen=false,lastSig='',lastCfg='',cs={pending:false},gotL=false,gotC=false,cfgDoc=null,resolved=false,migrate=false;
 const $=id=>document.getElementById(id);
 function cloudErr(e){const k=e&&e.code||'',b=$('cloudErr');b.textContent=k==='permission-denied'?'Acesso negado pelas regras do banco. Confira se as regras mais recentes foram publicadas no Firebase e se você entrou com a conta certa.':'Erro de sincronização: '+(k||(e&&e.message)||e);b.classList.remove('hide');$('login').classList.add('hide')}
-function cloudStatus(){const off=!navigator.onLine;$('syncSt').textContent=(cloudUser?cloudUser.email+' · ':'')+(off?'Sem conexão: as alterações ficam salvas no aparelho e sobem quando a internet voltar':cs.pending?'Enviando alterações…':'Sincronizado');$('syncDot').style.background=(off||cs.pending)?'#c2610f':'#1f6f58'}
+function cloudStatus(){const off=!navigator.onLine;$('syncSt').textContent=(cloudUser?cloudUser.email+' · ':'')+(off?'Sem conexão: as alterações ficam salvas no aparelho e sobem quando a internet voltar':cs.pending?'Enviando alterações…':'Sincronizado');document.querySelectorAll('.dot').forEach(d=>d.style.background=(off||cs.pending)?'#c2610f':'#1f6f58')}
 addEventListener('online',cloudStatus);addEventListener('offline',cloudStatus);
 function cloudResolve(){if(!gotL||!gotC)return;applyingCfg=true;
  try{if(cfgDoc&&Array.isArray(cfgDoc.catsAll))CATS=cfgDoc.catsAll.map(c=>({n:String(c.n),t:c.t}));
