@@ -157,6 +157,7 @@ td[data-ic]>input{vertical-align:middle}
 input.sw{-webkit-appearance:none;appearance:none;flex:none;width:46px;min-width:46px;height:28px;min-height:28px;padding:0;border:0;border-radius:14px;background:var(--bd);position:relative;cursor:pointer;transition:background .15s}
 input.sw::after{content:'';position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:transform .15s}input.sw:checked{background:var(--ac)}input.sw:checked::after{transform:translateX(18px)}
 #t-conf .seg{margin-bottom:2px}#t-conf .seg button{flex:1}
+main section{touch-action:pan-y pinch-zoom}
 .hide{display:none}.mu{color:var(--mu)}
 </style>
 </head>
@@ -191,6 +192,7 @@ input.sw::after{content:'';position:absolute;top:3px;left:3px;width:22px;height:
 <div class="card"><div class="ct">Avisos do Dividir</div>
  <div class="cfr" style="border-top:0"><div><b>Novas contas para mim</b><div class="cs">Avisar quando alguém adicionar uma conta com uma parte minha</div></div><input type="checkbox" class="sw" id="ntfOn" aria-label="Avisar sobre novas contas"></div>
  <div class="cfr"><div id="ntfSys"></div><button class="btn sm" id="ntfList">Ver avisos</button></div>
+ <div class="cfr" id="pushRow" style="display:none"><div><b>Com o app fechado</b><div class="cs" id="pushSt">…</div></div><button class="btn sm" id="pushBtn">Ativar</button></div>
 </div>
 <div class="card" id="confCats"><div class="ct">Categorias</div><div class="cs" style="margin:6px 0 10px">Crie, renomeie, reordene e defina o tipo de cada categoria (Receita, Despesa ou Saldo). Renomear atualiza os lançamentos; excluir apaga os lançamentos da categoria.</div>
 <div class="row"><label>Nome<input id="catN" placeholder="Ex.: Mercado"></label><label>Tipo<select id="catT"><option value="d">Despesa</option><option value="r">Receita</option><option value="s">Saldo</option></select></label><button class="btn pri" id="catBtnAdd">Adicionar</button></div>
@@ -198,7 +200,7 @@ input.sw::after{content:'';position:absolute;top:3px;left:3px;width:22px;height:
 <div class="card"><div class="ct">Dados e backup</div><div class="row" style="margin-top:8px"><button class="btn sm" id="reset">Apagar dados locais</button></div>
   <div class="row" style="margin-top:10px;align-items:center"><span class="mu">Backup:</span><button class="btn sm" id="bkExp">Exportar backup (JSON)</button><label class="btn sm" style="flex-direction:row;font-size:12px;color:var(--tx);cursor:pointer;min-width:0">Importar backup (substitui os dados atuais)<input type="file" id="bkImp" hidden></label></div><div id="bkMsg" class="mu" style="margin-top:6px;min-height:18px"></div><details style="margin-top:6px"><summary class="mu" style="cursor:pointer">Importar colando o texto do backup</summary><textarea id="bkTxt" rows="4" style="width:100%;margin-top:6px;font-size:12px" placeholder="Cole aqui o conteúdo do arquivo de backup (.json)"></textarea><button class="btn sm" id="bkPaste" type="button" style="margin-top:6px">Importar texto colado</button></details></div>
 <div class="card"><div class="ct">Sobre</div>
- <div class="cfr" style="border-top:0"><span>Versão do app</span><b id="appVer">2026-10-14.1</b></div>
+ <div class="cfr" style="border-top:0"><span>Versão do app</span><b id="appVer">2026-10-14.3</b></div>
  <div class="cfr"><span>Atualização</span><button class="btn sm" id="appUpd">Buscar atualização</button></div>
 </div>
 </section>
@@ -432,7 +434,7 @@ const TTL={resumo:'Painel',lanc:'Lançamentos',graf:'Análise',metas:'Metas',div
 function setTab(t){TAB=t;$id('perBar').classList.toggle('hide',t==='div'||t==='conf');[...tabs.children].forEach(b=>b.classList.toggle('on',b.dataset.t===t));
  ['resumo','lanc','graf','metas','div','conf'].forEach(k=>document.getElementById('t-'+k).classList.toggle('hide',k!==t));
  document.body.classList.toggle('inconf',t==='conf');$id('tbTitle').textContent=TTL[t]||'';$id('cfBack').classList.toggle('hide',t!=='conf');$id('gearBtn').classList.toggle('hide',t==='conf');
- if(t==='graf')graf();if(t==='div')divRender();if(t==='conf')confNtfUI()}
+ if(t==='graf')graf();if(t==='div')divRender();if(t==='conf'){confNtfUI();try{confPushUI()}catch(e){}}}
 tabs.onclick=e=>{const t=e.target.dataset.t;if(!t)return;setTab(t);navSync()};
 lCat.onchange=lista;
 ignChip.onclick=()=>{IGN=!IGN;try{localStorage.setItem('contab_ign_v1',IGN?'1':'0')}catch(e){}ignUI();if(PRE)applyPre(PRE);else{perUI();refresh()}};
@@ -623,6 +625,7 @@ const dvSum=g=>(dvBal(g,DV.ex[g.id]||[])[DV.me])||0;
 function dvReset(){Object.values(DV.subs).forEach(f=>f());DV.subs={};DV.ex={};DV.gid=null;DV.groups=[];DV.on=false;DV.named=new Set();NTF=null;try{ntfUI()}catch(e){}}
 function dvGroups(list){DV.groups=list.slice().sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));const ids=new Set(DV.groups.map(g=>g.id));
  Object.keys(DV.subs).forEach(id=>{if(!ids.has(id)){DV.subs[id]();delete DV.subs[id];delete DV.ex[id]}});
+ try{ntfPending()}catch(e){}
  DV.groups.forEach(g=>{if(!DV.subs[g.id])DV.subs[g.id]=DV.api.expStart(g.id,l=>{DV.ex[g.id]=l;try{ntfScan(DV.groups.find(y=>y.id===g.id)||g,l)}catch(e){}divRender()});
   const m=(g.members||[]).find(x=>x.e===DV.me);if(DV.name&&(!m||!m.n)&&!DV.named.has(g.id)){DV.named.add(g.id);DV.api.groupSave(g.id,{members:(g.members||[]).filter(x=>x.e!==DV.me).concat([{...(m||{e:DV.me}),n:DV.name}])})}});
  if(DV.gid&&!ids.has(DV.gid))dvBack();else divRender()}
@@ -753,29 +756,43 @@ function dvPayForm(d,x){const g=dvCur(),em=g.memberEmails,opt=(e,sel)=>`<option 
   const A=dvC(a.v);DV.api.expSave(g.id,x?x.id:null,{k:'p',d:'Pagamento',a:A,dt,p:[{e:f,a:A}],s:[{e:t,a:A}],mo:'payment',by:x?x.by:DV.me,t:x?x.t:Date.now(),ed:Date.now()});closeSheet()};
  if(x)$id('pDel').onclick=()=>{if(confirm('Excluir este pagamento?')){DV.api.expDel(g.id,x.id);closeSheet()}}}
 
-(function(){const order=['resumo','lanc','graf','metas','div'],TH=.5,VF=.4,MD=.15,main=document.querySelector('main'),sec=k=>document.getElementById('t-'+k);
- let sm=[],sx=0,sy=0,mode=0,dx=0,cur=null,nb=null,nbk=null,dir=0,W=0,busy=false,ck=null;
+(function(){const order=['resumo','lanc','graf','metas','div'],main=document.querySelector('main'),sec=k=>document.getElementById('t-'+k);
+ const TH=.5,PJ=.42,PT=320,MD=.12,EDGE=24,LOCK=6;
+ let sm=[],sx=0,sy=0,ox=0,mode=0,dx=0,x=0,cur=null,nb=null,nbk=null,dir=0,W=0,ck=null,raf=0,timer=0,pend=null;
  const curK=()=>order.find(k=>!sec(k).classList.contains('hide'));
- function clr(s){['transform','transition','position','top','left','width','pointerEvents','willChange'].forEach(p=>s.style[p]='')}
+ const overlay=()=>!$id('sheet').classList.contains('hide')||!modal.classList.contains('hide');
+ function clr(s){['transform','transition','position','top','left','width','pointerEvents','willChange','opacity'].forEach(p=>s.style[p]='')}
+ // só não começa o gesto onde ele atrapalharia: controles deslizantes, alças de arrastar, campos de texto, janelas e tabelas que rolam para o lado
+ function hscroll(el){for(;el&&el!==main&&el.nodeType===1;el=el.parentElement){if(el.scrollWidth>el.clientWidth+2){const o=getComputedStyle(el).overflowX;if(o==='auto'||o==='scroll')return true}}return false}
+ function canStart(e){const t=e.target;if(!t||!t.closest)return false;
+  if(t.closest('.dr,.gr,textarea,input:not([type=checkbox]):not([type=button]):not([type=radio]),.modal,.loginov,#sheet'))return false;return !hscroll(t)}
  function setNb(d){if(d===dir)return;if(nb){nb.classList.add('hide');clr(nb);nb=null;nbk=null}dir=d;const i=order.indexOf(ck)+(d<0?1:-1);if(i<0||i>=order.length)return;
   nbk=order[i];nb=sec(nbk);nb.classList.remove('hide');nb.style.position='absolute';nb.style.top=cur.offsetTop+'px';nb.style.left='0';nb.style.width='100%';nb.style.willChange='transform';nb.style.pointerEvents='none';
-  if(nbk==='graf')graf();if(nbk==='div')divRender()}
- function begin(){mode=2;sm=[];ck=curK();cur=sec(ck);W=main.clientWidth||innerWidth;dir=0;main.style.position='relative';main.style.overflowX='clip';document.documentElement.style.overflowX='hidden';cur.style.willChange='transform'}
- function apply(){if(!dx)return;setNb(dx<0?-1:1);let x=nb?Math.max(-W,Math.min(W,dx)):dx*.3;cur.style.transition='none';cur.style.transform='translateX('+x+'px)';if(nb){nb.style.transition='none';nb.style.transform='translateX('+(x-dir*W)+'px)'}}
- function finish(go){const t=nbk;clr(cur);if(nb){if(!go)nb.classList.add('hide');clr(nb)}main.style.position='';main.style.overflowX='';document.documentElement.style.overflowX='';cur=nb=nbk=null;dir=0;busy=false;
+  const k=nbk;if(k==='graf'||k==='div')requestAnimationFrame(()=>{if(nbk===k){if(k==='graf')graf();else divRender()}})}
+ function begin(mx){mode=2;sm=[];ox=Math.sign(mx)*LOCK;ck=curK();cur=sec(ck);W=main.clientWidth||innerWidth;dir=0;x=0;main.style.position='relative';main.style.overflowX='clip';document.documentElement.style.overflowX='hidden';cur.style.willChange='transform'}
+ const rub=d=>Math.sign(d)*Math.min(Math.abs(d)*.35,W*.18);
+ function apply(){if(mode!==2||!cur||!dx)return;setNb(dx<0?-1:1);x=nb?Math.max(-W,Math.min(W,dx)):rub(dx);
+  cur.style.transition='none';cur.style.transform='translate3d('+x+'px,0,0)';cur.style.opacity=String(1-.3*Math.min(1,Math.abs(x)/W));
+  if(nb){nb.style.transition='none';nb.style.transform='translate3d('+(x-dir*W)+'px,0,0)'}}
+ function finish(go){const t=nbk;clr(cur);if(nb){if(!go)nb.classList.add('hide');clr(nb)}main.style.position='';main.style.overflowX='';document.documentElement.style.overflowX='';cur=nb=nbk=null;dir=0;pend=null;timer=0;
   if(go){tabs.querySelector('[data-t="'+t+'"]').click();scrollTo(0,0)}}
- function end(go){if(mode!==2){mode=0;return}mode=0;busy=true;const tr='transform .22s ease-out';cur.style.transition=tr;if(nb)nb.style.transition=tr;
-  if(go&&nb){cur.style.transform='translateX('+(dir*W)+'px)';nb.style.transform='translateX(0)'}else{go=false;cur.style.transform='translateX(0)';if(nb)nb.style.transform='translateX('+(-dir*W)+'px)'}
-  setTimeout(()=>finish(go),240)}
- document.addEventListener('touchstart',e=>{if(busy){mode=0;return}const t=e.touches[0];sx=t.clientX;sy=t.clientY;dx=0;
-  mode=(e.touches.length===1&&curK()&&sx>28&&sx<innerWidth-28&&!(e.target.closest&&e.target.closest('.scroll,.dr,input,select,textarea,.gr,canvas,.modal,.loginov')))?1:0},{passive:true});
- document.addEventListener('touchmove',e=>{if(mode===0||mode===3)return;if(e.touches.length>1){if(mode===2)end(false);mode=3;return}
+ function settleNow(){if(!pend)return;clearTimeout(timer);const f=pend;pend=null;f()}
+ // solta o dedo: a animação termina na velocidade do gesto (rápido = curta, devagar = mais suave)
+ function end(go,v){if(mode!==2){mode=0;return}mode=0;if(raf){cancelAnimationFrame(raf);raf=0}apply();
+  go=!!(go&&nb);const rem=go?W-Math.abs(x):Math.abs(x),dur=Math.round(Math.max(140,Math.min(380,rem/Math.max(Math.abs(v),.5))));
+  void cur.offsetWidth;const tr='transform '+dur+'ms cubic-bezier(.22,.8,.3,1),opacity '+dur+'ms linear';cur.style.transition=tr;if(nb)nb.style.transition=tr;
+  if(go){cur.style.transform='translate3d('+(dir*W)+'px,0,0)';cur.style.opacity='.7';nb.style.transform='translate3d(0,0,0)'}else{cur.style.transform='translate3d(0,0,0)';cur.style.opacity='1';if(nb)nb.style.transform='translate3d('+(-dir*W)+'px,0,0)'}
+  pend=()=>finish(go);timer=setTimeout(settleNow,dur+30)}
+ document.addEventListener('touchstart',e=>{settleNow();const t=e.touches[0];sx=t.clientX;sy=t.clientY;dx=0;
+  mode=(e.touches.length===1&&curK()&&!overlay()&&sx>EDGE&&sx<innerWidth-EDGE&&canStart(e))?1:0},{passive:true});
+ document.addEventListener('touchmove',e=>{if(mode===0||mode===3)return;if(e.touches.length>1){if(mode===2)end(false,0);mode=3;return}
   const t=e.touches[0],mx=t.clientX-sx,my=t.clientY-sy;
-  if(mode===1){if(Math.abs(mx)<8&&Math.abs(my)<8)return;if(Math.abs(mx)>Math.abs(my)*1.5)begin();else{mode=3;return}}
-  if(e.cancelable)e.preventDefault();dx=mx;sm.push({x:t.clientX,t:performance.now()});if(sm.length>8)sm.shift();apply()},{passive:false});
- document.addEventListener('touchend',()=>{if(mode!==2){mode=0;return}const n=performance.now(),r=sm.filter(s=>n-s.t<=120);let v=0;if(r.length>1&&n-r[r.length-1].t<=80){const a=r[0],b=r[r.length-1];v=(b.x-a.x)/Math.max(b.t-a.t,10)}
-  const flick=Math.abs(v)>=VF&&Math.abs(dx)>=MD*W&&(v<0)===(dx<0);end(!!nb&&(Math.abs(dx)>=TH*W||flick))},{passive:true});
- document.addEventListener('touchcancel',()=>{if(mode===2)end(false);else mode=0},{passive:true})})();
+  if(mode===1){if(Math.abs(mx)<LOCK&&Math.abs(my)<LOCK)return;if(Math.abs(mx)>Math.abs(my)*1.25)begin(mx);else{mode=3;return}}
+  if(e.cancelable)e.preventDefault();dx=mx-ox;sm.push({x:t.clientX,t:performance.now()});if(sm.length>8)sm.shift();if(!raf)raf=requestAnimationFrame(()=>{raf=0;apply()})},{passive:false});
+ document.addEventListener('touchend',()=>{if(mode!==2){mode=0;return}const n=performance.now(),r=sm.filter(s=>n-s.t<=100);let v=0;
+  if(r.length>1&&n-r[r.length-1].t<=80){const a=r[0],b=r[r.length-1];v=(b.x-a.x)/Math.max(b.t-a.t,10)}
+  const pj=dx+v*PT,go=Math.abs(dx)>=TH*W||(Math.abs(pj)>=PJ*W&&Math.abs(dx)>=MD*W&&(pj<0)===(dx<0));end(go,v)},{passive:true});
+ document.addEventListener('touchcancel',()=>{if(mode===2)end(false,0);else mode=0},{passive:true})})();
 matchMedia('(prefers-color-scheme:dark)').addEventListener('change',()=>refresh());
 fcMes.onchange=()=>fech(1);
 fcBox.onclick=e=>{const row=e.target.closest('.frow');if(!row)return;const inp=row.querySelector('input'),m=fcMes.value;
@@ -869,6 +886,24 @@ $id('ntfList').onclick=()=>ntfOpen();
 $id('appUpd').onclick=()=>{const go=()=>setTimeout(()=>location.reload(),300);try{navigator.serviceWorker&&navigator.serviceWorker.getRegistration().then(r=>r?r.update():0).then(go,go)}catch(e){go()}};
 confNtfUI();
 
+// ---- avisos com o app fechado (Firebase Cloud Messaging): só aparece se o build tiver a chave configurada
+async function confPushUI(){const row=$id('pushRow');if(!row)return;const P=window.CLOUDAPI&&CLOUDAPI.push;let ok=false;try{ok=!!(P&&await P.supported())}catch(e){}
+ if(!ok){row.style.display='none';return}row.style.display='';const st=$id('pushSt'),b=$id('pushBtn'),S=P.state();
+ const ios=/iPhone|iPad|iPod/.test(navigator.userAgent)&&!(navigator.standalone||matchMedia('(display-mode: standalone)').matches);
+ if(ios){st.textContent='No iPhone, primeiro instale o app na Tela de Início (Compartilhar > Adicionar à Tela de Início) e abra por lá.';b.style.display='none';return}
+ b.style.display='';
+ if(S.perm==='denied'){st.textContent='Bloqueado nas configurações do navegador. Libere as notificações deste site para ativar.';b.style.display='none'}
+ else if(S.on&&S.perm==='granted'){st.textContent='Ativado neste aparelho: você recebe aviso mesmo com o app fechado.';b.textContent='Desativar'}
+ else{st.textContent='Receba aviso de nova conta mesmo com o app fechado. Vale só para este aparelho.';b.textContent='Ativar'}}
+$id('pushBtn').onclick=async()=>{const P=window.CLOUDAPI&&CLOUDAPI.push;if(!P)return;const b=$id('pushBtn'),S=P.state();b.disabled=true;
+ try{if(S.on&&S.perm==='granted')await P.disable();else{const r=await P.enable(DV.me||'');if(!r.ok)$id('pushSt').textContent=r.reason==='denied'?'Permissão negada. Libere as notificações deste site nas configurações do navegador.':'Não foi possível ativar agora. Tente de novo em instantes.'}}
+ catch(e){$id('pushSt').textContent='Não foi possível ativar agora ('+String(e&&e.message||e).slice(0,80)+').'}
+ b.disabled=false;if(!/Permissão|Não foi/.test($id('pushSt').textContent))confPushUI();confNtfUI()};
+// toque na notificação: abre o grupo (app já aberto = mensagem do service worker; app fechado = #g=ID na URL)
+try{navigator.serviceWorker&&navigator.serviceWorker.addEventListener('message',e=>{const d=e.data;if(d&&d.ntfGid)ntfGo(d.ntfGid)})}catch(e){}
+window.__pendG=(location.hash.match(/#g=([\w-]+)/)||[])[1]||null;
+function ntfPending(){if(!window.__pendG||!DV.groups.length)return;const g=window.__pendG;if(DV.groups.some(y=>y.id===g)){window.__pendG=null;ntfGo(g)}}
+
 // ---- botão "voltar" do celular/navegador: volta à tela anterior em vez de sair do app
 let H=null,navApplying=false;
 const navSnap=()=>({nv:1,tab:TAB,s:!$id('sheet').classList.contains('hide'),m:!modal.classList.contains('hide'),g:(typeof DV!=='undefined'&&DV.gid)||null});
@@ -927,16 +962,18 @@ setTimeout(()=>{if(!authSeen)$('loadBox').innerHTML='<p class="mu">Não consegui
 <script type="module">
 import {initializeApp} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js';
 import {getAuth,GoogleAuthProvider,signInWithPopup,onAuthStateChanged,signOut} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js';
+import {getMessaging,getToken,deleteToken,isSupported} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-messaging.js';
 import {initializeFirestore,persistentLocalCache,persistentMultipleTabManager,doc,collection,setDoc,deleteDoc,onSnapshot,writeBatch,query,where} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js';
 const app=initializeApp({apiKey:"AIzaSyCquhK6tRdX7pLBzNTNGKkcL6Aw3OtgTQ8",authDomain:"mensal-contabilidade.firebaseapp.com",projectId:"mensal-contabilidade",storageBucket:"mensal-contabilidade.firebasestorage.app",messagingSenderId:"1084552414987",appId:"1:1084552414987:web:74fe5046bb0f588e71c40e"});
 const auth=getAuth(app);
 const db=initializeFirestore(app,{localCache:persistentLocalCache({tabManager:persistentMultipleTabManager()})});
 let uid=null,unsubs=[],gU=null;
+const VAPID='';const PK='contab_push_on',PT='contab_push_tok',tdoc=t=>doc(db,'pushTokens',t);
 const lcol=()=>collection(db,'users',uid,'lancamentos'),ccfg=()=>doc(db,'users',uid,'config','main');
 const clean=x=>({c:x.c,m:x.m,v:Number(x.v),o:x.o||'',s:x.s||'novo',f:x.f||'',t:x.t||Date.now()});
 window.CLOUDAPI={
  login:()=>signInWithPopup(auth,new GoogleAuthProvider()),
- logout:()=>signOut(auth),
+ async logout(){try{await window.CLOUDAPI.push.unlink()}catch(e){}return signOut(auth)},
  put:x=>setDoc(doc(lcol(),x.cid),clean(x)),
  del:x=>deleteDoc(doc(lcol(),x.cid)),
  cfg:o=>setDoc(ccfg(),o),
@@ -950,5 +987,16 @@ window.CLOUDAPI={
  expStart(gid,h){return onSnapshot(collection(db,'groups',gid,'expenses'),{includeMetadataChanges:true},s=>h(s.docs.map(d=>({id:d.id,...d.data()}))),window.cloudErr)},
  expSave(gid,eid,o){const r=eid?doc(db,'groups',gid,'expenses',eid):doc(collection(db,'groups',gid,'expenses'));setDoc(r,o).catch(window.cloudErr);return r.id},
  expDel(gid,eid){deleteDoc(doc(db,'groups',gid,'expenses',eid)).catch(window.cloudErr)}};
-onAuthStateChanged(auth,u=>{if(!u){unsubs.forEach(f=>f());unsubs=[];if(gU){gU();gU=null}}uid=u?u.uid:null;window.cloudAuth(u?{uid:u.uid,email:u.email,name:u.displayName||''}:null)});
+window.CLOUDAPI.push={
+ async supported(){try{return !!VAPID&&'Notification' in window&&'serviceWorker' in navigator&&await isSupported()}catch(e){return false}},
+ state(){return {perm:('Notification' in window)?Notification.permission:'denied',on:localStorage.getItem(PK)==='1'}},
+ async register(email){const reg=await navigator.serviceWorker.register('push-sw.js',{scope:'./push-scope/'});
+  if(!reg.active)await new Promise(r=>{const w=reg.installing||reg.waiting;if(!w)return r();if(w.state==='activated')return r();w.addEventListener('statechange',()=>{if(w.state==='activated')r()})});
+  const token=await getToken(getMessaging(app),{vapidKey:VAPID,serviceWorkerRegistration:reg});if(!token)throw new Error('sem token');
+  await setDoc(tdoc(token),{token,email:String(email).toLowerCase(),uid,ua:navigator.userAgent.slice(0,120),t:Date.now()});localStorage.setItem(PT,token);return token},
+ async enable(email){const p=await Notification.requestPermission();if(p!=='granted')return {ok:false,reason:p};await this.register(email);localStorage.setItem(PK,'1');return {ok:true}},
+ async disable(){const t=localStorage.getItem(PT);localStorage.removeItem(PK);try{if(t&&uid)await deleteDoc(tdoc(t))}catch(e){}try{await deleteToken(getMessaging(app))}catch(e){}localStorage.removeItem(PT)},
+ async unlink(){const t=localStorage.getItem(PT);try{if(t&&uid)await deleteDoc(tdoc(t))}catch(e){}},
+ async refresh(email){try{if(await this.supported()&&localStorage.getItem(PK)==='1'&&Notification.permission==='granted')await this.register(email)}catch(e){}}};
+onAuthStateChanged(auth,u=>{if(!u){unsubs.forEach(f=>f());unsubs=[];if(gU){gU();gU=null}}uid=u?u.uid:null;window.cloudAuth(u?{uid:u.uid,email:u.email,name:u.displayName||''}:null);if(u)window.CLOUDAPI.push.refresh(u.email)});
 </script></body></html>
