@@ -179,9 +179,8 @@ label:has(>#fCat){display:none}
 .app{padding-bottom:112px}
 .kpis{grid-template-columns:1fr 1fr}
 .kpi{border-radius:16px;padding:14px}
-.kpi:nth-child(4){grid-column:1/-1;order:-1;padding:18px 20px;border-radius:20px}
-.kpi:nth-child(4) small{font-weight:700;font-size:12px;letter-spacing:.08em;text-transform:uppercase}
-.kpi:nth-child(4) b{font-size:38px;display:block;margin:4px 0 6px}
+.kpi:nth-child(4){order:1}.kpi:nth-child(3){order:2}.kpi:nth-child(1){order:3}.kpi:nth-child(2){order:4}
+.kpi:nth-child(3),.kpi:nth-child(4){background:var(--ac2)}
 #fAdd{min-height:52px;font-size:17px;width:100%}
 }
 
@@ -190,14 +189,6 @@ html{background:var(--bg)}
 @media(min-width:761px){#goL{order:9}}
 @media(max-width:760px){.app{padding-bottom:calc(112px + env(safe-area-inset-bottom,0px))}.side{align-items:flex-end;overflow:visible}
 #goL{position:relative;right:auto;bottom:auto;flex:0 0 64px;width:64px;height:64px;margin:-30px 6px 0;padding:0;border-radius:50%;font-size:0;box-shadow:0 6px 18px rgba(0,0,0,.35);z-index:45;border:4px solid var(--bg)}#goL::before{content:'+';font-size:38px;line-height:56px;display:block}}
-@media(max-width:760px){
-.kpis{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
-.kpis .kpi:not(:nth-child(4))[data-ic]{padding:10px 8px;min-height:0;justify-content:flex-start}
-.kpis .kpi:not(:nth-child(4))[data-ic]::before{position:static;transform:none;width:26px;height:26px;font-size:14px;border-radius:9px;margin-bottom:6px;flex:none}
-.kpis .kpi:not(:nth-child(4)) b{font-size:clamp(11.5px,3.5vw,14.5px)}
-.kpis .kpi:not(:nth-child(4)) small{font-size:10.5px;line-height:1.3}
-.kpis .kpi:nth-child(4)[data-ic]{padding:18px 20px 18px 82px;min-height:96px}
-.kpis .kpi:nth-child(4)[data-ic]::before{left:18px;width:48px;height:48px;font-size:24px;border-radius:15px}}
 </style>
 </head>
 <body><div class="app">
@@ -240,7 +231,7 @@ html{background:var(--bg)}
 <div class="card"><div class="ct">Dados e backup</div><div class="row" style="margin-top:8px"><button class="btn sm" id="reset">Apagar dados locais</button></div>
   <div class="row" style="margin-top:10px;align-items:center"><span class="mu">Backup:</span><button class="btn sm" id="bkExp">Exportar backup (JSON)</button><label class="btn sm" style="flex-direction:row;font-size:12px;color:var(--tx);cursor:pointer;min-width:0">Importar backup (substitui os dados atuais)<input type="file" id="bkImp" hidden></label></div><div id="bkMsg" class="mu" style="margin-top:6px;min-height:18px"></div><details style="margin-top:6px"><summary class="mu" style="cursor:pointer">Importar colando o texto do backup</summary><textarea id="bkTxt" rows="4" style="width:100%;margin-top:6px;font-size:12px" placeholder="Cole aqui o conteúdo do arquivo de backup (.json)"></textarea><button class="btn sm" id="bkPaste" type="button" style="margin-top:6px">Importar texto colado</button></details></div>
 <div class="card"><div class="ct">Sobre</div>
- <div class="cfr" style="border-top:0"><span>Versão do app</span><b id="appVer">2026-10-15.5</b></div>
+ <div class="cfr" style="border-top:0"><span>Versão do app</span><b id="appVer">2026-10-15.6</b></div>
  <div class="cfr"><span>Atualização</span><button class="btn sm" id="appUpd">Buscar atualização</button></div>
 </div>
 </section>
@@ -851,6 +842,21 @@ goL.onclick=()=>{modal.classList.remove('hide');mSeg('avulso');if(!fMes.value){c
 const toMetas=()=>{setTab('metas');navSync();scrollTo(0,0)};goMetas.onclick=toMetas;goMetas2.onclick=toMetas;
 dtBtn.onclick=()=>{const on=document.body.classList.toggle('showdt');dtBtn.textContent=on?'Ocultar gráficos e extrato':'Ver gráficos e extrato';refresh()};
 orgOn.onchange=()=>document.body.classList.toggle('org',orgOn.checked);
+(function(){const box=modal.querySelector('.mbox'),pane=k=>k==='fech'?mFech:mAvulso,now=()=>mAvulso.classList.contains('hide')?'fech':'avulso';
+let sx=0,sy=0,dx=0,m=0,W=1,k='',t0=0,ok=false;
+const tr=(el,x,o,ms)=>{el.style.transition=ms?'transform '+ms+'ms cubic-bezier(.22,.8,.3,1),opacity '+ms+'ms linear':'none';el.style.transform=x?'translate3d('+x+'px,0,0)':'';el.style.opacity=o==null?'':String(o)};
+const back=el=>{tr(el,0,1,200);setTimeout(()=>tr(el,0,null,0),210)};
+box.addEventListener('touchstart',e=>{m=0;if(e.touches.length!==1||EDIT||modal.classList.contains('hide')||e.target.closest('input,select,textarea'))return;sx=e.touches[0].clientX;sy=e.touches[0].clientY;dx=0;k=now();W=box.clientWidth||innerWidth;t0=performance.now();m=1},{passive:true});
+box.addEventListener('touchmove',e=>{if(!m)return;const t=e.touches[0],x=t.clientX-sx,y=t.clientY-sy;
+ if(m===1){if(Math.abs(x)<10&&Math.abs(y)<10)return;if(Math.abs(x)>Math.abs(y)*1.3)m=2;else{m=0;return}}
+ if(e.cancelable)e.preventDefault();dx=x;ok=k==='avulso'?x<0:x>0;const d=ok?x:x*.25;tr(pane(k),d,1-.3*Math.min(1,Math.abs(d)/W))},{passive:false});
+box.addEventListener('touchend',()=>{if(m!==2){m=0;return}m=0;const el=pane(k),v=Math.abs(dx)/Math.max(performance.now()-t0,1),go=ok&&(Math.abs(dx)>W*.3||(v>.6&&Math.abs(dx)>40));
+ if(!go){back(el);return}
+ const s=dx<0?-1:1;tr(el,s*W,0,160);
+ setTimeout(()=>{tr(el,0,null,0);const to=k==='avulso'?'fech':'avulso';mSeg(to);const n=pane(to);tr(n,-s*W*.3,0,0);void n.offsetWidth;tr(n,0,1,200);setTimeout(()=>tr(n,0,null,0),220)},170)},{passive:true});
+box.addEventListener('touchcancel',()=>{if(m===2)back(pane(k));m=0},{passive:true});
+})();
+
 seg.onclick=e=>{const s=e.target.dataset.s;if(!s)return;if(EDIT&&s!=='avulso')endEdit(1);mSeg(s)};mClose.onclick=closeM;modal.onclick=e=>{if(e.target===modal)closeM()};
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeM()});
 const OK='contab_ord_v1',DEF=['a','c','m','v','t'],rsz=()=>Object.values(CH).forEach(c=>c.resize());
