@@ -159,35 +159,14 @@ input.sw::after{content:'';position:absolute;top:3px;left:3px;width:22px;height:
 #t-conf .seg{margin-bottom:2px}#t-conf .seg button{flex:1}
 main section{touch-action:pan-y pinch-zoom}
 .hide{display:none}.mu{color:var(--mu)}
-#catGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;flex:1 1 100%;margin-bottom:4px}
-#catGrid button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:80px;padding:8px 4px;border:1px solid var(--bd);border-radius:14px;background:var(--card);color:var(--ac);font:600 13px/1.15 system-ui,sans-serif;cursor:pointer}
-#catGrid .cn{color:var(--tx);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;text-align:center;word-break:break-word}
-#catGrid .cl{width:30px;height:30px;border-radius:15px;background:var(--bd);color:var(--tx);display:flex;align-items:center;justify-content:center;font-weight:700}
-#catGrid button.on{border:2px solid var(--ac);background:color-mix(in srgb,var(--ac) 12%,var(--card))}
-label:has(>#fCat){display:none}
-#fVal{font-size:26px;font-weight:800;height:56px}
-@media(max-width:760px){
-.side{padding:8px 6px calc(8px + env(safe-area-inset-bottom,0px))}
-.side button[data-t]{font-size:11.5px;font-weight:600;gap:4px;padding:8px 0 6px;min-height:58px}
-.side button[data-t]::before{content:'';display:block;width:28px;height:28px;font-size:0;background:currentColor;-webkit-mask:var(--m) center/contain no-repeat;mask:var(--m) center/contain no-repeat}
-.side button[data-t=resumo]{--m:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d=%22M3 11l9-8 9 8%22/%3E%3Cpath d=%22M5 10v10h14V10%22/%3E%3C/svg%3E")}
-.side button[data-t=lanc]{--m:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d=%22M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01%22/%3E%3C/svg%3E")}
-.side button[data-t=graf]{--m:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d=%22M5 20V11M11 20V4M17 20v-7M2 20h20%22/%3E%3C/svg%3E")}
-.side button[data-t=metas]{--m:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx=%2212%22 cy=%2212%22 r=%229%22/%3E%3Ccircle cx=%2212%22 cy=%2212%22 r=%224%22/%3E%3C/svg%3E")}
-.side button[data-t=div]{--m:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx=%229%22 cy=%228%22 r=%223.5%22/%3E%3Cpath d=%22M2.5 20c.5-4 3.2-6 6.5-6s6 2 6.5 6%22/%3E%3Cpath d=%22M16 5a3.5 3.5 0 010 7M18 14c2 .6 3.3 2.4 3.5 6%22/%3E%3C/svg%3E")}
-#goL{width:64px;height:64px;bottom:calc(96px + env(safe-area-inset-bottom,0px))}#goL::before{font-size:38px;line-height:64px}
-.app{padding-bottom:112px}
-.kpis{grid-template-columns:1fr 1fr}
-.kpi{border-radius:16px;padding:14px}
-.kpi:nth-child(3){grid-column:1/-1;order:-1;padding:18px 20px;border-radius:20px}
-.kpi:nth-child(3) small{font-weight:700;font-size:12px;letter-spacing:.08em;text-transform:uppercase}
-.kpi:nth-child(3) b{font-size:38px;display:block;margin:4px 0 6px}
-#fAdd{min-height:52px;font-size:17px;width:100%}
-}
+body:not(.showdt) .pc.dt{display:none}.pc .gr,.pc .sz{display:none}body.org .pc .gr,body.org .pc .sz{display:inline-flex}
+@media(min-width:761px){#goL{order:9}}
+@media(max-width:760px){.app{padding-bottom:108px}.side{align-items:flex-end;overflow:visible;padding-top:8px}.side button[data-t]{padding:9px 0 7px;font-size:11px}.side button[data-t]::before{font-size:25px}
+#goL{position:relative;right:auto;bottom:auto;flex:0 0 60px;width:60px;height:60px;margin:-28px 6px 0;padding:0;border-radius:50%;font-size:0;box-shadow:0 6px 18px rgba(0,0,0,.35);z-index:45;border:4px solid var(--bg)}#goL::before{content:'+';font-size:34px;line-height:52px;display:block}}
 </style>
 </head>
 <body><div class="app">
-<nav class="side" id="tabs"><b class="brand">Contabilidade<span id="syncDot" class="dot"></span></b><button data-t="resumo" class="on">Painel</button><button data-t="lanc">Lançamentos</button><button data-t="graf">Análise</button><button data-t="metas">Metas</button><button data-t="div">Dividir</button><button class="pri" id="goL">+ Lançar</button></nav>
+<nav class="side" id="tabs"><b class="brand">Contabilidade<span id="syncDot" class="dot"></span></b><button data-t="resumo" class="on">Início</button><button data-t="lanc">Lançamentos</button><button class="pri" id="goL" aria-label="Lançar">+ Lançar</button><button data-t="graf">Análise</button><button data-t="div">Dividir</button></nav>
 <main style="min-width:0"><div id="topbar"><button class="gear hide" id="cfBack" aria-label="Voltar">←</button><b id="tbTitle">Painel</b><span id="tbDot" class="dot"></span><button class="gear" id="gearBtn" aria-label="Configurações" title="Configurações"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z"/><path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"/></svg></button></div>
 <div id="cloudErr" class="card hide" style="border-color:var(--neg);color:var(--neg)"></div>
 <div class="card" id="perBar"><div class="row" style="align-items:center"><label style="flex:1;min-width:240px">Período: <b id="gPer" style="color:var(--tx)"></b><div class="dr"><div id="gFill"></div><input type="range" id="gDe" min="0" max="0" value="0"><input type="range" id="gAte" min="0" max="0" value="0"></div></label><div class="chips" id="pre" style="margin:0"><span class="chip" data-p="all">Tudo</span><span class="chip" data-p="y">Ano corrente</span><span class="chip" data-p="12">12 meses</span><span class="chip" data-p="3">3 meses</span><span class="chip" data-p="1">Último mês</span><span class="chip" id="ignChip" title="Exclui o mês atual das análises (útil para lançamentos antecipados)">Ignorar mês atual</span></div></div></div>
@@ -195,15 +174,14 @@ label:has(>#fCat){display:none}
 <section id="t-resumo">
  <div class="card hide" id="welcome"><div class="ct">Bem-vindo</div><div class="cs" style="margin:6px 0 12px">Comece criando suas categorias ou importando uma planilha. Depois é só lançar.</div><div class="row"><button class="btn pri" id="wTpl">Usar modelo básico</button><button class="btn" id="wCat">Criar minhas categorias</button><button class="btn" id="wImp">Importar planilha</button></div></div>
 <div class="kpis" id="kpis"></div>
- <div class="row" style="justify-content:flex-end;align-items:center;margin-bottom:8px"><span class="mu" style="font-size:12px">Arraste ⠿ para reorganizar · ⇔ muda a largura</span></div>
-<div id="pgrid">
-<div class="card pc" data-id="a"><div class="hd"><span class="gr" title="Arraste para mover">⠿</span><div><div class="ct">Receita × despesas</div><div class="cs">Quanto entrou, quanto saiu e o que sobrou em cada mês</div></div><button class="sz" title="Alternar largura" aria-label="Alternar largura">⇔</button></div><div class="cvs"><canvas id="cvA"></canvas></div></div>
-<div class="card pc" data-id="c"><div class="hd"><span class="gr" title="Arraste para mover">⠿</span><div><div class="ct">Custos mensais</div><div class="cs">Fixos × variáveis <b id="fvTxt"></b></div></div><button class="sz" title="Alternar largura" aria-label="Alternar largura">⇔</button></div><div class="cvs"><canvas id="cvC"></canvas></div></div>
-<div class="card pc" data-id="m"><div class="hd"><span class="gr" title="Arraste para mover">⠿</span><div><div class="ct">Teto de gastos</div><div class="cs">Média mensal × meta de cada categoria</div></div><button class="sz" title="Alternar largura" aria-label="Alternar largura">⇔</button></div><div id="metaBox"></div></div>
+ <div id="pgrid">
+<div class="card pc dt" data-id="a"><div class="hd"><span class="gr" title="Arraste para mover">⠿</span><div><div class="ct">Receita × despesas</div><div class="cs">Quanto entrou, quanto saiu e o que sobrou em cada mês</div></div><button class="sz" title="Alternar largura" aria-label="Alternar largura">⇔</button></div><div class="cvs"><canvas id="cvA"></canvas></div></div>
+<div class="card pc dt" data-id="c"><div class="hd"><span class="gr" title="Arraste para mover">⠿</span><div><div class="ct">Custos mensais</div><div class="cs">Fixos × variáveis <b id="fvTxt"></b></div></div><button class="sz" title="Alternar largura" aria-label="Alternar largura">⇔</button></div><div class="cvs"><canvas id="cvC"></canvas></div></div>
+<div class="card pc" data-id="m"><div class="hd"><span class="gr" title="Arraste para mover">⠿</span><div><div class="ct">Teto de gastos</div><div class="cs">Média mensal × meta de cada categoria</div></div><button class="sz" title="Alternar largura" aria-label="Alternar largura">⇔</button></div><div id="metaBox"></div><button class="btn sm" id="goMetas2" style="margin-top:8px">Ajustar metas</button></div>
 <div class="card pc" data-id="v"><div class="hd"><span class="gr" title="Arraste para mover">⠿</span><div><div class="ct">O que mudou</div><div class="cs">Maiores variações <span id="varPer"></span></div></div><button class="sz" title="Alternar largura" aria-label="Alternar largura">⇔</button></div><div id="varBox"></div></div>
-<div class="card pc full" data-id="t"><div class="hd"><span class="gr" title="Arraste para mover">⠿</span><div><div class="ct">Extrato do período</div><div class="cs">Todas as contas, mês a mês, com totais</div></div><button class="btn sm" id="csv">Exportar CSV</button><button class="sz" title="Alternar largura" aria-label="Alternar largura">⇔</button></div><div class="scroll"><table id="pivot"></table></div></div>
+<div class="card pc full dt" data-id="t"><div class="hd"><span class="gr" title="Arraste para mover">⠿</span><div><div class="ct">Extrato do período</div><div class="cs">Todas as contas, mês a mês, com totais</div></div><button class="btn sm" id="csv">Exportar CSV</button><button class="sz" title="Alternar largura" aria-label="Alternar largura">⇔</button></div><div class="scroll"><table id="pivot"></table></div></div>
 </div>
-</section>
+<div class="row" style="justify-content:center;margin:0 0 14px"><button class="btn" id="dtBtn">Ver gráficos e extrato</button></div></section>
 <section id="t-metas" class="hide"><div class="card"><div class="ct">Metas e classificação</div><div class="cs" style="margin-bottom:8px">Defina se cada despesa é fixa ou variável e um teto mensal (R$). Sem meta, a categoria não é acompanhada.</div><div class="scroll"><table id="metaTb"></table></div></div></section>
 <section id="t-div" class="hide"><div id="divRoot"></div></section>
 <section id="t-conf" class="hide">
@@ -212,6 +190,8 @@ label:has(>#fCat){display:none}
  <div class="cs" style="margin:2px 0 8px">Tema do aplicativo. Automático segue o modo do seu celular.</div>
  <div class="seg" id="thSeg"><button data-m="auto">Automático</button><button data-m="light">Claro</button><button data-m="dark">Escuro</button></div>
  <div class="cfr col"><div><b>Cores dos gráficos</b><div class="cs">Paleta usada no Painel e na Análise</div></div><select id="palSel" title="Paleta de cores" style="min-width:0;width:auto"><option value="sage">Sálvia + damasco</option><option value="slate">Ardósia + areia</option><option value="lagoon">Lagoa + rosé</option></select></div>
+ <div class="cfr"><div><b>Metas e tetos</b><div class="cs">Fixo ou variável e teto mensal de cada categoria</div></div><button class="btn sm" id="goMetas">Abrir</button></div>
+ <div class="cfr"><div><b>Organizar cartões do Início</b><div class="cs">Mostra as alças para arrastar e mudar a largura</div></div><input type="checkbox" class="sw" id="orgOn" aria-label="Organizar cartões"></div>
  <div class="cfr"><div><b>Layout do Painel</b><div class="cs">Volta os cartões à ordem e largura originais</div></div><button class="btn sm" id="ordReset">Restaurar</button></div>
 </div>
 <div class="card"><div class="ct">Avisos do Dividir</div>
@@ -256,10 +236,10 @@ label:has(>#fCat){display:none}
 <div id="sheet" class="modal hide"><div class="mbox"><div class="row" style="justify-content:space-between;align-items:center;margin-bottom:12px"><span class="ct" id="shTitle"></span><button class="btn sm" id="shClose" aria-label="Fechar">✕</button></div><div id="shBody"></div></div></div>
 <div id="login" class="loginov"><div class="mbox" style="text-align:center;max-width:420px"><div class="ct" style="margin-bottom:10px">Contabilidade</div><div id="loadBox"><p class="mu">Carregando…</p></div><div id="loginBox" class="hide"><p style="margin-bottom:14px">Entre com sua conta Google para acessar seus lançamentos.</p><button class="btn pri" id="btnLogin">Entrar com Google</button><p id="loginMsg" class="mu" style="margin-top:10px"></p></div></div></div>
 <div id="tipBox" class="tipbox hide" role="tooltip"></div>
-<div id="modal" class="modal hide"><div class="mbox"><div class="row" style="justify-content:space-between;align-items:center;margin-bottom:12px"><div class="seg" id="seg"><button data-s="fech" class="on">Fechamento do mês</button><button data-s="avulso">Lançamento avulso</button></div><button class="btn sm" id="mClose" aria-label="Fechar">✕</button></div><div id="mFech"><div class="card"><div class="row" style="align-items:flex-end;justify-content:space-between"><div><span class="ct">Fechamento do mês</span><div class="mu">Lance tudo de uma vez: cada item lançado sai da lista até zerar.</div></div><label>Mês<input type="month" id="fcMes"></label></div>
+<div id="modal" class="modal hide"><div class="mbox"><div class="row" style="justify-content:space-between;align-items:center;margin-bottom:12px"><div class="seg" id="seg"><button data-s="avulso" class="on">Lançamento rápido</button><button data-s="fech">Fechamento do mês</button></div><button class="btn sm" id="mClose" aria-label="Fechar">✕</button></div><div id="mFech"><div class="card"><div class="row" style="align-items:flex-end;justify-content:space-between"><div><span class="ct">Fechamento do mês</span><div class="mu">Lance tudo de uma vez: cada item lançado sai da lista até zerar.</div></div><label>Mês<input type="month" id="fcMes"></label></div>
  <div id="fcProg" style="margin:10px 0 4px"></div><div id="fcBox"></div>
  <div class="row" style="margin-top:10px;align-items:center"><button class="btn pri" id="fcAll">Lançar todos os preenchidos</button><button class="btn sm" id="fcUnskip">Restaurar pulados</button><span id="fcMsg" class="mu"></span></div></div>
-</div><div id="mAvulso" class="hide"><div class="card"><span class="ct" id="fTitle">Lançamento avulso</span>
+</div><div id="mAvulso" class="hide"><div class="card"><span class="ct" id="fTitle">Lançamento rápido</span><div class="chips" id="qChips" style="margin:8px 0 0"></div>
   <div class="row" style="margin-top:8px">
    <label>Categoria<select id="fCat"></select></label><button class="btn sm" id="nCatBtn" type="button">+ Nova categoria</button>
    <label>Mês<input type="month" id="fMes"></label>
@@ -455,10 +435,10 @@ function graf(){if(!window.Chart)return;const M=matrix(),g=gAgg.value,modo=gModo
 
 // ---- eventos
 let TAB='resumo';
-const TTL={resumo:'Painel',lanc:'Lançamentos',graf:'Análise',metas:'Metas',div:'Dividir',conf:'Configurações'};
+const TTL={resumo:'Início',lanc:'Lançamentos',graf:'Análise',metas:'Metas',div:'Dividir',conf:'Configurações'};
 function setTab(t){TAB=t;$id('perBar').classList.toggle('hide',t==='div'||t==='conf');[...tabs.children].forEach(b=>b.classList.toggle('on',b.dataset.t===t));
  ['resumo','lanc','graf','metas','div','conf'].forEach(k=>document.getElementById('t-'+k).classList.toggle('hide',k!==t));
- document.body.classList.toggle('inconf',t==='conf');$id('tbTitle').textContent=TTL[t]||'';$id('cfBack').classList.toggle('hide',t!=='conf');$id('gearBtn').classList.toggle('hide',t==='conf');
+ document.body.classList.toggle('inconf',t==='conf');$id('tbTitle').textContent=TTL[t]||'';$id('cfBack').classList.toggle('hide',t!=='conf'&&t!=='metas');$id('gearBtn').classList.toggle('hide',t==='conf'||t==='metas');
  if(t==='graf')graf();if(t==='div')divRender();if(t==='conf'){confNtfUI();try{confPushUI()}catch(e){}}}
 tabs.onclick=e=>{const t=e.target.dataset.t;if(!t)return;setTab(t);navSync()};
 lCat.onchange=lista;
@@ -472,7 +452,7 @@ nCatOk.onclick=()=>{const n=nCatN.value.trim();if(!n){fMsg.textContent='Informe 
  CATS.push({n,t:nCatT.value});saveCats();initSelects();fCat.value=n;nCatN.value='';nCatBox.classList.add('hide');fMsg.textContent='Categoria criada: '+n;chips();refresh()};
 fVal.oninput=()=>{const r=calc(fVal.value);fPrev.textContent=!r?'':r.err?'expressão inválida':r.f?'= '+brl(r.v):''};
 gChips.onclick=e=>{const c=e.target.dataset.c;if(!c)return;SEL.has(c)?SEL.delete(c):SEL.add(c);chips();graf()};
-fAdd.onclick=()=>{if(!fCat.value){fMsg.textContent='Crie uma categoria antes de lançar (aba Metas).';return}const r=calc(fVal.value);if(!fMes.value||!r||r.err){fMsg.textContent='Informe o mês e um valor válido (ou fórmula começando com =).';return}const v=r.v;
+fAdd.onclick=()=>{if(!fCat.value){fMsg.textContent='Crie uma categoria antes de lançar (em Configurações).';return}const r=calc(fVal.value);if(!fMes.value||!r||r.err){fMsg.textContent='Informe o mês e um valor válido (ou fórmula começando com =).';return}const v=r.v;
  if(EDIT){const x=L.find(y=>y.id===EDIT);if(x)updL(x,{c:fCat.value,m:fMes.value,v:r.v,f:r.f,o:fObs.value.trim()});endEdit(1);closeM();fMsg.textContent='';initSelects();refresh();return}
  addL({c:fCat.value,m:fMes.value,v,o:fObs.value.trim(),s:'novo',f:r.f});fVal.value='';fPrev.textContent='';fObs.value='';
  fMsg.textContent='Lançado: '+fCat.value+' · '+lblM(fMes.value)+' · '+brl(v);initSelects();refresh()};
@@ -781,7 +761,7 @@ function dvPayForm(d,x){const g=dvCur(),em=g.memberEmails,opt=(e,sel)=>`<option 
   const A=dvC(a.v);DV.api.expSave(g.id,x?x.id:null,{k:'p',d:'Pagamento',a:A,dt,p:[{e:f,a:A}],s:[{e:t,a:A}],mo:'payment',by:x?x.by:DV.me,t:x?x.t:Date.now(),ed:Date.now()});closeSheet()};
  if(x)$id('pDel').onclick=()=>{if(confirm('Excluir este pagamento?')){DV.api.expDel(g.id,x.id);closeSheet()}}}
 
-(function(){const order=['resumo','lanc','graf','metas','div'],main=document.querySelector('main'),sec=k=>document.getElementById('t-'+k);
+(function(){const order=['resumo','lanc','graf','div'],main=document.querySelector('main'),sec=k=>document.getElementById('t-'+k);
  const TH=.5,PJ=.42,PT=320,MD=.12,EDGE=24,LOCK=6;
  let sm=[],sx=0,sy=0,ox=0,mode=0,dx=0,x=0,cur=null,nb=null,nbk=null,dir=0,W=0,ck=null,raf=0,timer=0,pend=null;
  const curK=()=>order.find(k=>!sec(k).classList.contains('hide'));
@@ -832,7 +812,12 @@ palSel.value=PK;palSel.onchange=()=>{PK=palSel.value;try{localStorage.setItem('c
 function mSeg(s){mFech.classList.toggle('hide',s!=='fech');mAvulso.classList.toggle('hide',s!=='avulso');seg.querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.s===s));if(s==='fech')fech(1)}
 const closeM=()=>{modal.classList.add('hide');if(EDIT)endEdit(1)};
 fCancel.onclick=()=>closeM();
-goL.onclick=()=>{modal.classList.remove('hide');mSeg('fech')};
+function qcRender(){const cnt={};L.forEach(x=>{const c=CATS.find(k=>k.n===x.c);if(c&&c.t==='d')cnt[x.c]=(cnt[x.c]||0)+1});const top=Object.keys(cnt).sort((a,b)=>cnt[b]-cnt[a]).slice(0,8);qChips.innerHTML=top.map(n=>'<span class="chip" data-q="'+n.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;')+'">'+n.replace(/&/g,'&amp;').replace(/</g,'&lt;')+'</span>').join('')}
+qChips.onclick=e=>{const n=e.target.dataset&&e.target.dataset.q;if(n==null)return;fCat.value=n;qChips.querySelectorAll('.chip').forEach(c=>c.classList.toggle('on',c===e.target));fVal.focus()};
+goL.onclick=()=>{modal.classList.remove('hide');mSeg('avulso');if(!fMes.value){const d=new Date();fMes.value=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')}qcRender();setTimeout(()=>{try{fVal.focus()}catch(e){}},60)};
+const toMetas=()=>{setTab('metas');navSync();scrollTo(0,0)};goMetas.onclick=toMetas;goMetas2.onclick=toMetas;
+dtBtn.onclick=()=>{const on=document.body.classList.toggle('showdt');dtBtn.textContent=on?'Ocultar gráficos e extrato':'Ver gráficos e extrato';refresh()};
+orgOn.onchange=()=>document.body.classList.toggle('org',orgOn.checked);
 seg.onclick=e=>{const s=e.target.dataset.s;if(!s)return;if(EDIT&&s!=='avulso')endEdit(1);mSeg(s)};mClose.onclick=closeM;modal.onclick=e=>{if(e.target===modal)closeM()};
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeM()});
 const OK='contab_ord_v1',DEF=['a','c','m','v','t'],rsz=()=>Object.values(CH).forEach(c=>c.resize());
@@ -983,17 +968,6 @@ function cloudAuth(u){authSeen=true;const ov=$('login');lastSig='';lastCfg='';go
 $('btnLogin').onclick=()=>{$('loginMsg').textContent='Abrindo o login do Google…';CLOUDAPI.login().then(()=>{$('loginMsg').textContent=''}).catch(e=>{$('loginMsg').textContent='Não foi possível entrar ('+(e.code||e.message)+'). Se a janela do Google não abriu, permita pop-ups para este site e tente de novo.'})};
 $('btnLogout').onclick=()=>CLOUDAPI.logout();
 setTimeout(()=>{if(!authSeen)$('loadBox').innerHTML='<p class="mu">Não consegui conectar ao serviço de login. Verifique a internet e recarregue a página.</p>'},10000);
-</script>
-<script>
-(function(){const sel=document.getElementById('fCat');if(!sel||!sel.closest('label'))return;
-const P={cart:'<path d="M3 4h2l2.5 11h10L20 7H6.5"/><circle cx="9" cy="19" r="1.5"/><circle cx="17" cy="19" r="1.5"/>',car:'<path d="M4 17v-5l2-5h12l2 5v5z"/><circle cx="8" cy="17" r="1.5"/><circle cx="16" cy="17" r="1.5"/>',home:'<path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/>',bolt:'<path d="M13 2L5 14h6l-1 8 8-12h-6z"/>',heart:'<path d="M12 20s-8-5-8-11a4.5 4.5 0 018-2.5A4.5 4.5 0 0120 9c0 6-8 11-8 11z"/>',fork:'<path d="M5 3v5a2 2 0 004 0V3M7 11v10M17 3c-2 2-3 5-3 8h3v10"/>',card:'<rect x="2.5" y="5" width="19" height="14" rx="2.5"/><path d="M2.5 10h19M6 15h4"/>',up:'<path d="M12 16V4M7 9l5-5 5 5M4 20h16"/>'};
-const KW=[[/mercad|super|feira|padaria|aliment/i,'cart'],[/transp|combust|uber|gasol|carro|ônibus|onibus|estacion/i,'car'],[/moradia|alug|casa|condom/i,'home'],[/luz|energia|água|agua|internet|celular|telefone|gás/i,'bolt'],[/saúde|saude|farm|médic|medic|plano|academ/i,'heart'],[/restaur|lazer|delivery|ifood|cinema|viag|bar\b/i,'fork'],[/cart[aã]o|fatura|cr[ée]dito/i,'card'],[/sal[aá]rio|renda|receita|rendim/i,'up']];
-const svg=n=>'<svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+P[n]+'</svg>';
-const grid=document.createElement('div');grid.id='catGrid';sel.closest('label').before(grid);
-function paint(){grid.querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.v===sel.value))}
-function build(){grid.innerHTML='';[...sel.options].forEach(o=>{const n=o.textContent.trim();if(!n)return;const b=document.createElement('button');b.type='button';b.dataset.v=o.value;const k=(KW.find(x=>x[0].test(n))||[])[1];b.innerHTML=(k?svg(k):'<span class="cl"></span>')+'<span class="cn"></span>';if(!k)b.firstChild.textContent=n.charAt(0).toUpperCase();b.lastChild.textContent=n;grid.appendChild(b)});paint()}
-grid.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;sel.value=b.dataset.v;sel.dispatchEvent(new Event('change',{bubbles:true}));paint()});
-sel.addEventListener('change',paint);new MutationObserver(build).observe(sel,{childList:true});build();setInterval(paint,400)})();
 </script>
 <script type="module">
 import {initializeApp} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js';
