@@ -243,7 +243,7 @@ label:has(>#fMes){order:2;flex:1 1 120px}label:has(>#fVal){display:none}#nCatBtn
 <div class="card"><div class="ct">Dados e backup</div><div class="row" style="margin-top:8px"><button class="btn sm" id="reset">Apagar dados locais</button></div>
   <div class="row" style="margin-top:10px;align-items:center"><span class="mu">Backup:</span><button class="btn sm" id="bkExp">Exportar backup (JSON)</button><label class="btn sm" style="flex-direction:row;font-size:12px;color:var(--tx);cursor:pointer;min-width:0">Importar backup (substitui os dados atuais)<input type="file" id="bkImp" hidden></label></div><div id="bkMsg" class="mu" style="margin-top:6px;min-height:18px"></div><details style="margin-top:6px"><summary class="mu" style="cursor:pointer">Importar colando o texto do backup</summary><textarea id="bkTxt" rows="4" style="width:100%;margin-top:6px;font-size:12px" placeholder="Cole aqui o conteúdo do arquivo de backup (.json)"></textarea><button class="btn sm" id="bkPaste" type="button" style="margin-top:6px">Importar texto colado</button></details></div>
 <div class="card"><div class="ct">Sobre</div>
- <div class="cfr" style="border-top:0"><span>Versão do app</span><b id="appVer">2026-10-16.1</b></div>
+ <div class="cfr" style="border-top:0"><span>Versão do app</span><b id="appVer">2026-10-16.2</b></div>
  <div class="cfr"><span>Atualização</span><button class="btn sm" id="appUpd">Buscar atualização</button></div>
 </div>
 </section>
@@ -771,7 +771,7 @@ function dvPickWire(st){$id('gImg').onchange=async e=>{const f=e.target.files[0]
  $id('gIc').onclick=e=>{const b=e.target.closest('[data-ic]');if(!b)return;st.ic=b.dataset.ic;$id('gIc').querySelectorAll('.chp').forEach(x=>x.classList.toggle('on',x===b));dvPrev(st)};$id('gCo').onclick=e=>{const b=e.target.closest('[data-co]');if(!b)return;st.co=b.dataset.co;$id('gCo').querySelectorAll('.chp').forEach(x=>x.classList.toggle('on',x===b))}}
 function dvNewGroup(){const st={ic:'🍖',co:DVCOL[0],img:''};openSheet('Novo grupo',`<div class="dvf"><label>Nome do grupo<input id="gN" placeholder="Ex.: Viagem, Casa, Churrasco"></label>${dvPicks(st.ic,st.co,st.img)}<label style="margin-top:10px">Pessoas (e-mails do Google, um por linha)<textarea id="gE" rows="4" style="width:100%" placeholder="amigo@gmail.com"></textarea></label><div id="gS" class="mu" style="margin-bottom:8px">Você entra automaticamente. Cada pessoa precisa entrar no app com o Google do e-mail informado.</div><button class="btn pri" id="gOk">Criar grupo</button></div>`);dvPickWire(st);
  $id('gOk').onclick=()=>{const n=$id('gN').value.trim(),es=dvEmails($id('gE').value).filter(e=>e!==DV.me);if(!n){$id('gS').textContent='Informe o nome do grupo.';return}const bad=es.find(e=>!dvOkMail(e));if(bad){$id('gS').textContent='E-mail inválido: '+bad;return}
-  const all=[DV.me,...es],obj={name:n,icon:st.ic,color:st.co,...(st.img?{img:st.img}:{}),ownerUid:DV.uid,ownerEmail:DV.me,memberEmails:all,members:all.map(e=>({e,n:e===DV.me?DV.name||'':''})),createdAt:Date.now()},id=DV.api.groupSave(null,obj);DV.groups.unshift({id,...obj});closeSheet();dvOpen(id)}}
+  const all=[DV.me,...es],obj={name:n,icon:st.ic,color:st.co,...(st.img?{img:st.img}:{}),ownerUid:DV.uid,ownerEmail:DV.me,memberEmails:all,members:all.map(e=>({e,n:e===DV.me?DV.name||'':''})),createdAt:Date.now()},id=DV.api.groupSave(null,obj,es);DV.groups.unshift({id,...obj});closeSheet();dvOpen(id)}}
 function dvSaveMembers(g,ms){DV.api.groupSave(g.id,{members:ms});g.members=ms}
 function dvSetMember(g,e,patch){const cur=(g.members||[]).find(m=>m.e===e)||{e,n:''};dvSaveMembers(g,(g.members||[]).filter(m=>m.e!==e).concat([{...cur,...patch}]))}
 function dvManage(){const g=dvCur(),bal=dvBal(g,dvExps()),own=g.ownerUid===DV.uid,msg=t=>{$id('mMsg').textContent=t},st={ic:g.icon||'🍖',co:g.color||DVCOL[0],img:g.img||''};
@@ -785,13 +785,14 @@ function dvManage(){const g=dvCur(),bal=dvBal(g,dvExps()),own=g.ownerUid===DV.ui
  $id('mIs').onclick=()=>{DV.api.groupSave(g.id,{icon:st.ic,color:st.co,img:st.img});g.icon=st.ic;g.color=st.co;g.img=st.img;dvManage();msg('Foto, ícone e cor salvos.')};
  $id('mMes').onclick=()=>{dvSetMember(g,DV.me,{n:$id('mMe').value.trim()});dvManage();msg('Nome salvo.')};
  $id('mEa').onclick=()=>{const e=$id('mE').value.trim().toLowerCase();if(!dvOkMail(e)){msg('E-mail inválido.');return}if(g.memberEmails.includes(e)){msg('Essa pessoa já está no grupo.');return}
-  const p={memberEmails:[...g.memberEmails,e],members:[...(g.members||[]),{e,n:''}]};DV.api.groupSave(g.id,p);Object.assign(g,p);dvManage();msg('Adicionado. Peça para a pessoa entrar no app com esse e-mail do Google.')};
+  const p={memberEmails:[...g.memberEmails,e],members:[...(g.members||[]),{e,n:''}]};DV.api.groupSave(g.id,p,[e]);Object.assign(g,p);dvManage();msg('Adicionado. Peça para a pessoa entrar no app com esse e-mail do Google.')};
  $id('shBody').querySelectorAll('[data-pxs]').forEach(b=>{b.onclick=()=>{const e=b.dataset.pxs,v=$id('shBody').querySelector('.pxi[data-e="'+e+'"]').value.trim();dvSetMember(g,e,{pix:v});dvManage();msg(v?'Chave Pix salva.':'Chave Pix removida.')}});
  $id('shBody').querySelectorAll('[data-rm]').forEach(b=>{b.onclick=()=>{const e=b.dataset.rm;if((bal[e]||0)!==0){msg('Só é possível remover quem está com o saldo zerado.');return}
   const rest=g.memberEmails.filter(x=>x!==e);if(!rest.length){if(confirm('Você é a última pessoa. Excluir o grupo?')){DV.api.groupDel(g.id,dvExps().map(x=>x.id));closeSheet();dvBack()}return}
   const p={memberEmails:rest,members:(g.members||[]).filter(m=>m.e!==e)};DV.api.groupSave(g.id,p);Object.assign(g,p);if(e===DV.me){closeSheet();dvBack()}else{dvManage();msg('Pessoa removida.')}}});
  $id('mInv').onclick=()=>{dvCopy('Entre em '+location.href.split('#')[0]+' com o Google do e-mail que eu cadastrei para ver o grupo "'+g.name+'" e dividir as contas.')};
  if($id('mDel'))$id('mDel').onclick=()=>{if(confirm('Excluir o grupo "'+g.name+'" e todas as despesas dele para todos? Isso não pode ser desfeito.')){DV.api.groupDel(g.id,dvExps().map(x=>x.id));closeSheet();dvBack()}}}
+function dvInfo(x){return{d:x.d,a:x.a,k:x.k,e:[...new Set([...(x.s||[]),...(x.p||[]),{e:x.by}].map(q=>String(q&&q.e||'').toLowerCase()).filter(Boolean))]}}
 function dvPay(g,f,t,a,dt){DV.api.expSave(g.id,null,{k:'p',d:'Pagamento',a,dt:dt||dvToday(),p:[{e:f,a}],s:[{e:t,a}],mo:'payment',by:DV.me,t:Date.now(),ed:Date.now()})}
 function dvQuit(){const g=dvCur(),debts=dvSimplify(dvBal(g,dvExps())),owe=debts.filter(d=>d.f===DV.me),recv=debts.filter(d=>d.t===DV.me),msg=t=>{$id('qMsg').textContent=t};
  openSheet('Quitar contas',`<div class="dvf">${owe.length?`<div class="ct">Você deve pagar</div><div class="mu" style="font-size:12px;margin:4px 0 8px">Toque em "Pix copia e cola" e cole no app do seu banco (Pix → Pix Copia e Cola): o valor já vai preenchido. Depois toque em "Já paguei".</div>`+owe.map((d,i)=>`<div class="dvr" style="cursor:default;flex-wrap:wrap">${dvAv(g,d.t,1)}<span style="flex:1;min-width:0"><b>${esc(dvName(g,d.t))}</b><br><span style="font-size:18px;font-weight:800;color:#c2610f">${dvF(d.a)}</span></span><button class="btn sm pri" data-paid="${i}">Já paguei</button>
@@ -845,7 +846,7 @@ function dvExpForm(x){const g=dvCur(),em=g.memberEmails;
  $id('xMd').onclick=e=>{const b=e.target.closest('[data-md]');if(!b)return;drawSplit(true);mode=b.dataset.md;drawSplit(false);segOn();show()};
  $id('shBody').oninput=()=>{sync();show()};$id('shBody').onchange=()=>{sync();show()};
  $id('xOk').onclick=()=>{const r=read();if(r.err){$id('xS').textContent=r.err;$id('xS').style.color='var(--neg)';return}DV.api.expSave(g.id,x?x.id:null,r.obj);closeSheet()};
- if(x)$id('xDel').onclick=()=>{if(confirm('Excluir esta despesa?')){DV.api.expDel(g.id,x.id);closeSheet()}};
+ if(x)$id('xDel').onclick=()=>{if(confirm('Excluir esta despesa?')){DV.api.expDel(g.id,x.id,dvInfo(x));closeSheet()}};
  drawCats();drawPayers(false);drawSplit(false);segOn()}
 function dvPayForm(d,x){const g=dvCur(),em=g.memberEmails,opt=(e,sel)=>`<option value="${esc(e)}"${sel===e?' selected':''}>${esc(dvName(g,e))}</option>`;
  const f0=x?x.p[0].e:d?d.f:DV.me,t0=x?x.s[0].e:d?d.t:(em.find(e=>e!==DV.me)||DV.me),a0=x?x.a:d?d.a:0;
@@ -855,7 +856,7 @@ function dvPayForm(d,x){const g=dvCur(),em=g.memberEmails,opt=(e,sel)=>`<option 
  $id('pOk').onclick=()=>{const a=calc($id('pA').value),f=$id('pF').value,t=$id('pT').value,dt=$id('pD').value,msg=s=>{$id('pS').textContent=s;$id('pS').style.color='var(--neg)'};
   if(f===t){msg('Quem pagou e quem recebeu devem ser pessoas diferentes.');return}if(!a||a.err||!(a.v>0)){msg('Informe um valor maior que zero.');return}if(!dt){msg('Informe a data.');return}
   const A=dvC(a.v);DV.api.expSave(g.id,x?x.id:null,{k:'p',d:'Pagamento',a:A,dt,p:[{e:f,a:A}],s:[{e:t,a:A}],mo:'payment',by:x?x.by:DV.me,t:x?x.t:Date.now(),ed:Date.now()});closeSheet()};
- if(x)$id('pDel').onclick=()=>{if(confirm('Excluir este pagamento?')){DV.api.expDel(g.id,x.id);closeSheet()}}}
+ if(x)$id('pDel').onclick=()=>{if(confirm('Excluir este pagamento?')){DV.api.expDel(g.id,x.id,dvInfo(x));closeSheet()}}}
 
 (function(){const order=['resumo','lanc','graf','div'],main=document.querySelector('main'),sec=k=>document.getElementById('t-'+k);
  const TH=.5,PJ=.42,PT=320,MD=.12,EDGE=24,LOCK=6;
@@ -1106,7 +1107,7 @@ const app=initializeApp({apiKey:"AIzaSyCquhK6tRdX7pLBzNTNGKkcL6Aw3OtgTQ8",authDo
 const auth=getAuth(app);
 const db=initializeFirestore(app,{localCache:persistentLocalCache({tabManager:persistentMultipleTabManager()})});
 let uid=null,unsubs=[],gU=null;
-const VAPID='';const PK='contab_push_on',PT='contab_push_tok',tdoc=t=>doc(db,'pushTokens',t);
+const VAPID='';const WORKER='';const notify=b=>{if(!WORKER||!auth.currentUser)return;auth.currentUser.getIdToken().then(t=>fetch(WORKER,{method:'POST',headers:{authorization:'Bearer '+t,'content-type':'application/json'},body:JSON.stringify(b)})).catch(()=>{})};const PK='contab_push_on',PT='contab_push_tok',tdoc=t=>doc(db,'pushTokens',t);
 const lcol=()=>collection(db,'users',uid,'lancamentos'),ccfg=()=>doc(db,'users',uid,'config','main');
 const clean=x=>({c:x.c,m:x.m,v:Number(x.v),o:x.o||'',s:x.s||'novo',f:x.f||'',t:x.t||Date.now()});
 window.CLOUDAPI={
@@ -1120,11 +1121,11 @@ window.CLOUDAPI={
   unsubs.push(onSnapshot(lcol(),{includeMetadataChanges:true},s=>h.onL(s.docs.map(d=>({cid:d.id,...d.data()})),{pending:s.metadata.hasPendingWrites}),h.onErr));
   unsubs.push(onSnapshot(ccfg(),{includeMetadataChanges:true},s=>h.onCfg(s.exists()?s.data():null,{pending:s.metadata.hasPendingWrites}),h.onErr))},
  groupsStart(email,h){if(gU)gU();gU=onSnapshot(query(collection(db,'groups'),where('memberEmails','array-contains',email)),{includeMetadataChanges:true},s=>h.onG(s.docs.map(d=>({id:d.id,...d.data()}))),h.onErr)},
- groupSave(gid,o){const r=gid?doc(db,'groups',gid):doc(collection(db,'groups'));setDoc(r,o,{merge:true}).catch(window.cloudErr);return r.id},
+ groupSave(gid,o,ne){const r=gid?doc(db,'groups',gid):doc(collection(db,'groups')),pr=setDoc(r,o,{merge:true});pr.catch(window.cloudErr);if(ne&&ne.length)pr.then(()=>notify({kind:'members',gid:r.id,emails:ne})).catch(()=>{});return r.id},
  groupDel(gid,ids){const b=writeBatch(db);ids.forEach(i=>b.delete(doc(db,'groups',gid,'expenses',i)));b.delete(doc(db,'groups',gid));b.commit().catch(window.cloudErr)},
  expStart(gid,h){return onSnapshot(collection(db,'groups',gid,'expenses'),{includeMetadataChanges:true},s=>h(s.docs.map(d=>({id:d.id,...d.data()}))),window.cloudErr)},
- expSave(gid,eid,o){const r=eid?doc(db,'groups',gid,'expenses',eid):doc(collection(db,'groups',gid,'expenses'));setDoc(r,o).catch(window.cloudErr);return r.id},
- expDel(gid,eid){deleteDoc(doc(db,'groups',gid,'expenses',eid)).catch(window.cloudErr)}};
+ expSave(gid,eid,o){const r=eid?doc(db,'groups',gid,'expenses',eid):doc(collection(db,'groups',gid,'expenses'));const pr=setDoc(r,o);pr.catch(window.cloudErr);pr.then(()=>notify({kind:eid?'edit':'exp',gid,eid:r.id})).catch(()=>{});return r.id},
+ expDel(gid,eid,info){const pr=deleteDoc(doc(db,'groups',gid,'expenses',eid));pr.catch(window.cloudErr);pr.then(()=>notify({kind:'del',gid,eid,info:info||{}})).catch(()=>{})}};
 window.CLOUDAPI.push={
  async supported(){try{return !!VAPID&&'Notification' in window&&'serviceWorker' in navigator&&await isSupported()}catch(e){return false}},
  state(){return {perm:('Notification' in window)?Notification.permission:'denied',on:localStorage.getItem(PK)==='1'}},
