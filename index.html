@@ -189,6 +189,18 @@ html{background:var(--bg)}
 @media(min-width:761px){#goL{order:9}}
 @media(max-width:760px){.app{padding-bottom:calc(112px + env(safe-area-inset-bottom,0px))}.side{align-items:flex-end;overflow:visible}
 #goL{position:relative;right:auto;bottom:auto;flex:0 0 64px;width:64px;height:64px;margin:-30px 6px 0;padding:0;border-radius:50%;font-size:0;box-shadow:0 6px 18px rgba(0,0,0,.35);z-index:45;border:4px solid var(--bg)}#goL::before{content:'+';font-size:38px;line-height:56px;display:block}}
+
+.fdots{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 2px}.fd{width:24px;height:24px;border-radius:12px;border:3px solid var(--bd);background:var(--bd);padding:0;display:inline-flex;align-items:center;justify-content:center;color:#fff;cursor:pointer;min-width:0;flex:none}.fd.ok{background:var(--ac);border-color:var(--ac)}.fd.sk{background:transparent;border-style:dashed}.fd.cur{border-color:var(--ac);background:var(--card)}.fd.cur.ok{background:var(--ac)}
+.fnav{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:14px 0 0}.fa{width:48px;height:48px;border-radius:24px;padding:0;display:inline-flex;align-items:center;justify-content:center;flex:none}.fc{text-align:center;min-width:0}.fn{font-size:22px;font-weight:700}.fok{display:inline-flex;align-items:center;gap:4px;background:var(--ac2);color:var(--ac);font-weight:700;font-size:13px;padding:3px 10px;border-radius:12px;margin-top:6px}
+.fv{border:1px solid var(--bd);background:var(--card);border-radius:14px;margin-top:14px;padding:10px 16px;text-align:center;cursor:pointer}.fv.ok{border:2px solid var(--ac);cursor:default}.fvb{font-size:38px;font-weight:800;color:#c2610f}.fv.ok .fvb{color:var(--tx)}
+.fact{display:flex;gap:8px;margin-top:10px}.fact .btn{flex:1;height:50px;font-weight:700;font-size:15px}.fact .btn.w{flex:2}
+.flist{border:1px solid var(--bd);border-radius:14px;margin-top:12px;padding:2px 14px}.fl{display:flex;align-items:center;gap:10px;height:40px;border-top:1px solid var(--bd);cursor:pointer}.fl:first-child{border-top:0}
+#fcAll{display:none}.modal,.mbox{overscroll-behavior:contain}
+#catGrid{display:none!important}label:has(>#fCat){display:flex!important;order:1;flex:1 1 100%}#fCat{height:56px;font-size:17px;font-weight:600;width:100%}
+label:has(>#fMes){order:2;flex:1 1 120px}label:has(>#fVal){display:none}#nCatBtn{order:3}#qDisp{order:4;flex:1 1 100%;text-align:center;margin:4px 0}#qBig{font-size:44px;font-weight:800;color:#c2610f;letter-spacing:-.5px}#qEx{min-height:20px}label:has(>#fObs){order:5;flex:1 1 100%}#fAdd{display:none}#fCancel{order:6}
+.kp{position:fixed;left:0;right:0;bottom:0;z-index:70;max-width:480px;margin:0 auto;background:var(--card);border-top:1px solid var(--bd);padding:8px 12px calc(12px + env(safe-area-inset-bottom,0px));border-radius:18px 18px 0 0;box-shadow:0 -6px 20px rgba(0,0,0,.22)}.kp.hide{display:none}.kph{display:flex;justify-content:flex-end;min-height:0}.kph .btn{margin-bottom:6px}
+.kp .g{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.kp .g button{height:54px;border-radius:14px;border:1px solid var(--bd);background:var(--bg);color:var(--tx);font:600 22px system-ui;padding:0}.kp .g button.o{background:var(--ac2);color:var(--ac);border-color:transparent}.kp .g button.go{grid-column:span 3;background:var(--ac);color:#fff;font-size:17px;font-weight:700;border-color:var(--ac)}
+.kpon .mbox{padding-bottom:350px}
 </style>
 </head>
 <body><div class="app">
@@ -231,7 +243,7 @@ html{background:var(--bg)}
 <div class="card"><div class="ct">Dados e backup</div><div class="row" style="margin-top:8px"><button class="btn sm" id="reset">Apagar dados locais</button></div>
   <div class="row" style="margin-top:10px;align-items:center"><span class="mu">Backup:</span><button class="btn sm" id="bkExp">Exportar backup (JSON)</button><label class="btn sm" style="flex-direction:row;font-size:12px;color:var(--tx);cursor:pointer;min-width:0">Importar backup (substitui os dados atuais)<input type="file" id="bkImp" hidden></label></div><div id="bkMsg" class="mu" style="margin-top:6px;min-height:18px"></div><details style="margin-top:6px"><summary class="mu" style="cursor:pointer">Importar colando o texto do backup</summary><textarea id="bkTxt" rows="4" style="width:100%;margin-top:6px;font-size:12px" placeholder="Cole aqui o conteúdo do arquivo de backup (.json)"></textarea><button class="btn sm" id="bkPaste" type="button" style="margin-top:6px">Importar texto colado</button></details></div>
 <div class="card"><div class="ct">Sobre</div>
- <div class="cfr" style="border-top:0"><span>Versão do app</span><b id="appVer">2026-10-15.6</b></div>
+ <div class="cfr" style="border-top:0"><span>Versão do app</span><b id="appVer">2026-10-16.1</b></div>
  <div class="cfr"><span>Atualização</span><button class="btn sm" id="appUpd">Buscar atualização</button></div>
 </div>
 </section>
@@ -261,15 +273,16 @@ html{background:var(--bg)}
 </main></div>
 <div id="sheet" class="modal hide"><div class="mbox"><div class="row" style="justify-content:space-between;align-items:center;margin-bottom:12px"><span class="ct" id="shTitle"></span><button class="btn sm" id="shClose" aria-label="Fechar">✕</button></div><div id="shBody"></div></div></div>
 <div id="login" class="loginov"><div class="mbox" style="text-align:center;max-width:420px"><div class="ct" style="margin-bottom:10px">Contabilidade</div><div id="loadBox"><p class="mu">Carregando…</p></div><div id="loginBox" class="hide"><p style="margin-bottom:14px">Entre com sua conta Google para acessar seus lançamentos.</p><button class="btn pri" id="btnLogin">Entrar com Google</button><p id="loginMsg" class="mu" style="margin-top:10px"></p></div></div></div>
+<div id="kp" class="kp hide"><div class="kph"><button class="btn sm hide" id="kpHide" data-k="hide">Ocultar teclado ▾</button></div><div class="g"><button data-k="7">7</button><button data-k="8">8</button><button data-k="9">9</button><button data-k="⌫" class="o">⌫</button><button data-k="4">4</button><button data-k="5">5</button><button data-k="6">6</button><button data-k="÷" class="o">÷</button><button data-k="1">1</button><button data-k="2">2</button><button data-k="3">3</button><button data-k="×" class="o">×</button><button data-k="00">00</button><button data-k="0">0</button><button data-k="−" class="o">−</button><button data-k="+" class="o">+</button><button data-k="=" class="o">=</button><button data-k="go" class="go">Lançar</button></div></div>
 <div id="tipBox" class="tipbox hide" role="tooltip"></div>
-<div id="modal" class="modal hide"><div class="mbox"><div class="row" style="justify-content:space-between;align-items:center;margin-bottom:12px"><div class="seg" id="seg"><button data-s="avulso" class="on">Lançamento rápido</button><button data-s="fech">Fechamento do mês</button></div><button class="btn sm" id="mClose" aria-label="Fechar">✕</button></div><div id="mFech"><div class="card"><div class="row" style="align-items:flex-end;justify-content:space-between"><div><span class="ct">Fechamento do mês</span><div class="mu">Lance tudo de uma vez: cada item lançado sai da lista até zerar.</div></div><label>Mês<input type="month" id="fcMes"></label></div>
+<div id="modal" class="modal hide"><div class="mbox"><div class="row" style="justify-content:space-between;align-items:center;margin-bottom:12px"><div class="seg" id="seg"><button data-s="avulso" class="on">Lançamento rápido</button><button data-s="fech">Fechamento do mês</button></div><button class="btn sm" id="mClose" aria-label="Fechar">✕</button></div><div id="mFech"><div class="card"><div class="row" style="align-items:flex-end;justify-content:space-between"><div><span class="ct">Fechamento do mês</span><div class="mu">Um item por vez: lance, pule ou replique o mês anterior.</div></div><label>Mês<input type="month" id="fcMes"></label></div>
  <div id="fcProg" style="margin:10px 0 4px"></div><div id="fcBox"></div>
  <div class="row" style="margin-top:10px;align-items:center"><button class="btn pri" id="fcAll">Lançar todos os preenchidos</button><button class="btn sm" id="fcUnskip">Restaurar pulados</button><span id="fcMsg" class="mu"></span></div></div>
 </div><div id="mAvulso" class="hide"><div class="card"><span class="ct" id="fTitle">Lançamento rápido</span>
   <div class="row" style="margin-top:8px">
    <label>Categoria<select id="fCat"></select></label><button class="btn sm" id="nCatBtn" type="button">+ Nova categoria</button>
    <label>Mês<input type="month" id="fMes"></label>
-   <label>Valor (R$)<input id="fVal" placeholder="0,00 ou =12+30*2" autocomplete="off"><small id="fPrev" class="mu"></small></label>
+   <div id="qDisp"><div id="qEx" class="mu"></div><div id="qBig">R$ 0,00</div><div class="mu" style="font-size:12px">Digite só os números: os centavos entram sozinhos</div></div><label>Valor (R$)<input id="fVal" placeholder="0,00 ou =12+30*2" autocomplete="off"><small id="fPrev" class="mu"></small></label>
    <label style="flex:1">Observação<input id="fObs" placeholder="opcional"></label>
    <button class="btn pri" id="fAdd">Adicionar</button><button class="btn hide" id="fCancel" type="button">Cancelar edição</button>
   </div><div class="row hide" id="nCatBox" style="margin-top:8px"><label>Nome da categoria<input id="nCatN"></label><label>Tipo<select id="nCatT"><option value="d">Despesa</option><option value="r">Receita</option><option value="s">Saldo / rendimento</option></select></label><button class="btn pri sm" id="nCatOk" type="button">Criar</button></div><div id="fMsg" class="mu" style="margin-top:6px"></div>
@@ -410,18 +423,75 @@ const lista_=document.getElementById('lista');
 let SK={};try{SK=JSON.parse(localStorage.getItem('contab_skip_v1')||'{}')}catch(e){}
 const saveSk=()=>{try{localStorage.setItem('contab_skip_v1',JSON.stringify(SK))}catch(e){}cfgUp()};
 const FH='<div class="fh"><span>Categoria</span><span>Valor</span><span>Último lançado</span><span></span><span></span></div>';
-function fech(foc){const keep={};fcBox.querySelectorAll('.frow').forEach(r=>{keep[r.dataset.c]=r.querySelector('input').value});
- const m=fcMes.value;if(!m){fcBox.innerHTML='';fcProg.innerHTML='';return}
- if(!CATS.length){fcBox.innerHTML='<div class="okm" style="color:var(--mu)">Crie suas categorias na aba Metas para usar o fechamento.</div>';fcProg.innerHTML='';return}
- const M=matrix(),done=new Set(L.filter(x=>x.m===m).map(x=>x.c)),sk=new Set(SK[m]||[]),pend=CATS.filter(c=>!done.has(c.n)&&!sk.has(c.n)),T=CATS.length,rs=T-pend.length,am=allMonths().filter(x=>x<m).reverse();
- fcProg.innerHTML=`<div class="bar"><i style="width:${rs/T*100}%;background:var(--ac)"></i></div><div class="mu" style="margin-top:4px">${rs} de ${T} resolvidos · ${pend.length} pendente${pend.length===1?'':'s'} em ${lblM(m)}</div>`;
- fcBox.innerHTML=pend.length?FH+pend.map(c=>{const k=am.find(x=>M[c.n][x]),lv=k?M[c.n][k]:null;return `<div class="frow" data-c="${esc(c.n)}"><span>${c.n}${c.t==='r'?' <small class="mu">(receita)</small>':''}</span><input placeholder="valor ou =fórmula" autocomplete="off">${lv!=null?`<button class="btn sm" data-use="${String(lv).replace('.',',')}" title="usar o último valor lançado">últ. ${brl(lv)}</button>`:'<span></span>'}<button class="btn sm pri" data-go="1">Lançar</button><button class="btn sm" data-skip="1">Pular</button></div>`}).join(''):`<div class="okm">Tudo resolvido para ${lblM(m)}.</div>`;
- fcBox.querySelectorAll('.frow').forEach(r=>{if(keep[r.dataset.c])r.querySelector('input').value=keep[r.dataset.c]});
- if(foc){const f=fcBox.querySelector('input');if(f)f.focus()}}
-function fcLaunch(row){const inp=row.querySelector('input'),r=calc(inp.value);if(!r||r.err){inp.classList.add('bad');fcMsg.textContent=!r?'Digite um valor ou use Pular.':'Valor ou fórmula inválida.';return}
- addL({c:row.dataset.c,m:fcMes.value,v:r.v,o:'',s:'novo',f:r.f});fcMsg.textContent='';initSelects();refresh();fech(1)}
 let EDIT=null;
-function endEdit(clear){EDIT=null;fAdd.textContent='Adicionar';fCancel.classList.add('hide');fTitle.textContent='Lançamento avulso';if(clear){fVal.value='';fObs.value='';fPrev.textContent=''}}
+//KP-START
+const ICK='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>',
+IL='<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>',
+IR='<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>';
+const f2=d=>{d=String(d).padStart(3,'0');return d.slice(0,-2)+','+d.slice(-2)};
+// números entram "pelos centavos" (1 → 0,01); depois de × ou ÷ o número é inteiro (× 3 = vezes 3)
+const kNum=s=>s.d===''?'':(s.q?s.d:f2(s.d));
+const kStr=s=>s.p.join('')+kNum(s);
+const kVal=s=>{const t=kStr(s).replace(/[+−×÷]$/,'').replace(/−/g,'-').replace(/×/g,'*').replace(/÷/g,'/');return s.p.length?'='+t:t};
+function kPress(s,k){
+ if(/^\d+$/.test(k)){if(s.d.length+k.length<=11)s.d=String(Number(s.d+k));return}
+ if('+−×÷'.includes(k)){if(s.d===''){if(s.p.length)s.p[s.p.length-1]=k;s.q='×÷'.includes(k);return}s.p.push(kNum(s),k);s.d='';s.q='×÷'.includes(k);return}
+ if(k==='='){const r=calc(kVal(s));if(r&&!r.err){s.p=[];s.q=false;s.d=String(Math.round(Math.abs(r.v)*100))}return}
+ if(k==='⌫'){if(s.d!=='')s.d=s.d.slice(0,-1);else if(s.p.length){s.p.pop();const n=s.p.pop();s.q=s.p.length>0&&'×÷'.includes(s.p[s.p.length-1]);s.d=(s.q?n:n.replace(',','')).replace(/^0+(?=\d)/,'')}}}
+//KP-END
+const QS={p:[],d:''},FS={};let FI=0,KPo=false,obsF=false,FIreset=true,KP_last='';
+const isA=()=>!mAvulso.classList.contains('hide'),fcKey=n=>fcMes.value+'|'+n;
+const kCur=()=>isA()?QS:(FS[fcKey(CATS[FI].n)]||(FS[fcKey(CATS[FI].n)]={p:[],d:''}));
+function kRender(){const s=kCur(),v=kVal(s),r=v?calc(v):null,big=r&&!r.err?brl(r.v):brl(0),ex=s.p.length?kStr(s):'';
+ if(isA()){qEx.textContent=ex;qBig.textContent=big;fVal.value=v;KP_last=v;try{fVal.oninput&&fVal.oninput()}catch(e){}}
+ else{const a=$id('fvEx'),b=$id('fvBig');if(a)a.textContent=ex;if(b)b.textContent=big}}
+function kpSync(){const op=!modal.classList.contains('hide'),a=isA(),on=op&&(a?!obsF:KPo&&CATS.length>0);if(!op){KPo=false;FIreset=true}
+ kp.classList.toggle('hide',!on);modal.classList.toggle('kpon',on);$id('kpHide').classList.toggle('hide',a)}
+function fNext(){const m=fcMes.value,T=CATS.length,dn=n=>L.some(x=>x.m===m&&x.c===n)||(SK[m]||[]).includes(n);for(let j=1;j<=T;j++){const i=(FI+j)%T;if(!dn(CATS[i].n)){FI=i;return}}}
+function fLaunch(){const c=CATS[FI],s=kCur(),v=kVal(s),r=v?calc(v):null;
+ if(!r||r.err){fcMsg.textContent=!r?'Digite um valor, replique o mês anterior ou use Pular.':'Valor ou fórmula inválida.';return}
+ addL({c:c.n,m:fcMes.value,v:r.v,o:'',s:'novo',f:r.f});delete FS[fcKey(c.n)];fcMsg.textContent='';fNext();initSelects();refresh()}
+function fech(){const m=fcMes.value;
+ if(!m){fcBox.innerHTML='';fcProg.innerHTML='';return}
+ if(!CATS.length){fcBox.innerHTML='<div class="okm" style="color:var(--mu)">Crie suas categorias em Configurações para usar o fechamento.</div>';fcProg.innerHTML='';return}
+ const T=CATS.length,M=matrix(),sk=new Set(SK[m]||[]),dn=n=>L.some(x=>x.m===m&&x.c===n),st=n=>dn(n)?'ok':sk.has(n)?'sk':'';
+ if(FIreset&&!modal.classList.contains('hide')){FIreset=false;const j=CATS.findIndex(x=>!st(x.n));FI=j>=0?j:0}
+ FI=Math.max(0,Math.min(T-1,FI));
+ const c=CATS[FI],S=st(c.n),am=allMonths().filter(x=>x<m).reverse(),k=am.find(x=>M[c.n][x]),lv=k?M[c.n][k]:null,nd=CATS.filter(x=>st(x.n)).length;
+ if(S==='ok'&&KPo){KPo=false;kpSync()}
+ fcProg.innerHTML='<div class="fdots">'+CATS.map((x,i)=>'<button class="fd '+st(x.n)+(i===FI?' cur':'')+'" data-i="'+i+'" aria-label="'+esc(x.n)+'">'+(st(x.n)==='ok'?ICK:'')+'</button>').join('')+'</div><div class="mu" style="margin-top:6px"><b>'+(FI+1)+'/'+T+'</b> · '+nd+' resolvido'+(nd===1?'':'s')+' em '+lblM(m)+'</div>';
+ const kd=({d:'Despesa',r:'Receita',s:'Saldo'})[c.t]||'';
+ fcBox.innerHTML='<div class="fnav"><button class="btn fa" data-nav="-1" aria-label="Anterior">'+IL+'</button><div class="fc"><div class="fn">'+esc(c.n)+'</div><div class="mu">'+kd+' · mês anterior '+(lv!=null?brl(lv):'—')+'</div>'+(S==='ok'?'<span class="fok">'+ICK+' Lançado</span>':S==='sk'?'<span class="fok" style="background:var(--bd);color:var(--mu)">Pulado</span>':'')+'</div><button class="btn fa" data-nav="1" aria-label="Próximo">'+IR+'</button></div>'
+ +(S==='ok'?'<div class="fv ok"><div class="mu" style="text-align:left;font-size:12px">VALOR LANÇADO</div><div class="fvb">'+brl(cell(M,c.n,m))+'</div></div><div class="fact"><button class="btn" data-a="edit">Editar valor</button><button class="btn" data-a="undo" style="color:var(--neg)">Desfazer</button></div>'
+ :'<div class="fv" data-a="open"><div class="mu" style="text-align:left;font-size:12px">VALOR</div><div id="fvEx" class="mu" style="min-height:18px"></div><div class="fvb" id="fvBig">R$ 0,00</div><div class="mu" style="font-size:12px">Toque para digitar (teclado numérico)</div></div>'
+ +(lv!=null?'<button class="btn" data-a="rep" style="width:100%;height:50px;margin-top:10px;color:var(--ac);border-color:var(--ac);font-weight:700">Replicar mês anterior · '+brl(lv)+'</button>':'')
+ +'<div class="fact"><button class="btn" data-a="skip">Pular</button><button class="btn pri w" data-a="go">Lançar</button></div>')
+ +'<div class="flist">'+CATS.map((x,i)=>'<div class="fl" data-i="'+i+'"'+(i===FI?' style="font-weight:700"':'')+'><span class="fd '+st(x.n)+(i===FI?' cur':'')+'">'+(st(x.n)==='ok'?ICK:'')+'</span><span style="flex:1">'+esc(x.n)+'</span><span class="mu">'+(st(x.n)==='ok'?brl(cell(M,x.n,m)):st(x.n)==='sk'?'pulado':'—')+'</span></div>').join('')+'</div>';
+ kRender()}
+fcProg.addEventListener('click',e=>{const b=e.target.closest('[data-i]');if(b){FI=+b.dataset.i;fech()}});
+fcBox.addEventListener('click',e=>{const T=CATS.length,n=e.target.closest('[data-nav]'),i=e.target.closest('[data-i]'),a=e.target.closest('[data-a]');
+ if(n){FI=(FI+ +n.dataset.nav+T)%T;fech();return}
+ if(i){FI=+i.dataset.i;fech();return}
+ if(!a)return;const m=fcMes.value,c=CATS[FI],A=a.dataset.a;
+ if(A==='open'){KPo=true;kpSync();return}
+ if(A==='go'){fLaunch();return}
+ if(A==='skip'){(SK[m]=SK[m]||[]).push(c.n);saveSk();fNext();fcMsg.textContent='';fech();return}
+ const M=matrix();
+ if(A==='rep'){const am=allMonths().filter(x=>x<m).reverse(),k=am.find(x=>M[c.n][x]);if(k){addL({c:c.n,m,v:M[c.n][k],o:'',s:'novo',f:''});fNext();fcMsg.textContent='';initSelects();refresh()}return}
+ if(A==='undo'||A==='edit'){const v=cell(M,c.n,m);L.filter(x=>x.m===m&&x.c===c.n).forEach(delL);if(A==='edit'){FS[fcKey(c.n)]={p:[],d:String(Math.round(Math.abs(v)*100))};KPo=true}initSelects();refresh();kpSync()}});
+kp.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const k=b.dataset.k;
+ if(k==='hide'){KPo=false;kpSync();return}
+ if(k==='go'){kGo();return}
+ kPress(kCur(),k);kRender()});
+function kGo(){if(isA())fAdd.click();else fLaunch()}
+setInterval(()=>{if(modal.classList.contains('hide')||!isA()||fVal.value===KP_last)return;const v=fVal.value,r=v?calc(v):null;QS.p=[];QS.q=false;QS.d=r&&!r.err?String(Math.round(Math.abs(r.v)*100)):'';qEx.textContent='';qBig.textContent=r&&!r.err?brl(r.v):brl(0);KP_last=v},250);
+document.addEventListener('keydown',e=>{if(kp.classList.contains('hide')||e.ctrlKey||e.metaKey||e.altKey||/INPUT|SELECT|TEXTAREA/.test((e.target||{}).tagName||''))return;
+ const k=e.key,m=({'-':'−','*':'×','x':'×','/':'÷','Backspace':'⌫'})[k]||k;
+ if(/^\d$/.test(m)||'+−×÷=⌫'.includes(m)){e.preventDefault();kPress(kCur(),m);kRender()}else if(k==='Enter'){e.preventDefault();kGo()}});
+[modal,mAvulso,mFech].forEach(el=>new MutationObserver(kpSync).observe(el,{attributes:true,attributeFilter:['class']}));
+fObs.addEventListener('focus',()=>{obsF=true;kpSync()});fObs.addEventListener('blur',()=>{obsF=false;kpSync()});
+
+function endEdit(clear){EDIT=null;fAdd.textContent='Lançar';fCancel.classList.add('hide');fTitle.textContent='Lançamento avulso';if(clear){fVal.value='';fObs.value='';fPrev.textContent=''}}
 function refresh(){resumo();lista();graf();metas();fech();catsUI();welcomeUI();divRender()}
 function initSelects(){const ys=years();
  fillSel(lCat,[['all','Todas'],...CATS.map(c=>[c.n,c.n])],lCat.value||'all');
@@ -843,18 +913,26 @@ const toMetas=()=>{setTab('metas');navSync();scrollTo(0,0)};goMetas.onclick=toMe
 dtBtn.onclick=()=>{const on=document.body.classList.toggle('showdt');dtBtn.textContent=on?'Ocultar gráficos e extrato':'Ver gráficos e extrato';refresh()};
 orgOn.onchange=()=>document.body.classList.toggle('org',orgOn.checked);
 (function(){const box=modal.querySelector('.mbox'),pane=k=>k==='fech'?mFech:mAvulso,now=()=>mAvulso.classList.contains('hide')?'fech':'avulso';
-let sx=0,sy=0,dx=0,m=0,W=1,k='',t0=0,ok=false;
-const tr=(el,x,o,ms)=>{el.style.transition=ms?'transform '+ms+'ms cubic-bezier(.22,.8,.3,1),opacity '+ms+'ms linear':'none';el.style.transform=x?'translate3d('+x+'px,0,0)':'';el.style.opacity=o==null?'':String(o)};
-const back=el=>{tr(el,0,1,200);setTimeout(()=>tr(el,0,null,0),210)};
-box.addEventListener('touchstart',e=>{m=0;if(e.touches.length!==1||EDIT||modal.classList.contains('hide')||e.target.closest('input,select,textarea'))return;sx=e.touches[0].clientX;sy=e.touches[0].clientY;dx=0;k=now();W=box.clientWidth||innerWidth;t0=performance.now();m=1},{passive:true});
+let sx=0,sy=0,dx=0,dy=0,m=0,W=1,k='',t0=0,ok=false;
+const tr=(el,x,y,o,ms)=>{el.style.transition=ms?'transform '+ms+'ms cubic-bezier(.22,.8,.3,1),opacity '+ms+'ms linear':'none';el.style.transform=(x||y)?'translate3d('+x+'px,'+y+'px,0)':'';el.style.opacity=o==null?'':String(o)};
+const back=el=>{tr(el,0,0,1,200);setTimeout(()=>tr(el,0,0,null,0),210)};
+box.addEventListener('touchstart',e=>{m=0;if(e.touches.length!==1||modal.classList.contains('hide')||e.target.closest('input,select,textarea'))return;sx=e.touches[0].clientX;sy=e.touches[0].clientY;dx=0;dy=0;k=now();W=box.clientWidth||innerWidth;t0=performance.now();m=1},{passive:true});
 box.addEventListener('touchmove',e=>{if(!m)return;const t=e.touches[0],x=t.clientX-sx,y=t.clientY-sy;
- if(m===1){if(Math.abs(x)<10&&Math.abs(y)<10)return;if(Math.abs(x)>Math.abs(y)*1.3)m=2;else{m=0;return}}
- if(e.cancelable)e.preventDefault();dx=x;ok=k==='avulso'?x<0:x>0;const d=ok?x:x*.25;tr(pane(k),d,1-.3*Math.min(1,Math.abs(d)/W))},{passive:false});
-box.addEventListener('touchend',()=>{if(m!==2){m=0;return}m=0;const el=pane(k),v=Math.abs(dx)/Math.max(performance.now()-t0,1),go=ok&&(Math.abs(dx)>W*.3||(v>.6&&Math.abs(dx)>40));
+ if(m===1){if(Math.abs(x)<10&&Math.abs(y)<10)return;
+  if(Math.abs(x)>Math.abs(y)*1.3&&!EDIT)m=2;
+  else if(y>0&&Math.abs(y)>Math.abs(x)*1.3&&modal.scrollTop+box.scrollTop<=0){m=3;kp.classList.add('hide')}
+  else{m=0;return}}
+ if(e.cancelable)e.preventDefault();
+ if(m===3){dy=Math.max(0,y);tr(box,0,dy,1-.4*Math.min(1,dy/innerHeight));return}
+ dx=x;ok=k==='avulso'?x<0:x>0;const d=ok?x:x*.25;tr(pane(k),d,0,1-.3*Math.min(1,Math.abs(d)/W))},{passive:false});
+box.addEventListener('touchend',()=>{
+ if(m===3){m=0;const v=dy/Math.max(performance.now()-t0,1);
+  if(dy>130||(v>.7&&dy>50)){tr(box,0,innerHeight,0,200);setTimeout(()=>{closeM();tr(box,0,0,null,0);kpSync()},210)}else{back(box);kpSync()}return}
+ if(m!==2){m=0;return}m=0;const el=pane(k),v=Math.abs(dx)/Math.max(performance.now()-t0,1),go=ok&&(Math.abs(dx)>W*.3||(v>.6&&Math.abs(dx)>40));
  if(!go){back(el);return}
- const s=dx<0?-1:1;tr(el,s*W,0,160);
- setTimeout(()=>{tr(el,0,null,0);const to=k==='avulso'?'fech':'avulso';mSeg(to);const n=pane(to);tr(n,-s*W*.3,0,0);void n.offsetWidth;tr(n,0,1,200);setTimeout(()=>tr(n,0,null,0),220)},170)},{passive:true});
-box.addEventListener('touchcancel',()=>{if(m===2)back(pane(k));m=0},{passive:true});
+ const s=dx<0?-1:1;tr(el,s*W,0,0,160);
+ setTimeout(()=>{tr(el,0,0,null,0);const to=k==='avulso'?'fech':'avulso';mSeg(to);const n=pane(to);tr(n,-s*W*.3,0,0,0);void n.offsetWidth;tr(n,0,0,1,200);setTimeout(()=>tr(n,0,0,null,0),220)},170)},{passive:true});
+box.addEventListener('touchcancel',()=>{if(m===3){back(box);kpSync()}else if(m===2)back(pane(k));m=0},{passive:true});
 })();
 
 seg.onclick=e=>{const s=e.target.dataset.s;if(!s)return;if(EDIT&&s!=='avulso')endEdit(1);mSeg(s)};mClose.onclick=closeM;modal.onclick=e=>{if(e.target===modal)closeM()};
