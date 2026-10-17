@@ -6,8 +6,11 @@ const messaging=firebase.messaging();
 // Chega com o app fechado ou em segundo plano (com o app aberto na tela, quem avisa é o próprio app)
 messaging.onBackgroundMessage(p=>{
   const d=(p&&p.data)||{};
+  // icon = imagem colorida do app; badge = ícone pequeno da barra de status (precisa ser branco com fundo transparente: badge.png)
+  // vibrate + silent:false fazem o Android mostrar o aviso em cima da tela (pop-up), e não só na lista
   return self.registration.showNotification(d.title||'Contabilidade',{
-    body:d.body||'',icon:'icon-192.png',badge:'icon-192.png',tag:d.tag||undefined,data:{gid:d.gid||''}
+    body:d.body||'',icon:'icon-192.png',badge:'badge.png',tag:d.tag||undefined,renotify:!!d.tag,
+    vibrate:[200,100,200],silent:false,requireInteraction:false,timestamp:Date.now(),data:{gid:d.gid||''}
   });
 });
 self.addEventListener('notificationclick',e=>{

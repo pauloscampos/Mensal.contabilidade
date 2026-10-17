@@ -206,8 +206,17 @@ label:has(>#fMes){order:2;flex:1 1 120px}label:has(>#fVal){display:none}#nCatBtn
 .wl-logo{width:76px;height:76px;border-radius:22px;background:var(--ac);color:var(--bg);display:flex;align-items:center;justify-content:center}.wl h1{margin:22px 0 6px;font-size:34px;font-weight:800;letter-spacing:-.5px}.wl-sub{font-size:18px;color:var(--mu);margin:0;line-height:1.35}
 .wl-feat{display:flex;flex-direction:column;gap:22px;margin-top:40px}.wl-f{display:flex;gap:14px;align-items:center}.wl-i{width:48px;height:48px;border-radius:14px;background:var(--ac2);color:var(--ac);display:flex;align-items:center;justify-content:center;flex:none}.wl-f b{display:block;font-size:16px}.wl-f span{display:block;font-size:14px;color:var(--mu);line-height:1.35;margin-top:2px}
 .wl-bot{margin-top:auto;padding-top:28px;text-align:center}.wl-go{width:100%;height:58px;border-radius:18px;font-size:18px;font-weight:700;background:var(--tx);color:var(--bg);border:0;display:flex;align-items:center;justify-content:center;gap:12px}.wl-g{width:28px;height:28px;border-radius:14px;border:2px solid currentColor;box-sizing:border-box;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800}.wl-note{font-size:13px;color:var(--mu);line-height:1.4;margin:14px 8px 0}
-.acc{display:flex;align-items:center;gap:14px;margin:12px 0}.av{width:56px;height:56px;border-radius:28px;background:var(--ac2);color:var(--ac);display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:800;flex:none}.an{font-size:18px;font-weight:700}
+.acc{display:flex;align-items:center;gap:14px;margin:12px 0}.acv{width:56px;height:56px;border-radius:28px;background:var(--ac2);color:var(--ac);display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:800;flex:none;cursor:pointer;overflow:hidden}.an{font-size:18px;font-weight:700}
 #pushRow[style*="none"]+#pushTestRow{display:none}
+.gh .ct{font-size:22px}.gh .avs .av{width:32px;height:32px;font-size:12px}
+#celeb{position:fixed;inset:0;z-index:130;background:rgba(0,0,0,.55);display:flex;flex-direction:column;align-items:center;justify-content:center;animation:celIn .2s ease both}#celeb.out{opacity:0;transition:opacity .35s}
+.cel-b{position:relative;width:132px;height:132px;display:flex;align-items:center;justify-content:center}.cel-c{width:132px;height:132px;overflow:visible}
+.cel-c circle{fill:var(--ac);transform-origin:center;animation:celPop .45s cubic-bezier(.2,1.4,.4,1) both}.cel-c path{fill:none;stroke:#fff;stroke-width:4.5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:40;stroke-dashoffset:40;animation:celDraw .4s .3s ease-out forwards}
+.cel-ring{position:absolute;inset:0;border-radius:50%;border:3px solid var(--ac);animation:celRing .9s .25s ease-out both}
+.cel-b i{position:absolute;left:50%;top:50%;width:9px;height:9px;border-radius:50%;margin:-4px;opacity:0;animation:celCf .8s var(--d) ease-out forwards}
+.cel-t{margin-top:26px;font-size:22px;font-weight:800;color:#fff;animation:celIn .4s .5s both}
+@keyframes celIn{from{opacity:0}to{opacity:1}}@keyframes celPop{from{transform:scale(0)}to{transform:scale(1)}}@keyframes celDraw{to{stroke-dashoffset:0}}@keyframes celRing{from{transform:scale(.9);opacity:.9}to{transform:scale(1.9);opacity:0}}@keyframes celCf{0%{opacity:1;transform:translate(0,0) scale(.4)}100%{opacity:0;transform:translate(var(--x),var(--y)) scale(1)}}
+@media (prefers-reduced-motion:reduce){.cel-b i,.cel-ring{display:none}}
 </style>
 </head>
 <body><div class="app">
@@ -230,7 +239,7 @@ label:has(>#fMes){order:2;flex:1 1 120px}label:has(>#fVal){display:none}#nCatBtn
 <section id="t-metas" class="hide"><div class="card"><div class="ct">Metas e classificação</div><div class="cs" style="margin-bottom:8px">Defina se cada despesa é fixa ou variável e um teto mensal (R$). Sem meta, a categoria não é acompanhada.</div><div class="scroll"><table id="metaTb"></table></div></div></section>
 <section id="t-div" class="hide"><div id="divRoot"></div></section>
 <section id="t-conf" class="hide">
-<div class="card"><div class="ct">Conta</div><div class="acc"><span class="av" id="avL">?</span><div style="min-width:0"><div class="an" id="avN">…</div><div class="mu" id="avE" style="font-size:14px;overflow:hidden;text-overflow:ellipsis"></div></div></div><div class="cs" id="syncSt" style="margin:0 0 12px">…</div><div class="fact" style="margin-top:0"><button class="btn" id="btnSwitch">Trocar de conta</button><button class="btn" id="btnLogout" style="color:var(--neg)">Sair da conta</button></div></div>
+<div class="card"><div class="ct">Conta</div><div class="acc"><span class="acv" id="avL" title="Trocar foto">?</span><div style="min-width:0"><div class="an" id="avN">…</div><div class="mu" id="avE" style="font-size:14px;overflow:hidden;text-overflow:ellipsis"></div><div style="margin-top:8px;display:flex;gap:6px"><button class="btn sm" id="avPick">Trocar foto</button><button class="btn sm hide" id="avDel">Remover</button></div></div></div><input type="file" id="avFile" accept="image/*" style="display:none"><div class="cs" id="syncSt" style="margin:0 0 12px">…</div><div class="fact" style="margin-top:0"><button class="btn" id="btnSwitch">Trocar de conta</button><button class="btn" id="btnLogout" style="color:var(--neg)">Sair da conta</button></div></div>
 <div class="card"><div class="ct">Aparência</div>
  <div class="cs" style="margin:2px 0 8px">Tema do aplicativo. Automático segue o modo do seu celular.</div>
  <div class="seg" id="thSeg"><button data-m="auto">Automático</button><button data-m="light">Claro</button><button data-m="dark">Escuro</button></div>
@@ -251,7 +260,7 @@ label:has(>#fMes){order:2;flex:1 1 120px}label:has(>#fVal){display:none}#nCatBtn
 <div class="card"><div class="ct">Dados e backup</div><div class="row" style="margin-top:8px"><button class="btn sm" id="reset">Apagar dados locais</button></div>
   <div class="row" style="margin-top:10px;align-items:center"><span class="mu">Backup:</span><button class="btn sm" id="bkExp">Exportar backup (JSON)</button><label class="btn sm" style="flex-direction:row;font-size:12px;color:var(--tx);cursor:pointer;min-width:0">Importar backup (substitui os dados atuais)<input type="file" id="bkImp" hidden></label></div><div id="bkMsg" class="mu" style="margin-top:6px;min-height:18px"></div><details style="margin-top:6px"><summary class="mu" style="cursor:pointer">Importar colando o texto do backup</summary><textarea id="bkTxt" rows="4" style="width:100%;margin-top:6px;font-size:12px" placeholder="Cole aqui o conteúdo do arquivo de backup (.json)"></textarea><button class="btn sm" id="bkPaste" type="button" style="margin-top:6px">Importar texto colado</button></details></div>
 <div class="card"><div class="ct">Sobre</div>
- <div class="cfr" style="border-top:0"><span>Versão do app</span><b id="appVer">2026-10-17.2</b></div>
+ <div class="cfr" style="border-top:0"><span>Versão do app</span><b id="appVer">2026-10-17.4</b></div>
  <div class="cfr"><span>Atualização</span><button class="btn sm" id="appUpd">Buscar atualização</button></div>
 </div>
 </section>
@@ -729,12 +738,28 @@ function dvSplitW(A,items){const tw=items.reduce((s,i)=>s+i.w,0),raw=items.map(i
 function dvBal(g,exps){const b={};(g.memberEmails||[]).forEach(e=>{b[e]=0});exps.forEach(x=>{(x.p||[]).forEach(p=>{b[p.e]=(b[p.e]||0)+p.a});(x.s||[]).forEach(s=>{b[s.e]=(b[s.e]||0)-s.a})});return b}
 function dvSimplify(b){const d=[],c=[];Object.entries(b).forEach(([e,v])=>{if(v<0)d.push({e,a:-v});else if(v>0)c.push({e,a:v})});d.sort((x,y)=>y.a-x.a||(x.e<y.e?-1:1));c.sort((x,y)=>y.a-x.a||(x.e<y.e?-1:1));
  const out=[];let i=0,j=0;while(i<d.length&&j<c.length){const a=Math.min(d[i].a,c[j].a);if(a>0)out.push({f:d[i].e,t:c[j].e,a});d[i].a-=a;c[j].a-=a;if(d[i].a===0)i++;if(c[j].a===0)j++}return out}
-function dvAv(g,e,big){const n=dvName(g,e),ini=n.split(/\s+/).filter(Boolean).slice(0,2).map(w=>w[0]).join('').toUpperCase()||'?';let h=0;for(const ch of e)h=(h*31+ch.charCodeAt(0))>>>0;return `<span class="av${big?' lg':''}" style="background:${DVCOL[h%DVCOL.length]}">${esc(ini)}</span>`}
+const dvOkPh=s=>/^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+\/=]+$/.test(s||'');
+function dvPhoto(g,e){const m=(g.members||[]).find(x=>x.e===e),p=(e===DV.me&&DV.myPhoto)||(m&&m.ph)||'';return dvOkPh(p)?p:''}
+function dvAv(g,e,big){const n=dvName(g,e),ini=n.split(/\s+/).filter(Boolean).slice(0,2).map(w=>w[0]).join('').toUpperCase()||'?';let h=0;for(const ch of e)h=(h*31+ch.charCodeAt(0))>>>0;const ph=dvPhoto(g,e);
+ return ph?`<span class="av${big?' lg':''}" style="background:#888 url('${ph}') center/cover no-repeat"></span>`:`<span class="av${big?' lg':''}" style="background:${DVCOL[h%DVCOL.length]}">${esc(ini)}</span>`}
+function avPaint(){const a=$id('avL'),d=$id('avDel');if(!a)return;const p=(window.DV&&DV.myPhoto)||'';if(p){a.textContent='';a.style.background="url('"+p+"') center/cover no-repeat"}else{a.style.background='';a.textContent=(($id('avN').textContent||'?')[0]||'?').toUpperCase()}if(d)d.classList.toggle('hide',!p)}
+function avResize(file){return new Promise((ok,no)=>{const im=new Image(),u=URL.createObjectURL(file);im.onload=()=>{const s=Math.min(im.width,im.height),c=document.createElement('canvas');c.width=c.height=128;c.getContext('2d').drawImage(im,(im.width-s)/2,(im.height-s)/2,s,s,0,0,128,128);URL.revokeObjectURL(u);ok(c.toDataURL('image/jpeg',.82))};im.onerror=()=>no(new Error('imagem inválida'));im.src=u})}
+function avStore(p){DV.myPhoto=p;DV.phPulled=1;try{p?localStorage.setItem('ct_ph_'+DV.uid,p):localStorage.removeItem('ct_ph_'+DV.uid)}catch(e){}DV.phDone=new Set();avPaint();try{dvPhotoSync()}catch(e){}divRender()}
+function dvPhotoSync(){if(!DV.on||!DV.api)return;DV.phDone=DV.phDone||new Set();
+ DV.groups.forEach(g=>{const m=(g.members||[]).find(x=>x.e===DV.me),mine=DV.myPhoto||'';
+  if(!mine&&m&&dvOkPh(m.ph)&&!DV.phPulled){DV.phPulled=1;DV.myPhoto=m.ph;try{localStorage.setItem('ct_ph_'+DV.uid,m.ph)}catch(e){}avPaint();return}
+  const cur=(m&&m.ph)||'';if(cur===mine)return;
+  const key=g.id+'|'+mine.length+'|'+mine.slice(-24);if(DV.phDone.has(key))return;DV.phDone.add(key);
+  const me={...(m||{e:DV.me})};if(mine)me.ph=mine;else delete me.ph;
+  DV.api.groupSave(g.id,{members:(g.members||[]).filter(x=>x.e!==DV.me).concat([me])})})}
+$id('avPick').onclick=()=>$id('avFile').click();$id('avL').onclick=()=>$id('avFile').click();$id('avDel').onclick=()=>avStore('');
+$id('avFile').onchange=async e=>{const f=e.target.files&&e.target.files[0];e.target.value='';if(!f||!DV.on)return;try{avStore(await avResize(f))}catch(x){dvToast('Não consegui usar essa imagem.')}};
 const dvSum=g=>(dvBal(g,DV.ex[g.id]||[])[DV.me])||0;
-function dvReset(){Object.values(DV.subs).forEach(f=>f());DV.subs={};DV.ex={};DV.gid=null;DV.groups=[];DV.on=false;DV.named=new Set();NTF=null;try{ntfUI()}catch(e){}}
+function dvReset(){Object.values(DV.subs).forEach(f=>f());DV.subs={};DV.ex={};DV.prevClr={};DV.gid=null;DV.groups=[];DV.on=false;DV.named=new Set();NTF=null;try{ntfUI()}catch(e){}}
 function dvGroups(list){DV.groups=list.slice().sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));const ids=new Set(DV.groups.map(g=>g.id));
  Object.keys(DV.subs).forEach(id=>{if(!ids.has(id)){DV.subs[id]();delete DV.subs[id];delete DV.ex[id]}});
  try{ntfPending()}catch(e){}
+ try{dvPhotoSync()}catch(e){}
  DV.groups.forEach(g=>{if(!DV.subs[g.id])DV.subs[g.id]=DV.api.expStart(g.id,l=>{DV.ex[g.id]=l;try{ntfScan(DV.groups.find(y=>y.id===g.id)||g,l)}catch(e){}divRender()});
   const m=(g.members||[]).find(x=>x.e===DV.me);if(DV.name&&(!m||!m.n)&&!DV.named.has(g.id)){DV.named.add(g.id);DV.api.groupSave(g.id,{members:(g.members||[]).filter(x=>x.e!==DV.me).concat([{...(m||{e:DV.me}),n:DV.name}])})}});
  if(DV.gid&&!ids.has(DV.gid))dvBack();else divRender()}
@@ -755,6 +780,7 @@ function dvRow(g,x){const me=DV.me,paid=(x.p||[]).reduce((s,p)=>s+(p.e===me?p.a:
 function dvPixBox(g,e){const k=dvPix(g,e);return k?`<span class="chp" data-copy="${esc(k)}" title="Toque para copiar">Pix: ${esc(k.length>22?k.slice(0,20)+'…':k)} ⧉</span>`:`<span class="mu" style="font-size:12px">sem chave Pix</span>`}
 function dvGroup(root){const g=dvCur();if(!g){dvBack();return}
  const exps=dvExps().slice().sort((a,b)=>(b.dt||'').localeCompare(a.dt||'')||(b.t||0)-(a.t||0)),bal=dvBal(g,exps),debts=dvSimplify(bal),mine=bal[DV.me]||0,col=g.color||DVCOL[0];
+ {const clr=debts.length===0&&exps.length>0,was=(DV.prevClr=DV.prevClr||{})[g.id];DV.prevClr[g.id]=clr;if(clr&&was===false)setTimeout(dvCelebrate,250)}
  const owe=debts.filter(d=>d.f===DV.me),recv=debts.filter(d=>d.t===DV.me),others=debts.filter(d=>d.f!==DV.me&&d.t!==DV.me);
  const status=mine<0?`<div style="font-size:13px" class="mu">Você precisa pagar</div><div style="font-size:26px;font-weight:800;color:#c2610f">${dvF(-mine)}</div>`:mine>0?`<div style="font-size:13px" class="mu">Você tem a receber</div><div style="font-size:26px;font-weight:800" class="pos">${dvF(mine)}</div>`:`<div style="font-size:22px;font-weight:800">Tudo certo por aqui ✔</div>`;
  const catSum={};exps.filter(x=>x.k!=='p').forEach(x=>{const c=x.cat||'other';catSum[c]=(catSum[c]||0)+x.a});const tot=Object.values(catSum).reduce((a,b)=>a+b,0);
@@ -769,6 +795,11 @@ function dvGroup(root){const g=dvCur();if(!g){dvBack();return}
  $id('dvBack').onclick=dvBack;$id('dvMng').onclick=dvManage;$id('dvAdd').onclick=()=>dvExpForm(null);$id('dvQuit').onclick=dvQuit;
  root.querySelectorAll('[data-copy]').forEach(b=>{b.onclick=()=>dvCopy(b.dataset.copy)});
  root.querySelectorAll('[data-x]').forEach(el=>{el.onclick=()=>{const x=exps.find(y=>y.id===el.dataset.x);if(x)x.k==='p'?dvPayForm(null,x):dvExpForm(x)}})}
+function dvCelebrate(){if($id('celeb'))return;const d=document.createElement('div');d.id='celeb';let cf='';
+ for(let i=0;i<14;i++){const a=i/14*Math.PI*2,r=100+((i*37)%40);cf+='<i style="--x:'+Math.round(Math.cos(a)*r)+'px;--y:'+Math.round(Math.sin(a)*r)+'px;--d:'+(i%5)*40+'ms;background:'+['#4ec9a4','#f7c948','#7aa7ff','#ff8a7a'][i%4]+'"></i>'}
+ d.innerHTML='<div class="cel-b"><div class="cel-ring"></div>'+cf+'<svg viewBox="0 0 52 52" class="cel-c"><circle cx="26" cy="26" r="24"/><path d="M14 27l8 8 16-17"/></svg></div><div class="cel-t">Tudo quitado!</div>';
+ d.onclick=()=>d.remove();document.body.appendChild(d);try{navigator.vibrate&&navigator.vibrate([30,40,30])}catch(e){}
+ setTimeout(()=>{d.classList.add('out');setTimeout(()=>d.remove(),350)},2200)}
 function dvCopy(t){try{navigator.clipboard.writeText(t).then(()=>dvToast('Copiado!'),()=>dvToast(t))}catch(e){dvToast(t)}}
 function dvToast(t){let el=$id('dvToast');if(!el){el=document.createElement('div');el.id='dvToast';el.className='tipbox';el.style.cssText='left:50%;transform:translateX(-50%);bottom:90px;pointer-events:none;text-align:center';document.body.appendChild(el)}el.textContent=t;el.classList.remove('hide');clearTimeout(el._t);el._t=setTimeout(()=>el.classList.add('hide'),1800)}
 function dvEmails(txt){return [...new Set(String(txt||'').toLowerCase().split(/[\s,;]+/).filter(Boolean))]}
@@ -1081,7 +1112,7 @@ document.addEventListener('visibilitychange',()=>{if(!document.hidden)checkVer()
 let cloudUser=null,authSeen=false,lastSig='',lastCfg='',cs={pending:false},gotL=false,gotC=false,cfgDoc=null,resolved=false,migrate=false;
 const $=id=>document.getElementById(id);
 function cloudErr(e){const k=e&&e.code||'',b=$('cloudErr');b.textContent=k==='permission-denied'?'Acesso negado pelas regras do banco. Confira se as regras mais recentes foram publicadas no Firebase e se você entrou com a conta certa.':'Erro de sincronização: '+(k||(e&&e.message)||e);b.classList.remove('hide');$('login').classList.add('hide')}
-function cloudStatus(){const off=!navigator.onLine;if(cloudUser){const nm=cloudUser.name||String(cloudUser.email||'').split('@')[0];$('avN').textContent=nm;$('avE').textContent=cloudUser.email||'';$('avL').textContent=(nm[0]||'?').toUpperCase()}$('syncSt').textContent=(off?'Sem conexão: as alterações ficam salvas no aparelho e sobem quando a internet voltar':cs.pending?'Enviando alterações…':'Sincronizado');document.querySelectorAll('.dot').forEach(d=>d.style.background=(off||cs.pending)?'#c2610f':'#1f6f58')}
+function cloudStatus(){const off=!navigator.onLine;if(cloudUser){const nm=cloudUser.name||String(cloudUser.email||'').split('@')[0];$('avN').textContent=nm;$('avE').textContent=cloudUser.email||'';$('avL').textContent=(nm[0]||'?').toUpperCase();try{avPaint()}catch(e){}}$('syncSt').textContent=(off?'Sem conexão: as alterações ficam salvas no aparelho e sobem quando a internet voltar':cs.pending?'Enviando alterações…':'Sincronizado');document.querySelectorAll('.dot').forEach(d=>d.style.background=(off||cs.pending)?'#c2610f':'#1f6f58')}
 addEventListener('online',cloudStatus);addEventListener('offline',cloudStatus);
 function cloudResolve(){if(!gotL||!gotC)return;applyingCfg=true;
  try{if(cfgDoc&&Array.isArray(cfgDoc.catsAll))CATS=cfgDoc.catsAll.map(c=>({n:String(c.n),t:c.t}));
@@ -1098,7 +1129,7 @@ function cloudAuth(u){authSeen=true;const ov=$('login');lastSig='';lastCfg='';go
  dvReset();
  if(!u){CLOUD.on=false;cloudUser=null;L=[];uid=1;CATS=[];SEL=null;$('loadBox').classList.add('hide');$('loginBox').classList.remove('hide');ov.classList.remove('hide');try{initSelects();refresh()}catch(e){diag(e&&e.message)}return}
  cloudUser=u;CLOUD.on=true;CLOUD.put=x=>CLOUDAPI.put(x).catch(cloudErr);CLOUD.del=x=>CLOUDAPI.del(x).catch(cloudErr);CLOUD.cfg=o=>CLOUDAPI.cfg(o).catch(cloudErr);CLOUD.bulk=(i,o)=>CLOUDAPI.bulk(i,o).catch(cloudErr);
- DV.on=true;DV.me=String(u.email||'').toLowerCase();DV.uid=u.uid;DV.name=u.name||'';DV.api=CLOUDAPI;
+ DV.on=true;DV.me=String(u.email||'').toLowerCase();DV.uid=u.uid;DV.name=u.name||'';DV.api=CLOUDAPI;try{DV.myPhoto=localStorage.getItem('ct_ph_'+u.uid)||''}catch(e){DV.myPhoto=''}DV.phPulled=0;
  reset.style.display='none';L=[];uid=1;CATS=[];$('loginBox').classList.add('hide');$('loadBox').classList.remove('hide');ov.classList.remove('hide');
  $('loadBox').innerHTML='<p class="mu">Carregando os dados de <b>'+esc(u.email||'')+'</b>…</p><p id="ldHint" class="mu" style="font-size:13px;margin-top:8px"></p>';
  clearTimeout(window._ldT);window._ldT=setTimeout(()=>{if(resolved)return;$('loadBox').innerHTML='<p style="margin-bottom:6px">Entrou como <b>'+esc(u.email||'')+'</b>, mas os dados não chegaram.</p><p class="mu" style="font-size:13px;margin-bottom:14px">'+(navigator.onLine?'Confira a conexão e tente de novo, ou entre com outra conta.':'Sem conexão com a internet.')+'<span id="ldHint"></span></p><div class="fact"><button class="btn" onclick="location.reload()">Tentar de novo</button><button class="btn" onclick="CLOUDAPI.logout()">Sair da conta</button></div><div class="fact" style="margin-top:8px"><button class="btn" onclick="hardReload()">Limpar e recarregar</button></div>';diag()},12000);
