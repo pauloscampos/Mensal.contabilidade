@@ -207,6 +207,7 @@ label:has(>#fMes){order:2;flex:1 1 120px}label:has(>#fVal){display:none}#nCatBtn
 .wl-feat{display:flex;flex-direction:column;gap:22px;margin-top:40px}.wl-f{display:flex;gap:14px;align-items:center}.wl-i{width:48px;height:48px;border-radius:14px;background:var(--ac2);color:var(--ac);display:flex;align-items:center;justify-content:center;flex:none}.wl-f b{display:block;font-size:16px}.wl-f span{display:block;font-size:14px;color:var(--mu);line-height:1.35;margin-top:2px}
 .wl-bot{margin-top:auto;padding-top:28px;text-align:center}.wl-go{width:100%;height:58px;border-radius:18px;font-size:18px;font-weight:700;background:var(--tx);color:var(--bg);border:0;display:flex;align-items:center;justify-content:center;gap:12px}.wl-g{width:28px;height:28px;border-radius:14px;border:2px solid currentColor;box-sizing:border-box;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800}.wl-note{font-size:13px;color:var(--mu);line-height:1.4;margin:14px 8px 0}
 .acc{display:flex;align-items:center;gap:14px;margin:12px 0}.av{width:56px;height:56px;border-radius:28px;background:var(--ac2);color:var(--ac);display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:800;flex:none}.an{font-size:18px;font-weight:700}
+#pushRow[style*="none"]+#pushTestRow{display:none}
 </style>
 </head>
 <body><div class="app">
@@ -242,6 +243,7 @@ label:has(>#fMes){order:2;flex:1 1 120px}label:has(>#fVal){display:none}#nCatBtn
  <div class="cfr" style="border-top:0"><div><b>Novas contas para mim</b><div class="cs">Avisar quando alguém adicionar uma conta com uma parte minha</div></div><input type="checkbox" class="sw" id="ntfOn" aria-label="Avisar sobre novas contas"></div>
  <div class="cfr"><div id="ntfSys"></div><button class="btn sm" id="ntfList">Ver avisos</button></div>
  <div class="cfr" id="pushRow" style="display:none"><div><b>Com o app fechado</b><div class="cs" id="pushSt">…</div></div><button class="btn sm" id="pushBtn">Ativar</button></div>
+ <div class="cfr" id="pushTestRow"><div><b>Testar aviso</b><div class="cs" id="pushTestSt">Envia um aviso para este aparelho, para conferir se tudo funciona.</div></div><button class="btn sm" id="pushTest">Testar</button></div>
 </div>
 <div class="card" id="confCats"><div class="ct">Categorias</div><div class="cs" style="margin:6px 0 10px">Crie, renomeie, reordene e defina o tipo de cada categoria (Receita, Despesa ou Saldo). Renomear atualiza os lançamentos; excluir apaga os lançamentos da categoria.</div>
 <div class="row"><label>Nome<input id="catN" placeholder="Ex.: Mercado"></label><label>Tipo<select id="catT"><option value="d">Despesa</option><option value="r">Receita</option><option value="s">Saldo</option></select></label><button class="btn pri" id="catBtnAdd">Adicionar</button></div>
@@ -249,7 +251,7 @@ label:has(>#fMes){order:2;flex:1 1 120px}label:has(>#fVal){display:none}#nCatBtn
 <div class="card"><div class="ct">Dados e backup</div><div class="row" style="margin-top:8px"><button class="btn sm" id="reset">Apagar dados locais</button></div>
   <div class="row" style="margin-top:10px;align-items:center"><span class="mu">Backup:</span><button class="btn sm" id="bkExp">Exportar backup (JSON)</button><label class="btn sm" style="flex-direction:row;font-size:12px;color:var(--tx);cursor:pointer;min-width:0">Importar backup (substitui os dados atuais)<input type="file" id="bkImp" hidden></label></div><div id="bkMsg" class="mu" style="margin-top:6px;min-height:18px"></div><details style="margin-top:6px"><summary class="mu" style="cursor:pointer">Importar colando o texto do backup</summary><textarea id="bkTxt" rows="4" style="width:100%;margin-top:6px;font-size:12px" placeholder="Cole aqui o conteúdo do arquivo de backup (.json)"></textarea><button class="btn sm" id="bkPaste" type="button" style="margin-top:6px">Importar texto colado</button></details></div>
 <div class="card"><div class="ct">Sobre</div>
- <div class="cfr" style="border-top:0"><span>Versão do app</span><b id="appVer">2026-10-16.11</b></div>
+ <div class="cfr" style="border-top:0"><span>Versão do app</span><b id="appVer">2026-10-17.2</b></div>
  <div class="cfr"><span>Atualização</span><button class="btn sm" id="appUpd">Buscar atualização</button></div>
 </div>
 </section>
@@ -1029,6 +1031,7 @@ async function confPushUI(){const row=$id('pushRow');if(!row)return;const P=wind
  if(S.perm==='denied'){st.textContent='Bloqueado nas configurações do navegador. Libere as notificações deste site para ativar.';b.style.display='none'}
  else if(S.on&&S.perm==='granted'){st.textContent='Ativado neste aparelho: você recebe aviso mesmo com o app fechado.';b.textContent='Desativar'}
  else{st.textContent='Receba aviso de nova conta mesmo com o app fechado. Vale só para este aparelho.';b.textContent='Ativar'}}
+$id('pushTest').onclick=async()=>{const st=$id('pushTestSt'),b=$id('pushTest');b.disabled=true;st.textContent='Enviando…';try{st.textContent=await CLOUDAPI.push.test()}catch(e){st.textContent='Falhou: '+String(e&&e.message||e).slice(0,120)}b.disabled=false};
 $id('pushBtn').onclick=async()=>{const P=window.CLOUDAPI&&CLOUDAPI.push;if(!P)return;const b=$id('pushBtn'),S=P.state();b.disabled=true;
  try{if(S.on&&S.perm==='granted')await P.disable();else{const r=await P.enable(DV.me||'');if(!r.ok)$id('pushSt').textContent=r.reason==='denied'?'Permissão negada. Libere as notificações deste site nas configurações do navegador.':'Não foi possível ativar agora. Tente de novo em instantes.'}}
  catch(e){$id('pushSt').textContent='Não foi possível ativar agora ('+String(e&&e.message||e).slice(0,80)+').'}
@@ -1063,7 +1066,16 @@ function navApply(s){navApplying=true;
  H=navSnap();try{history.replaceState(H,'')}catch(e){}
  window.addEventListener('popstate',e=>{const s=e.state;if(s&&s.nv)navApply(s)});
 })();
-if('serviceWorker' in navigator&&/^https?:/.test(location.protocol))navigator.serviceWorker.register('sw.js').catch(()=>{});
+if('serviceWorker' in navigator&&/^https?:/.test(location.protocol)){
+ navigator.serviceWorker.register('sw.js').then(reg=>{setInterval(()=>{try{reg.update()}catch(e){}},30*60*1000);addEventListener('online',()=>{try{reg.update()}catch(e){}})}).catch(()=>{});
+ let had=!!navigator.serviceWorker.controller;navigator.serviceWorker.addEventListener('controllerchange',()=>{if(!had){had=true;return}appUpdate('sw')});
+}
+function updBar(){if(document.getElementById('updBar'))return;const d=document.createElement('div');d.id='updBar';d.style.cssText='position:fixed;left:12px;right:12px;top:calc(10px + env(safe-area-inset-top,0px));z-index:120;background:var(--ac);color:var(--bg);border-radius:14px;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px;font-weight:700;box-shadow:0 6px 18px rgba(0,0,0,.3)';d.innerHTML='<span>Nova versão disponível</span><button class="btn sm" id="updGo" style="background:var(--bg);color:var(--tx);border:0">Atualizar</button>';document.body.appendChild(d);document.getElementById('updGo').onclick=()=>hardReload()}
+function appUpdate(target){const busy=!document.getElementById('modal').classList.contains('hide')||/INPUT|TEXTAREA|SELECT/.test((document.activeElement||{}).tagName||'');const k='upd_'+target;
+ if(busy||sessionStorage.getItem(k)){updBar();return}try{sessionStorage.setItem(k,'1')}catch(e){}location.reload()}
+let _chk=0;async function checkVer(){if(Date.now()-_chk<45000||!navigator.onLine)return;_chk=Date.now();
+ try{const t=await(await fetch('index.html?v='+Date.now(),{cache:'no-store'})).text(),m=t.match(/appVer">([^<]+)/);if(m&&m[1]&&m[1]!==document.getElementById('appVer').textContent)appUpdate(m[1])}catch(e){}}
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)checkVer()});addEventListener('online',()=>{_chk=0;checkVer()});setTimeout(checkVer,4000);
 </script>
 <script>
 let cloudUser=null,authSeen=false,lastSig='',lastCfg='',cs={pending:false},gotL=false,gotC=false,cfgDoc=null,resolved=false,migrate=false;
@@ -1149,6 +1161,13 @@ window.CLOUDAPI.push={
  async enable(email){const p=await Notification.requestPermission();if(p!=='granted')return {ok:false,reason:p};await this.register(email);localStorage.setItem(PK,'1');return {ok:true}},
  async disable(){const t=localStorage.getItem(PT);localStorage.removeItem(PK);try{if(t&&uid)await deleteDoc(tdoc(t))}catch(e){}try{await deleteToken(getMessaging(app))}catch(e){}localStorage.removeItem(PT)},
  async unlink(){const t=localStorage.getItem(PT);try{if(t&&uid)await deleteDoc(tdoc(t))}catch(e){}},
- async refresh(email){try{if(await this.supported()&&localStorage.getItem(PK)==='1'&&Notification.permission==='granted')await this.register(email)}catch(e){}}};
+ async refresh(email){try{if(await this.supported()&&localStorage.getItem(PK)==='1'&&Notification.permission==='granted')await this.register(email)}catch(e){}},
+ async test(){if(!WORKER)return 'O endereço do Worker não está configurado neste app.';const u=auth.currentUser;if(!u)return 'Você não está logado.';
+  let r;try{r=await fetch(WORKER,{method:'POST',headers:{authorization:'Bearer '+await u.getIdToken(),'content-type':'application/json'},body:JSON.stringify({kind:'test'})})}catch(e){return 'Não consegui falar com o Worker ('+String(e&&e.message||e).slice(0,60)+'). Confira a internet.'}
+  let j={};try{j=await r.json()}catch(e){}
+  if(!r.ok)return 'O Worker respondeu '+r.status+(j.erro?': '+j.erro:'')+'.';
+  if(!j.aparelhos)return 'Nenhum aparelho registrado para '+u.email+'. Toque em Ativar, em "Com o app fechado", e tente de novo.';
+  if(j.enviados)return 'Aviso enviado para '+j.enviados+' aparelho(s). Feche o app (deslize para fora) e espere alguns segundos.'+(j.falhas?' '+j.falhas+' falhou.':'');
+  const e=(j.erros&&j.erros[0])||{};return 'O Google recusou o envio ('+(e.status||'?')+'): '+String(e.msg||'').slice(0,140)}};
 onAuthStateChanged(auth,u=>{if(!u){unsubs.forEach(f=>f());unsubs=[];if(gU){gU();gU=null}}uid=u?u.uid:null;window.cloudAuth(u?{uid:u.uid,email:u.email,name:u.displayName||''}:null);if(u)window.CLOUDAPI.push.refresh(u.email)});
 </script></body></html>
