@@ -249,7 +249,7 @@ label:has(>#fMes){order:2;flex:1 1 120px}label:has(>#fVal){display:none}#nCatBtn
 <div class="card"><div class="ct">Dados e backup</div><div class="row" style="margin-top:8px"><button class="btn sm" id="reset">Apagar dados locais</button></div>
   <div class="row" style="margin-top:10px;align-items:center"><span class="mu">Backup:</span><button class="btn sm" id="bkExp">Exportar backup (JSON)</button><label class="btn sm" style="flex-direction:row;font-size:12px;color:var(--tx);cursor:pointer;min-width:0">Importar backup (substitui os dados atuais)<input type="file" id="bkImp" hidden></label></div><div id="bkMsg" class="mu" style="margin-top:6px;min-height:18px"></div><details style="margin-top:6px"><summary class="mu" style="cursor:pointer">Importar colando o texto do backup</summary><textarea id="bkTxt" rows="4" style="width:100%;margin-top:6px;font-size:12px" placeholder="Cole aqui o conteúdo do arquivo de backup (.json)"></textarea><button class="btn sm" id="bkPaste" type="button" style="margin-top:6px">Importar texto colado</button></details></div>
 <div class="card"><div class="ct">Sobre</div>
- <div class="cfr" style="border-top:0"><span>Versão do app</span><b id="appVer">2026-10-16.9</b></div>
+ <div class="cfr" style="border-top:0"><span>Versão do app</span><b id="appVer">2026-10-16.11</b></div>
  <div class="cfr"><span>Atualização</span><button class="btn sm" id="appUpd">Buscar atualização</button></div>
 </div>
 </section>
@@ -520,7 +520,7 @@ function graf(){if(!window.Chart)return;const M=matrix(),g=gAgg.value,modo=gModo
  const lab=bk.map(b=>g==='m'?lblM(b):b);
  const agg=(fn,last)=>bk.map(b=>{const mm=ms.filter(m=>bucket(m,g)===b);if(last){const l=[...mm].reverse().find(m=>fn(m));return l?fn(l):0}return mm.reduce((s,m)=>s+fn(m),0)});
  let ds=[];
- if(modo==='cat'){[...SEL].forEach((n,i)=>{const c=CATS.find(x=>x.n===n);ds.push({label:n,data:agg(m=>cell(M,n,m),c.t==='s'),color:PAL[i%PAL.length]})})}
+ if(modo==='cat'){[...SEL].filter(n=>CATS.some(x=>x.n===n)).forEach((n,i)=>{const c=CATS.find(x=>x.n===n);ds.push({label:n,data:agg(m=>cell(M,n,m),c.t==='s'),color:PAL[i%PAL.length]})})}
  else if(modo==='res'){ds=[['Receita',x=>x.rec,'#0f6e56'],['Despesas',x=>x.des,'#d4742c'],['Sobrou',x=>x.sob,'#3b6fb6']].map(([l,f,col])=>({label:l,data:agg(m=>f(derived(M,m))),color:col}))}
  else{const r=agg(m=>derived(M,m).rec),s=agg(m=>derived(M,m).sob);ds=[{label:'% que sobrou',data:r.map((v,i)=>v?s[i]/v*100:0),color:'#0f6e56'}]}
  const css=getComputedStyle(document.documentElement),tx=css.getPropertyValue('--mu').trim(),gr=css.getPropertyValue('--bd').trim();
@@ -1077,14 +1077,14 @@ function cloudResolve(){if(!gotL||!gotC)return;applyingCfg=true;
   else CATS=[];
   if(cfgDoc){CFG=cfgDoc.metas||{};SK=cfgDoc.pulados||{};if(PALS[cfgDoc.paleta])PK=cfgDoc.paleta;palSel.value=PK}}
  finally{applyingCfg=false}
- resolved=true;clearTimeout(window._ldT);SEL=null;initSelects();chips();refresh();$('login').classList.add('hide');$('cloudErr').classList.add('hide');if(migrate){migrate=false;cfgUp()}cloudStatus()}
+ resolved=true;clearTimeout(window._ldT);SEL=null;try{initSelects();chips();refresh()}catch(e){diag(e&&e.message)}$('login').classList.add('hide');$('cloudErr').classList.add('hide');if(migrate){migrate=false;cfgUp()}cloudStatus()}
 function cloudCfg(d,meta){gotC=true;if(resolved&&(cfgDirty||(meta&&meta.pending)))return;const s=JSON.stringify(d);if(resolved&&s===lastCfg)return;lastCfg=s;cfgDoc=d;cloudResolve()}
 function cloudL(list,meta){cs.pending=!!meta.pending;gotL=true;const s=list.slice().sort((a,b)=>(a.t||0)-(b.t||0)||(a.cid<b.cid?-1:1)),sig=JSON.stringify(s.map(x=>[x.cid,x.c,x.m,x.v,x.o,x.f,x.s,x.t]));
  if(sig!==lastSig){lastSig=sig;L=s.map((x,i)=>({...x,id:i+1}));uid=L.length+1;if(resolved){initSelects();refresh()}}
  if(!resolved)cloudResolve();cloudStatus()}
 function cloudAuth(u){authSeen=true;const ov=$('login');lastSig='';lastCfg='';gotL=false;gotC=false;resolved=false;cfgDoc=null;
  dvReset();
- if(!u){CLOUD.on=false;cloudUser=null;L=[];uid=1;CATS=[];initSelects();refresh();$('loadBox').classList.add('hide');$('loginBox').classList.remove('hide');ov.classList.remove('hide');return}
+ if(!u){CLOUD.on=false;cloudUser=null;L=[];uid=1;CATS=[];SEL=null;$('loadBox').classList.add('hide');$('loginBox').classList.remove('hide');ov.classList.remove('hide');try{initSelects();refresh()}catch(e){diag(e&&e.message)}return}
  cloudUser=u;CLOUD.on=true;CLOUD.put=x=>CLOUDAPI.put(x).catch(cloudErr);CLOUD.del=x=>CLOUDAPI.del(x).catch(cloudErr);CLOUD.cfg=o=>CLOUDAPI.cfg(o).catch(cloudErr);CLOUD.bulk=(i,o)=>CLOUDAPI.bulk(i,o).catch(cloudErr);
  DV.on=true;DV.me=String(u.email||'').toLowerCase();DV.uid=u.uid;DV.name=u.name||'';DV.api=CLOUDAPI;
  reset.style.display='none';L=[];uid=1;CATS=[];$('loginBox').classList.add('hide');$('loadBox').classList.remove('hide');ov.classList.remove('hide');
