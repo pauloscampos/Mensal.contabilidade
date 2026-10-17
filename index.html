@@ -249,7 +249,7 @@ label:has(>#fMes){order:2;flex:1 1 120px}label:has(>#fVal){display:none}#nCatBtn
 <div class="card"><div class="ct">Dados e backup</div><div class="row" style="margin-top:8px"><button class="btn sm" id="reset">Apagar dados locais</button></div>
   <div class="row" style="margin-top:10px;align-items:center"><span class="mu">Backup:</span><button class="btn sm" id="bkExp">Exportar backup (JSON)</button><label class="btn sm" style="flex-direction:row;font-size:12px;color:var(--tx);cursor:pointer;min-width:0">Importar backup (substitui os dados atuais)<input type="file" id="bkImp" hidden></label></div><div id="bkMsg" class="mu" style="margin-top:6px;min-height:18px"></div><details style="margin-top:6px"><summary class="mu" style="cursor:pointer">Importar colando o texto do backup</summary><textarea id="bkTxt" rows="4" style="width:100%;margin-top:6px;font-size:12px" placeholder="Cole aqui o conteúdo do arquivo de backup (.json)"></textarea><button class="btn sm" id="bkPaste" type="button" style="margin-top:6px">Importar texto colado</button></details></div>
 <div class="card"><div class="ct">Sobre</div>
- <div class="cfr" style="border-top:0"><span>Versão do app</span><b id="appVer">2026-10-16.5</b></div>
+ <div class="cfr" style="border-top:0"><span>Versão do app</span><b id="appVer">2026-10-16.7</b></div>
  <div class="cfr"><span>Atualização</span><button class="btn sm" id="appUpd">Buscar atualização</button></div>
 </div>
 </section>
@@ -1077,7 +1077,7 @@ function cloudResolve(){if(!gotL||!gotC)return;applyingCfg=true;
   else CATS=[];
   if(cfgDoc){CFG=cfgDoc.metas||{};SK=cfgDoc.pulados||{};if(PALS[cfgDoc.paleta])PK=cfgDoc.paleta;palSel.value=PK}}
  finally{applyingCfg=false}
- resolved=true;SEL=null;initSelects();chips();refresh();$('login').classList.add('hide');$('cloudErr').classList.add('hide');if(migrate){migrate=false;cfgUp()}cloudStatus()}
+ resolved=true;clearTimeout(window._ldT);SEL=null;initSelects();chips();refresh();$('login').classList.add('hide');$('cloudErr').classList.add('hide');if(migrate){migrate=false;cfgUp()}cloudStatus()}
 function cloudCfg(d,meta){gotC=true;if(resolved&&(cfgDirty||(meta&&meta.pending)))return;const s=JSON.stringify(d);if(resolved&&s===lastCfg)return;lastCfg=s;cfgDoc=d;cloudResolve()}
 function cloudL(list,meta){cs.pending=!!meta.pending;gotL=true;const s=list.slice().sort((a,b)=>(a.t||0)-(b.t||0)||(a.cid<b.cid?-1:1)),sig=JSON.stringify(s.map(x=>[x.cid,x.c,x.m,x.v,x.o,x.f,x.s,x.t]));
  if(sig!==lastSig){lastSig=sig;L=s.map((x,i)=>({...x,id:i+1}));uid=L.length+1;if(resolved){initSelects();refresh()}}
@@ -1088,8 +1088,12 @@ function cloudAuth(u){authSeen=true;const ov=$('login');lastSig='';lastCfg='';go
  cloudUser=u;CLOUD.on=true;CLOUD.put=x=>CLOUDAPI.put(x).catch(cloudErr);CLOUD.del=x=>CLOUDAPI.del(x).catch(cloudErr);CLOUD.cfg=o=>CLOUDAPI.cfg(o).catch(cloudErr);CLOUD.bulk=(i,o)=>CLOUDAPI.bulk(i,o).catch(cloudErr);
  DV.on=true;DV.me=String(u.email||'').toLowerCase();DV.uid=u.uid;DV.name=u.name||'';DV.api=CLOUDAPI;
  reset.style.display='none';L=[];uid=1;CATS=[];$('loginBox').classList.add('hide');$('loadBox').classList.remove('hide');ov.classList.remove('hide');
+ $('loadBox').innerHTML='<p class="mu">Carregando os dados de <b>'+esc(u.email||'')+'</b>…</p><p id="ldHint" class="mu" style="font-size:13px;margin-top:8px"></p>';
+ clearTimeout(window._ldT);window._ldT=setTimeout(()=>{if(resolved)return;$('loadBox').innerHTML='<p style="margin-bottom:6px">Entrou como <b>'+esc(u.email||'')+'</b>, mas os dados não chegaram.</p><p class="mu" style="font-size:13px;margin-bottom:14px">'+(navigator.onLine?'Confira a conexão e tente de novo, ou entre com outra conta.':'Sem conexão com a internet.')+'<span id="ldHint"></span></p><div class="fact"><button class="btn" onclick="location.reload()">Tentar de novo</button><button class="btn" onclick="CLOUDAPI.logout()">Sair da conta</button></div>'},12000);
  CLOUDAPI.start({onL:cloudL,onCfg:cloudCfg,onErr:cloudErr});CLOUDAPI.groupsStart(DV.me,{onG:dvGroups,onErr:cloudErr});cloudStatus()}
 $('btnLogin').onclick=()=>{$('loginMsg').textContent='Abrindo o login do Google…';CLOUDAPI.login().then(()=>{$('loginMsg').textContent=''}).catch(e=>{$('loginMsg').textContent='Não foi possível entrar ('+(e.code||e.message)+'). Se a janela do Google não abriu, permita pop-ups para este site e tente de novo.'})};
+function diag(m){const el=$('ldHint');if(el&&!resolved)el.textContent=' Detalhe: '+String(m).slice(0,160)}
+addEventListener('error',e=>diag(e.message));addEventListener('unhandledrejection',e=>diag(e.reason&&(e.reason.code||e.reason.message)||e.reason));
 $('btnLogout').onclick=()=>CLOUDAPI.logout();$('btnSwitch').onclick=()=>CLOUDAPI.logout();
 setTimeout(()=>{if(!authSeen)$('loadBox').innerHTML='<p class="mu">Não consegui conectar ao serviço de login. Verifique a internet e recarregue a página.</p>'},10000);
 </script>
@@ -1111,7 +1115,7 @@ import {getMessaging,getToken,deleteToken,isSupported} from 'https://www.gstatic
 import {initializeFirestore,persistentLocalCache,persistentMultipleTabManager,doc,collection,setDoc,deleteDoc,onSnapshot,writeBatch,query,where} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js';
 const app=initializeApp({apiKey:"AIzaSyCquhK6tRdX7pLBzNTNGKkcL6Aw3OtgTQ8",authDomain:"mensal-contabilidade.firebaseapp.com",projectId:"mensal-contabilidade",storageBucket:"mensal-contabilidade.firebasestorage.app",messagingSenderId:"1084552414987",appId:"1:1084552414987:web:74fe5046bb0f588e71c40e"});
 const auth=getAuth(app);
-const db=initializeFirestore(app,{localCache:persistentLocalCache({tabManager:persistentMultipleTabManager()})});
+const db=initializeFirestore(app,{localCache:persistentLocalCache({tabManager:persistentMultipleTabManager()}),experimentalAutoDetectLongPolling:true});
 let uid=null,unsubs=[],gU=null;
 const VAPID='BDMqA3cjsIrY2t8RQK9h-x_agnZB2hKFhDRVbStR09VeD2Q0LRymmfx3HMWDMDmVmKpwBUZE8jPnthXTYp1yLrI';const WORKER='https://contab-avisos.phenriquecsouza.workers.dev';const notify=b=>{if(!WORKER||!auth.currentUser)return;auth.currentUser.getIdToken().then(t=>fetch(WORKER,{method:'POST',headers:{authorization:'Bearer '+t,'content-type':'application/json'},body:JSON.stringify(b)})).catch(()=>{})};const PK='contab_push_on',PT='contab_push_tok',tdoc=t=>doc(db,'pushTokens',t);
 const lcol=()=>collection(db,'users',uid,'lancamentos'),ccfg=()=>doc(db,'users',uid,'config','main');
