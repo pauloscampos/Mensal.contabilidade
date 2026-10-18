@@ -217,6 +217,20 @@ label:has(>#fMes){order:2;flex:1 1 120px}label:has(>#fVal){display:none}#nCatBtn
 .cel-t{margin-top:26px;font-size:22px;font-weight:800;color:#fff;animation:celIn .4s .5s both}
 @keyframes celIn{from{opacity:0}to{opacity:1}}@keyframes celPop{from{transform:scale(0)}to{transform:scale(1)}}@keyframes celDraw{to{stroke-dashoffset:0}}@keyframes celRing{from{transform:scale(.9);opacity:.9}to{transform:scale(1.9);opacity:0}}@keyframes celCf{0%{opacity:1;transform:translate(0,0) scale(.4)}100%{opacity:0;transform:translate(var(--x),var(--y)) scale(1)}}
 @media (prefers-reduced-motion:reduce){.cel-b i,.cel-ring{display:none}}
+.lsr{position:relative;margin-top:12px}.lsr svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--mu);pointer-events:none}
+.lsr input{width:100%;height:48px;border-radius:14px;padding:0 44px;font-size:16px}.lclr{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:36px;height:36px;border:0;background:none;color:var(--mu);font-size:24px;padding:0;cursor:pointer}
+#lista{margin-top:12px;display:flex;flex-direction:column;gap:10px}
+.lm{background:var(--card);border:1px solid var(--bd);border-radius:16px;overflow:hidden}.lm.open{border-color:var(--ac)}
+.lm-h{width:100%;display:grid;grid-template-columns:minmax(58px,.8fr) 1fr 1fr 22px;align-items:center;gap:8px;padding:14px;border:0;background:none;color:var(--tx);text-align:left;cursor:pointer;font:inherit}
+.lm-m b{display:block;font-size:17px}.lm-m small,.lm-v small{display:block;font-size:11px;color:var(--mu);font-weight:500}.lm-v{text-align:right}.lm-v b{display:block;font-size:15px;font-weight:700;white-space:nowrap}.lm-neg{color:var(--neg)}
+.lm-chev{color:var(--mu);transition:transform .2s;display:flex}.lm.open .lm-chev{transform:rotate(180deg)}
+.lm-b{border-top:1px solid var(--bd);padding:2px 14px 10px}
+.lm-s{display:flex;justify-content:space-between;align-items:center;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--mu);padding:12px 0 4px}.lm-s span:last-child{font-size:13px;letter-spacing:0}
+.lm-r{display:flex;align-items:center;gap:10px;padding:8px 0;border-top:1px solid var(--bd);cursor:pointer}.lm-s+.lm-r{border-top:0}
+.lm-i{width:32px;height:32px;border-radius:10px;background:var(--ac2);display:flex;align-items:center;justify-content:center;font-size:16px;flex:none}
+.lm-t{flex:1;min-width:0}.lm-t b{display:block;font-size:15px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.lm-t small{display:block;font-size:12px;color:var(--mu);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lm-a{font-weight:700;font-size:15px;white-space:nowrap}.lm-x{display:flex;gap:4px;flex:none}.lm-x .btn{padding:0;width:32px;height:32px;display:inline-flex;align-items:center;justify-content:center}
+.lm-e{text-align:center;color:var(--mu);padding:32px 10px}
 </style>
 </head>
 <body><div class="app">
@@ -260,18 +274,18 @@ label:has(>#fMes){order:2;flex:1 1 120px}label:has(>#fVal){display:none}#nCatBtn
 <div class="card"><div class="ct">Dados e backup</div><div class="row" style="margin-top:8px"><button class="btn sm" id="reset">Apagar dados locais</button></div>
   <div class="row" style="margin-top:10px;align-items:center"><span class="mu">Backup:</span><button class="btn sm" id="bkExp">Exportar backup (JSON)</button><label class="btn sm" style="flex-direction:row;font-size:12px;color:var(--tx);cursor:pointer;min-width:0">Importar backup (substitui os dados atuais)<input type="file" id="bkImp" hidden></label></div><div id="bkMsg" class="mu" style="margin-top:6px;min-height:18px"></div><details style="margin-top:6px"><summary class="mu" style="cursor:pointer">Importar colando o texto do backup</summary><textarea id="bkTxt" rows="4" style="width:100%;margin-top:6px;font-size:12px" placeholder="Cole aqui o conteúdo do arquivo de backup (.json)"></textarea><button class="btn sm" id="bkPaste" type="button" style="margin-top:6px">Importar texto colado</button></details></div>
 <div class="card"><div class="ct">Sobre</div>
- <div class="cfr" style="border-top:0"><span>Versão do app</span><b id="appVer">2026-10-17.7</b></div>
+ <div class="cfr" style="border-top:0"><span>Versão do app</span><b id="appVer">2026-10-17.8</b></div>
  <div class="cfr"><span>Atualização</span><button class="btn sm" id="appUpd">Buscar atualização</button></div>
 </div>
 </section>
 
 <section id="t-lanc" class="hide">
  <div class="card">
-  <div class="hd"><div><div class="ct">Histórico de lançamentos</div><div class="cs">Edite a observação direto na linha. Para lançar, use o botão + Lançar.</div></div></div>
-  <div class="row"><label>Categoria<select id="lCat"></select></label></div>
-  
-  <div class="scroll" style="margin-top:10px"><table id="lista"></table></div>
+  <div class="hd"><div><div class="ct">Lançamentos</div><div class="cs" id="lSum">…</div></div><button class="btn sm" id="lAll">Expandir tudo</button></div>
+  <div class="lsr"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input id="lBusca" type="search" placeholder="Buscar (ex.: Aluguel)" autocomplete="off" enterkeyhint="search"><button class="lclr hide" id="lClr" aria-label="Limpar busca" type="button">×</button></div>
+  <div class="row" style="margin-top:10px"><label>Categoria<select id="lCat"></select></label></div>
  </div>
+ <div id="lista"></div>
 </section>
 
 <section id="t-graf" class="hide">
@@ -432,9 +446,21 @@ function resumo(){const M=matrix(),ms=sel();
  CATS.filter(c=>c.t==='s').forEach(c=>{h+=row(c.n,ms.map(m=>cell(M,c.n,m)),null,'',c.n)});
  pivot.innerHTML=h+'</tbody>'}
 
-function lista(){const c=lCat.value,S=new Set(selAll());
- const r=L.filter(x=>(c==='all'||x.c===c)&&S.has(x.m)).sort((x,y)=>y.m.localeCompare(x.m)||y.id-x.id).slice(0,300);
- lista_.innerHTML='<colgroup><col style="width:64px"><col style="width:170px"><col style="width:130px"><col><col style="width:92px"></colgroup><thead><tr><th>Mês</th><th style="text-align:left">Categoria</th><th>Valor</th><th style="text-align:left">Observação</th><th></th></tr></thead><tbody>'+r.map(x=>`<tr><td>${lblM(x.m)}</td><td data-ic="${cIc(x.c)}">${x.c}</td><td class="${tipo(x.c)==='r'?'sal-v':cls(x.v)}"${x.f?` data-tip="Memória de cálculo: ${esc(x.f)} = ${brl(x.v)}"`:''}>${brl(x.v)}${x.f?' ƒ':''}</td><td><input data-o="${x.id}" value="${esc(x.o||'')}" placeholder="adicionar observação"></td><td><button class="btn sm" data-edit="${x.id}" title="Editar">✎</button> <button class="btn sm" data-del="${x.id}" title="Excluir">×</button></td></tr>`).join('')+'</tbody>'}
+const nrm=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+const LEXP=new Set();let LMS=[];
+const LCH='<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>';
+function lista(){const c=lCat.value,S=new Set(selAll()),q=nrm(lBusca.value).trim();
+ const r=L.filter(x=>(c==='all'||x.c===c)&&S.has(x.m)&&(!q||nrm(x.c+' '+(x.o||'')+' '+lblM(x.m)).includes(q)));
+ const by={};r.forEach(x=>(by[x.m]=by[x.m]||[]).push(x));
+ const ms=Object.keys(by).sort().reverse(),tp=x=>tipo(x.c)||'d',sum=a=>a.reduce((s,x)=>s+x.v,0);LMS=ms;
+ const sec=(t,a,cl)=>!a.length?'':'<div class="lm-s"><span>'+t+' · '+a.length+'</span><span class="'+cl+'">'+brl(sum(a))+'</span></div>'+a.slice().sort((x,y)=>Math.abs(y.v)-Math.abs(x.v)||y.id-x.id).map(x=>
+  '<div class="lm-r" data-row="'+x.id+'"><span class="lm-i">'+cIc(x.c)+'</span><span class="lm-t"><b>'+esc(x.c)+'</b>'+(x.o?'<small>'+esc(x.o)+'</small>':'')+'</span><span class="lm-a '+cl+'"'+(x.f?' data-tip="Memória de cálculo: '+esc(x.f)+' = '+brl(x.v)+'"':'')+'>'+brl(x.v)+(x.f?' ƒ':'')+'</span><span class="lm-x"><button class="btn sm" data-edit="'+x.id+'" title="Editar">✎</button><button class="btn sm" data-del="'+x.id+'" title="Excluir">×</button></span></div>').join('');
+ lista_.innerHTML=ms.length?ms.map(m=>{const a=by[m],rc=a.filter(x=>tp(x)==='r'),ds=a.filter(x=>tp(x)==='d'),sl=a.filter(x=>tp(x)==='s'),open=!!q||LEXP.has(m);
+  return '<div class="lm'+(open?' open':'')+'"><button class="lm-h" data-mt="'+m+'" aria-expanded="'+open+'"><span class="lm-m"><b>'+lblM(m)+'</b><small>'+a.length+' lançamento'+(a.length===1?'':'s')+'</small></span><span class="lm-v"><small>Receita</small><b class="pos">'+brl(sum(rc))+'</b></span><span class="lm-v"><small>Despesa</small><b class="lm-neg">'+brl(sum(ds))+'</b></span><span class="lm-chev">'+LCH+'</span></button>'
+   +(open?'<div class="lm-b">'+sec('Receita',rc,'pos')+sec('Despesa',ds,'lm-neg')+sec('Saldo / rendimento',sl,'')+'</div>':'')+'</div>'}).join(''):'<div class="lm-e">Nenhum lançamento encontrado'+(q?' para “'+esc(lBusca.value.trim())+'”':'')+'.</div>';
+ const rec=sum(r.filter(x=>tp(x)==='r')),des=sum(r.filter(x=>tp(x)==='d')),p=[r.length+' lançamento'+(r.length===1?'':'s')+' em '+ms.length+(ms.length===1?' mês':' meses')];
+ if(q||c!=='all'){if(rec)p.push('Receita '+brl(rec));if(des)p.push('Despesa '+brl(des))}
+ lSum.textContent=p.join(' · ');const all=ms.length&&ms.every(m=>LEXP.has(m));lAll.textContent=all?'Recolher tudo':'Expandir tudo';lAll.classList.toggle('hide',!!q||!ms.length)}
 const lista_=document.getElementById('lista');
 
 let SK={};try{SK=JSON.parse(localStorage.getItem('contab_skip_v1')||'{}')}catch(e){}
@@ -462,7 +488,7 @@ const kCur=()=>isA()?QS:(FS[fcKey(CATS[FI].n)]||(FS[fcKey(CATS[FI].n)]={p:[],d:'
 function kRender(){const s=kCur(),v=kVal(s),r=v?calc(v):null,big=r&&!r.err?brl(r.v):brl(0),ex=s.p.length?kStr(s):'';
  if(isA()){qEx.textContent=ex;qBig.textContent=big;fVal.value=v;KP_last=v;try{fVal.oninput&&fVal.oninput()}catch(e){}}
  else{const a=$id('fvEx'),b=$id('fvBig');if(a)a.textContent=ex;if(b)b.textContent=big}}
-function kpSync(){const op=!modal.classList.contains('hide'),a=isA(),on=op&&(a?!obsF:KPo&&CATS.length>0);if(!op){KPo=false;FIreset=true}
+function kpSync(){const op=!modal.classList.contains('hide'),a=isA(),on=op&&(a?!obsF&&nCatBox.classList.contains('hide'):KPo&&CATS.length>0);if(!op){KPo=false;FIreset=true}
  kp.classList.toggle('hide',!on);modal.classList.toggle('kpon',on);$id('kpHide').classList.toggle('hide',a)}
 function fNext(){const m=fcMes.value,T=CATS.length,dn=n=>L.some(x=>x.m===m&&x.c===n)||(SK[m]||[]).includes(n);for(let j=1;j<=T;j++){const i=(FI+j)%T;if(!dn(CATS[i].n)){FI=i;return}}}
 function fLaunch(){const c=CATS[FI],s=kCur(),v=kVal(s),r=v?calc(v):null;
@@ -505,8 +531,10 @@ setInterval(()=>{if(modal.classList.contains('hide')||!isA()||fVal.value===KP_la
 document.addEventListener('keydown',e=>{if(kp.classList.contains('hide')||e.ctrlKey||e.metaKey||e.altKey||/INPUT|SELECT|TEXTAREA/.test((e.target||{}).tagName||''))return;
  const k=e.key,m=({'-':'−','*':'×','x':'×','/':'÷','Backspace':'⌫'})[k]||k;
  if(/^\d$/.test(m)||'+−×÷=⌫'.includes(m)){e.preventDefault();kPress(kCur(),m);kRender()}else if(k==='Enter'){e.preventDefault();kGo()}});
-[modal,mAvulso,mFech].forEach(el=>new MutationObserver(kpSync).observe(el,{attributes:true,attributeFilter:['class']}));
-fObs.addEventListener('focus',()=>{obsF=true;kpSync()});fObs.addEventListener('blur',()=>{obsF=false;kpSync()});
+[modal,mAvulso,mFech,nCatBox].forEach(el=>new MutationObserver(kpSync).observe(el,{attributes:true,attributeFilter:['class']}));
+const isTx=a=>!!a&&/^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName)&&a.id!=='fVal';
+modal.addEventListener('focusin',e=>{obsF=isTx(e.target);kpSync();if(obsF){const t=e.target;setTimeout(()=>{try{t.scrollIntoView({block:'center',behavior:'smooth'})}catch(x){}},320)}});
+modal.addEventListener('focusout',()=>{setTimeout(()=>{obsF=isTx(document.activeElement)&&modal.contains(document.activeElement);kpSync()},60)});
 
 function endEdit(clear){EDIT=null;fAdd.textContent='Lançar';fCancel.classList.add('hide');fTitle.textContent='Lançamento avulso';if(clear){fVal.value='';fObs.value='';fPrev.textContent=''}}
 function refresh(){resumo();lista();graf();metas();fech();catsUI();welcomeUI();divRender()}
@@ -555,11 +583,15 @@ function setTab(t){TAB=t;$id('perBar').classList.toggle('hide',t==='div'||t==='c
  if(t==='graf')graf();if(t==='div')divRender();if(t==='conf'){confNtfUI();try{confPushUI()}catch(e){}}}
 tabs.onclick=e=>{const t=e.target.dataset.t;if(!t)return;setTab(t);navSync()};
 lCat.onchange=lista;
+lBusca.oninput=()=>{lClr.classList.toggle('hide',!lBusca.value);lista()};lClr.onclick=()=>{lBusca.value='';lClr.classList.add('hide');lista();lBusca.focus()};
+lAll.onclick=()=>{const all=LMS.length&&LMS.every(m=>LEXP.has(m));if(all)LEXP.clear();else LMS.forEach(m=>LEXP.add(m));lista()};
+lista_.addEventListener('click',e=>{const t=e.target.closest('[data-mt]');if(t){const m=t.dataset.mt;LEXP.has(m)?LEXP.delete(m):LEXP.add(m);if(lBusca.value)lBusca.value='',lClr.classList.add('hide');lista();return}
+ if(e.target.closest('[data-edit],[data-del]'))return;const row=e.target.closest('[data-row]');if(row){const b=row.querySelector('[data-edit]');if(b)b.click()}});
 ignChip.onclick=()=>{IGN=!IGN;try{localStorage.setItem('contab_ign_v1',IGN?'1':'0')}catch(e){}ignUI();if(PRE)applyPre(PRE);else{perUI();refresh()}};
 [gModo,gTipo,gAgg].forEach(el=>el.onchange=()=>{chips();graf()});
 [gDe,gAte].forEach(el=>el.oninput=()=>{if(+gDe.value>+gAte.value){if(el===gDe)gDe.value=gAte.value;else gAte.value=gDe.value}PRE=null;preUI();perUI();refresh()});
 pre.onclick=e=>{const p=e.target.dataset.p;if(p)applyPre(p)};
-nCatBtn.onclick=()=>{nCatBox.classList.toggle('hide');nCatN.focus()};
+nCatBtn.onclick=()=>{const closed=nCatBox.classList.toggle('hide');if(closed)nCatN.blur();else nCatN.focus()};
 nCatOk.onclick=()=>{const n=nCatN.value.trim();if(!n){fMsg.textContent='Informe o nome da categoria.';return}
  if(CATS.some(c=>c.n.toLowerCase()===n.toLowerCase())){fMsg.textContent='Essa categoria já existe.';return}
  CATS.push({n,t:nCatT.value});saveCats();initSelects();fCat.value=n;nCatN.value='';nCatBox.classList.add('hide');fMsg.textContent='Categoria criada: '+n;chips();refresh()};
