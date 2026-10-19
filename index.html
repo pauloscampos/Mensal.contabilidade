@@ -258,7 +258,8 @@ label:has(>#fMes){order:2;flex:1 1 120px}label:has(>#fVal){display:none}#nCatBtn
 #t-graf .gx i{width:7px;height:7px;border-radius:50%;flex:none}
 #t-graf .gx .tx{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
 #t-graf .gx.t.on{color:var(--tx);border-color:var(--cc);background:color-mix(in srgb,var(--cc) 22%,transparent)}
-#t-graf .gx.c.on{color:var(--tx);border-color:var(--cc);background:transparent;box-shadow:inset 0 0 0 .5px var(--cc)}
+#t-graf .gx.c{background:transparent;border:1.5px solid color-mix(in srgb,var(--cc) 45%,transparent)}
+#t-graf .gx.c.on{color:var(--tx);background:transparent;border:2px solid var(--cc)}
 #t-graf .gg.two .gx[data-all]{grid-column:4}
 #t-graf .gr2{display:flex;justify-content:space-between;align-items:center;margin-top:10px;gap:8px}
 #t-graf .gfx{height:28px;min-height:0;border-radius:14px;border:1px solid var(--bd);background:transparent;color:var(--mu);font:inherit;font-size:11.5px;font-weight:600;padding:0 10px;cursor:pointer;white-space:nowrap}
@@ -310,7 +311,7 @@ label:has(>#fMes){order:2;flex:1 1 120px}label:has(>#fVal){display:none}#nCatBtn
 <div class="card"><div class="ct">Dados e backup</div><div class="row" style="margin-top:8px"><button class="btn sm" id="reset">Apagar dados locais</button></div>
   <div class="row" style="margin-top:10px;align-items:center"><span class="mu">Backup:</span><button class="btn sm" id="bkExp">Exportar backup (JSON)</button><label class="btn sm" style="flex-direction:row;font-size:12px;color:var(--tx);cursor:pointer;min-width:0">Importar backup (substitui os dados atuais)<input type="file" id="bkImp" hidden></label></div><div id="bkMsg" class="mu" style="margin-top:6px;min-height:18px"></div><details style="margin-top:6px"><summary class="mu" style="cursor:pointer">Importar colando o texto do backup</summary><textarea id="bkTxt" rows="4" style="width:100%;margin-top:6px;font-size:12px" placeholder="Cole aqui o conteúdo do arquivo de backup (.json)"></textarea><button class="btn sm" id="bkPaste" type="button" style="margin-top:6px">Importar texto colado</button></details></div>
 <div class="card"><div class="ct">Sobre</div>
- <div class="cfr" style="border-top:0"><span>Versão do app</span><b id="appVer">2026-10-18.2</b></div>
+ <div class="cfr" style="border-top:0"><span>Versão do app</span><b id="appVer">2026-10-18.3</b></div>
  <div class="cfr"><span>Atualização</span><button class="btn sm" id="appUpd">Buscar atualização</button></div>
 </div>
 </section>
@@ -333,7 +334,7 @@ label:has(>#fMes){order:2;flex:1 1 120px}label:has(>#fVal){display:none}#nCatBtn
   <div class="gr2"><button class="gfx" id="gFixBtn" type="button"></button><select class="gsel" id="gCartSel" aria-label="Como mostrar a Carteira"><option value="eixo">Carteira: eixo dir.</option><option value="painel">Carteira: painel</option><option value="var">Carteira: var. %</option></select></div>
  </div>
  <div class="card gc">
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px"><span class="mu" style="font-size:11.5px;font-weight:600">R$ mil</span><b id="gCap" style="font-size:11.5px;color:#f4c542"></b></div>
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px"><span class="mu" id="gUn" style="font-size:11.5px;font-weight:600">R$ mil</span><b id="gCap" style="font-size:11.5px;color:#f4c542"></b></div>
   <div class="gcv"><canvas id="cv"></canvas></div>
  </div>
  <div class="card gc hide" id="gPanel"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px"><b style="font-size:12px;color:#f4c542">● Carteira</b><span class="mu" id="gPanelCap" style="font-size:11.5px"></span></div><div class="gcv" style="height:200px"><canvas id="cv2"></canvas></div></div>
@@ -429,7 +430,7 @@ function dl(c,p,inv,abs,tp){if(p==null)return '<small class="mu">sem período an
 const tpf=(nome,fa,fb)=>(c,p,d,pc)=>nome+'\nAtual ('+fa+'): '+brl(c)+'\nAnterior ('+fb+'): '+brl(p)+'\nDiferença: '+(d>=0?'+':'−')+brl(Math.abs(d))+(pc==null||p<=0?'':' ('+(pc>=0?'+':'−')+Math.abs(pc).toFixed(1).replace('.',',')+'%)');
 function kpis(ms,M){const pm=prevMs(),has=pm.length===ms.length&&pm.length>0,c=tot(ms,M),p=has?tot(pm,M):null,ra=rng(ms),rb=rng(pm);
  const sc0=CATS.find(x=>x.t==='s'),sal=sc0?sc0.n:null,lo=a=>{if(!sal)return null;const m=[...a].reverse().find(m=>M[sal][m]);return m?{v:M[sal][m],m}:null},cs=lo(ms),ps=has?lo(pm):null;
- const K=[['Salário',brl(c.r),'',dl(c.r,p&&p.r,0,0,tpf('Salário',ra,rb))],['Despesas',brl(c.d),'',dl(c.d,p&&p.d,1,0,tpf('Despesas',ra,rb))],['Sobrou',(c.s>0?'+':'')+brl(c.s),c.s>0?'pos':c.s<0?'neg':'',(c.r?'<small class="mu">'+(c.s/c.r*100).toFixed(1).replace('.',',')+'% da receita</small>':'')+dl(c.s,p&&p.s,0,1,tpf('Sobrou (receita − despesas)',ra,rb))],['Carteira',cs?brl(cs.v):'-','',cs&&ps?dl(cs.v,ps.v,0,1,tpf('Carteira (último saldo lançado)',lblM(cs.m),lblM(ps.m))):'']];
+ const K=[['Receita',brl(c.r),'',dl(c.r,p&&p.r,0,0,tpf('Receita',ra,rb))],['Despesa',brl(c.d),'',dl(c.d,p&&p.d,1,0,tpf('Despesa',ra,rb))],['Sobrou',(c.s>0?'+':'')+brl(c.s),c.s>0?'pos':c.s<0?'neg':'',(c.r?'<small class="mu">'+(c.s/c.r*100).toFixed(1).replace('.',',')+'% da receita</small>':'')+dl(c.s,p&&p.s,0,1,tpf('Sobrou (receita − despesas)',ra,rb))],['Carteira',cs?brl(cs.v):'-','',cs&&ps?dl(cs.v,ps.v,0,1,tpf('Carteira (último saldo lançado)',lblM(cs.m),lblM(ps.m))):'']];
  document.getElementById('kpis').innerHTML=K.map(k=>`<div class="kpi"${KIC[k[0]]?` data-ic="${KIC[k[0]]}"`:''}><small>${k[0]}</small><b class="${k[2]}">${k[1]}</b>${k[3]}</div>`).join('')}
 let PL='';let CFG={};const FIX=new Set(['Vivo celular','PUC Pós Graduação','Estacionamento MRV','Blink internet','Moradia','Caixinha']);
 try{CFG=JSON.parse(localStorage.getItem('contab_cfg_v1')||'{}')}catch(e){}
@@ -577,7 +578,8 @@ function gSave(){try{localStorage.setItem('contab_graf_v2',JSON.stringify(GST))}
 const isFixD=c=>c.t==='d'&&GST.fix&&kind(c.n)==='f';
 const fk=v=>'R$ '+(v/1000).toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1})+' mil';
 const gEsc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const PAL=['#a87fbf','#c28a3a','#3aa0b5','#d9778f','#8fb04a','#6aa6e0','#c98f6f','#9aa0a6','#e0b44c','#5fc0a0','#b58be0','#e07f5f'];
+const PAL=['#a87fbf','#e0a43a','#3aa0b5','#d9778f','#7ed957','#e5534b','#6aa6e0','#c98f6f','#9aa0a6','#e0b44c','#5fc0a0','#b58be0'];
+const UPC='#4ec9a4',DNC='#f0685f';
 const catColor=n=>PAL[Math.max(0,CATS.findIndex(c=>c.n===n))%PAL.length];
 function chips(){if(!SEL)SEL=new Set();const M=matrix();
  gId('gTots').innerHTML=TOTS.map(([k,l,col])=>`<span class="gx t ${GST.tot.includes(k)?'on':''}" data-tot="${k}" style="--cc:${col}"><i style="background:${col}"></i><span class="tx">${l}</span></span>`).join('');
@@ -619,6 +621,15 @@ function graf(){if(!window.Chart)return;chips();
  if(T.includes('cart')&&GST.cart==='var')ds.push({label:'Variação % da carteira',data:avgB(m=>vm[m]),color:GOLD,y1:1,line:1,pct:1});
  CATS.filter(c=>SEL.has(c.n)&&!isFixD(c)).forEach(c=>ds.push({label:c.n,data:c.t==='s'?lastB(m=>cell(M,c.n,m)||null):sumB(m=>cell(M,c.n,m)),color:catColor(c.n)}));
  const css=getComputedStyle(document.documentElement),tx=css.getPropertyValue('--mu').trim(),gr=css.getPropertyValue('--bd').trim();
+ // variação mensal Receita − Despesa (setas ▲ verde / ▼ vermelha) no topo do gráfico
+ const dRec=ds.find(d=>d.label==='Receita'),dDes=ds.find(d=>d.label.startsWith('Despesa'));
+ const diffs=(dRec&&dDes)?bk.map((_,i)=>(dRec.data[i]||0)-(dDes.data[i]||0)):null;
+ const rot=bk.length>6,stripH=diffs?(rot?58:30):0;
+ const fmD=v=>(v>=0?'+':'−')+(Math.abs(v)>=1000?(Math.abs(v)/1000).toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1})+'k':Math.round(Math.abs(v)).toLocaleString('pt-BR'));
+ const sobPlug={id:'sob',afterDatasetsDraw(ch){if(!diffs)return;const ctx=ch.ctx,ca=ch.chartArea,xs=ch.scales.x;ctx.save();
+    diffs.forEach((v,i)=>{const x=xs.getPixelForValue(i);ctx.fillStyle=v>=0?UPC:DNC;ctx.textAlign='center';ctx.font='9px system-ui,sans-serif';ctx.fillText(v>=0?'▲':'▼',x,10);ctx.font='700 10.5px system-ui,sans-serif';
+   if(rot){ctx.save();ctx.translate(x+3.5,ca.top-8);ctx.rotate(-Math.PI/2);ctx.textAlign='left';ctx.fillText(fmD(v),0,0);ctx.restore()}else{ctx.textAlign='center';ctx.fillText(fmD(v),x,24)}});
+  ctx.restore()}};
  if(chart){chart.destroy();chart=null}
  const hasY1=ds.some(d=>d.y1),stk=tp==='stack';
  const cfg={type:stk?'bar':tp,data:{labels:lab,datasets:ds.map(d=>({label:d.label,data:d.data,borderColor:d.color,backgroundColor:(tp==='line'||d.line)?d.color+'33':d.color,tension:.25,pointRadius:2.5,pointBackgroundColor:d.color,pointBorderColor:d.color,borderWidth:2,spanGaps:true,yAxisID:d.y1?'y1':'y',type:(d.line&&tp!=='line')?'line':undefined,pct:!!d.pct}))},
@@ -626,7 +637,9 @@ function graf(){if(!window.Chart)return;chips();
    plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' '+c.dataset.label+': '+(c.dataset.pct?c.parsed.y.toFixed(1).replace('.',',')+'%':brl(c.parsed.y))}}},
    scales:{x:{stacked:stk,ticks:{color:tx,maxRotation:0,autoSkip:true,maxTicksLimit:7},grid:{display:false}},y:{stacked:stk,position:'left',beginAtZero:true,ticks:{color:tx,callback:v=>(v/1000).toLocaleString('pt-BR',{maximumFractionDigits:1})},grid:{color:gr}}}}};
  if(hasY1)cfg.options.scales.y1={position:'right',ticks:{color:GOLD,font:{weight:'600'},callback:v=>GST.cart==='var'?v.toFixed(1)+'%':(v/1000).toLocaleString('pt-BR',{maximumFractionDigits:1})},grid:{drawOnChartArea:false,color:gr}};
+ gId('gUn').textContent=diffs?'R$ mil · ▲▼ sobrou no mês':'R$ mil';
  if(touch)cfg.options.events=[];
+ if(diffs){cfg.plugins=[sobPlug];cfg.options.layout={padding:{top:stripH}}}
  chart=new Chart(gId('cv'),cfg);
  gId('cv').onclick=touch?e=>gTip(chart,e):null;
  gId('gCap').textContent=T.includes('cart')&&GST.cart==='eixo'?'Carteira · eixo da direita':T.includes('cart')&&GST.cart==='var'?'Variação % da carteira · eixo da direita':'';
@@ -840,7 +853,7 @@ function dvCatOf(desc){const s=dvNorm(desc);for(const c of DVCATS)if(c[3]&&c[3].
 const dvCI=id=>DVCATS.find(c=>c[0]===id)||DVCATS[DVCATS.length-1];
 const CICM=[[/salario|receita|renda|pro labore|13o|bonus|freela/,'💰'],[/fatura|cartao|nubank|c6|credito/,'💳'],[/mercado|feira|supermerc|hortifruti|acougue/,'🛒'],[/aluguel|moradia|condomin|\bluz\b|energia|\bagua\b|internet|blink|\bgas\b|iptu/,'🏠'],[/vivo|celular|telefone|claro|\btim\b/,'📱'],[/estacion|uber|combust|gasolina|transporte|carro|onibus|metro|pedagio/,'🚗'],[/puc|pos grad|curso|escola|faculdade|estudo|livro/,'🎓'],[/saude|plano de|farmac|medic|dentista|academia/,'💊'],[/caixinha|poupanc|invest|reserva|carteira|saldo|cdb|tesouro/,'🏦'],[/netflix|spotify|assinatura|disney|prime|hbo|youtube/,'📺'],[/restaur|ifood|comida|lanche|padaria|almoc|jantar|cafe/,'🍽️'],[/lazer|viagem|cinema|show|festa|passeio/,'🎉'],[/\bpet\b|veterin|racao/,'🐾'],[/roupa|loja|shopping|compra|presente/,'🛍️'],[/imposto|taxa|irpf|seguro/,'📄']];
 function cIc(n){const s=dvNorm(n);for(const c of CICM)if(c[0].test(s))return c[1];return dvCI(dvCatOf(n))[1]}
-const KIC={'Salário':'💰','Despesas':'💳','Sobrou':'🌱','Carteira':'👛'};
+const KIC={'Receita':'💰','Despesa':'💳','Sobrou':'🌱','Carteira':'👛'};
 const dvGi=(g,bg)=>g.img?`<span class="gic" style="background:url(${g.img}) center/cover"></span>`:`<span class="gic" style="background:${bg}">${g.icon||'👥'}</span>`;
 function dvResize(file){return new Promise((ok,no)=>{const url=URL.createObjectURL(file),im=new Image();im.onload=()=>{try{const S=160,c=document.createElement('canvas');c.width=c.height=S;const m=Math.min(im.width,im.height);c.getContext('2d').drawImage(im,(im.width-m)/2,(im.height-m)/2,m,m,0,0,S,S);URL.revokeObjectURL(url);ok(c.toDataURL('image/jpeg',0.72))}catch(e){no(e)}};im.onerror=()=>{URL.revokeObjectURL(url);no(new Error('imagem inválida'))};im.src=url})}
 function crc16(s){let c=0xFFFF;for(let i=0;i<s.length;i++){c^=s.charCodeAt(i)<<8;for(let j=0;j<8;j++)c=(c&0x8000)?((c<<1)^0x1021)&0xFFFF:(c<<1)&0xFFFF}return c.toString(16).toUpperCase().padStart(4,'0')}
