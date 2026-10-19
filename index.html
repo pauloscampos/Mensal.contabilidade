@@ -311,7 +311,7 @@ label:has(>#fMes){order:2;flex:1 1 120px}label:has(>#fVal){display:none}#nCatBtn
 <div class="card"><div class="ct">Dados e backup</div><div class="row" style="margin-top:8px"><button class="btn sm" id="reset">Apagar dados locais</button></div>
   <div class="row" style="margin-top:10px;align-items:center"><span class="mu">Backup:</span><button class="btn sm" id="bkExp">Exportar backup (JSON)</button><label class="btn sm" style="flex-direction:row;font-size:12px;color:var(--tx);cursor:pointer;min-width:0">Importar backup (substitui os dados atuais)<input type="file" id="bkImp" hidden></label></div><div id="bkMsg" class="mu" style="margin-top:6px;min-height:18px"></div><details style="margin-top:6px"><summary class="mu" style="cursor:pointer">Importar colando o texto do backup</summary><textarea id="bkTxt" rows="4" style="width:100%;margin-top:6px;font-size:12px" placeholder="Cole aqui o conteúdo do arquivo de backup (.json)"></textarea><button class="btn sm" id="bkPaste" type="button" style="margin-top:6px">Importar texto colado</button></details></div>
 <div class="card"><div class="ct">Sobre</div>
- <div class="cfr" style="border-top:0"><span>Versão do app</span><b id="appVer">2026-10-18.3</b></div>
+ <div class="cfr" style="border-top:0"><span>Versão do app</span><b id="appVer">2026-10-19.1</b></div>
  <div class="cfr"><span>Atualização</span><button class="btn sm" id="appUpd">Buscar atualização</button></div>
 </div>
 </section>
@@ -619,27 +619,51 @@ function graf(){if(!window.Chart)return;chips();
  if(T.includes('sob'))ds.push({label:'Sobrou',data:sumB(m=>mvals(M,m).sob),color:TOTC.sob});
  if(T.includes('cart')&&GST.cart==='eixo')ds.push({label:'Carteira',data:lastB(m=>cm[m]),color:GOLD,y1:1,line:1});
  if(T.includes('cart')&&GST.cart==='var')ds.push({label:'Variação % da carteira',data:avgB(m=>vm[m]),color:GOLD,y1:1,line:1,pct:1});
- CATS.filter(c=>SEL.has(c.n)&&!isFixD(c)).forEach(c=>ds.push({label:c.n,data:c.t==='s'?lastB(m=>cell(M,c.n,m)||null):sumB(m=>cell(M,c.n,m)),color:catColor(c.n)}));
+ CATS.filter(c=>SEL.has(c.n)&&!isFixD(c)).forEach(c=>ds.push({label:c.n,data:c.t==='s'?lastB(m=>cell(M,c.n,m)||null):sumB(m=>cell(M,c.n,m)),color:catColor(c.n),cat:1}));
  const css=getComputedStyle(document.documentElement),tx=css.getPropertyValue('--mu').trim(),gr=css.getPropertyValue('--bd').trim();
- // variação mensal Receita − Despesa (setas ▲ verde / ▼ vermelha) no topo do gráfico
+ const card=css.getPropertyValue('--card').trim()||'#ffffff';
+ const headRoom=sc=>{if(!diffs)return;const r=(sc.max-sc.min)||1;sc.max+=r*.42;if(sc.min>0)sc.min=Math.max(0,sc.min-r*.1)}; // folga no topo para os rótulos da variação
+ // variação mensal Receita − Despesa: seta e valor colados na barra mais alta do mês (ou no ponto mais alto, nas linhas);
+ // se a linha da Carteira estiver no caminho, o rótulo sobe e fica logo acima dela
  const dRec=ds.find(d=>d.label==='Receita'),dDes=ds.find(d=>d.label.startsWith('Despesa'));
  const diffs=(dRec&&dDes)?bk.map((_,i)=>(dRec.data[i]||0)-(dDes.data[i]||0)):null;
- const rot=bk.length>6,stripH=diffs?(rot?58:30):0;
  const fmD=v=>(v>=0?'+':'−')+(Math.abs(v)>=1000?(Math.abs(v)/1000).toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1})+'k':Math.round(Math.abs(v)).toLocaleString('pt-BR'));
- const sobPlug={id:'sob',afterDatasetsDraw(ch){if(!diffs)return;const ctx=ch.ctx,ca=ch.chartArea,xs=ch.scales.x;ctx.save();
-    diffs.forEach((v,i)=>{const x=xs.getPixelForValue(i);ctx.fillStyle=v>=0?UPC:DNC;ctx.textAlign='center';ctx.font='9px system-ui,sans-serif';ctx.fillText(v>=0?'▲':'▼',x,10);ctx.font='700 10.5px system-ui,sans-serif';
-   if(rot){ctx.save();ctx.translate(x+3.5,ca.top-8);ctx.rotate(-Math.PI/2);ctx.textAlign='left';ctx.fillText(fmD(v),0,0);ctx.restore()}else{ctx.textAlign='center';ctx.fillText(fmD(v),x,24)}});
+ const sobPlug={id:'sob',afterDatasetsDraw(ch){if(!diffs)return;
+  const ctx=ch.ctx,ca=ch.chartArea,n=bk.length,D=ch.data.datasets,rot=(ca.right-ca.left)/n<48;
+  const iR=D.findIndex(d=>d.label==='Receita'),iD=D.findIndex(d=>d.label.startsWith('Despesa'));
+  const grp=tp==='line'?[iR,iD]:D.map((d,k)=>k).filter(k=>D[k].yAxisID!=='y1'&&ch.isDatasetVisible(k));
+  const iC=D.findIndex(d=>d.yAxisID==='y1');
+  const pts=iC<0?[]:ch.getDatasetMeta(iC).data.filter(e=>e&&isFinite(e.x)&&isFinite(e.y)).map(e=>({x:e.x,y:e.y}));
+  const gy=px=>{if(!pts.length||px<pts[0].x-1||px>pts[pts.length-1].x+1)return null;for(let k=1;k<pts.length;k++){const a=pts[k-1],b=pts[k];if(px>=a.x&&px<=b.x)return a.y+(b.y-a.y)*(px-a.x)/((b.x-a.x)||1)}return pts[0].y};
+  const band=cx=>{let lo=1e9,hi=-1e9;for(let o=-8;o<=8;o+=2){const y=gy(cx+o);if(y==null)continue;lo=Math.min(lo,y);hi=Math.max(hi,y)}return hi<lo?null:{lo,hi}};
+  const BF='700 10.5px system-ui,sans-serif',AF='9px system-ui,sans-serif';
+  ctx.save();ctx.font=BF;
+  diffs.forEach((v,i)=>{
+   const els=grp.map(k=>k>=0?ch.getDatasetMeta(k).data[i]:null).filter(e=>e&&isFinite(e.x)&&isFinite(e.y));
+   if(!els.length)return;
+   const top=Math.min(...els.map(e=>e.y)),cx=els.reduce((s,e)=>s+e.x,0)/els.length;
+   const txt=fmD(v),tw=ctx.measureText(txt).width,ar=v>=0?'▲':'▼';let labH=rot?tw+13:22,bottom=top-5,only=false;
+   const bd=band(cx);
+   if(bd&&!(bd.hi+3<bottom-labH||bd.lo-3>bottom))bottom=bd.lo-6;
+   if(bottom-labH<ca.top-2){only=true;labH=9;bottom=Math.max(bottom,ca.top+9)}
+   ctx.fillStyle=v>=0?UPC:DNC;ctx.textAlign='center';
+   if(only){ctx.font=AF;ctx.fillText(ar,cx,bottom);ctx.font=BF;return}
+   if(rot){ctx.save();ctx.translate(cx+3.5,bottom);ctx.rotate(-Math.PI/2);ctx.textAlign='left';ctx.fillText(txt,0,0);ctx.restore();ctx.font=AF;ctx.fillText(ar,cx,bottom-tw-3)}
+   else{ctx.fillText(txt,cx,bottom);ctx.font=AF;ctx.fillText(ar,cx,bottom-12)}
+   ctx.font=BF});
   ctx.restore()}};
  if(chart){chart.destroy();chart=null}
  const hasY1=ds.some(d=>d.y1),stk=tp==='stack';
- const cfg={type:stk?'bar':tp,data:{labels:lab,datasets:ds.map(d=>({label:d.label,data:d.data,borderColor:d.color,backgroundColor:(tp==='line'||d.line)?d.color+'33':d.color,tension:.25,pointRadius:2.5,pointBackgroundColor:d.color,pointBorderColor:d.color,borderWidth:2,spanGaps:true,yAxisID:d.y1?'y1':'y',type:(d.line&&tp!=='line')?'line':undefined,pct:!!d.pct}))},
+ const cfg={type:stk?'bar':tp,data:{labels:lab,datasets:ds.map(d=>{const isLine=tp==='line'||d.line,b={label:d.label,data:d.data,borderColor:d.color,spanGaps:true,yAxisID:d.y1?'y1':'y',type:(d.line&&tp!=='line')?'line':undefined,pct:!!d.pct,tension:.25};
+   if(isLine)return d.cat?{...b,backgroundColor:'transparent',borderWidth:1.3,pointRadius:3,pointBackgroundColor:card,pointBorderColor:d.color,pointBorderWidth:1.3,order:2}:{...b,backgroundColor:d.color+'33',borderWidth:2.4,pointRadius:2.8,pointBackgroundColor:d.color,pointBorderColor:d.color,order:1};
+   return d.cat?{...b,backgroundColor:'transparent',borderWidth:1.4,borderSkipped:false,borderRadius:2,order:2}:{...b,backgroundColor:d.color,borderWidth:0,borderRadius:2,order:2}})},
   options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
    plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' '+c.dataset.label+': '+(c.dataset.pct?c.parsed.y.toFixed(1).replace('.',',')+'%':brl(c.parsed.y))}}},
-   scales:{x:{stacked:stk,ticks:{color:tx,maxRotation:0,autoSkip:true,maxTicksLimit:7},grid:{display:false}},y:{stacked:stk,position:'left',beginAtZero:true,ticks:{color:tx,callback:v=>(v/1000).toLocaleString('pt-BR',{maximumFractionDigits:1})},grid:{color:gr}}}}};
- if(hasY1)cfg.options.scales.y1={position:'right',ticks:{color:GOLD,font:{weight:'600'},callback:v=>GST.cart==='var'?v.toFixed(1)+'%':(v/1000).toLocaleString('pt-BR',{maximumFractionDigits:1})},grid:{drawOnChartArea:false,color:gr}};
+   scales:{x:{stacked:stk,ticks:{color:tx,maxRotation:0,autoSkip:true,maxTicksLimit:7},grid:{display:false}},y:{stacked:stk,position:'left',beginAtZero:true,afterDataLimits:headRoom,ticks:{color:tx,callback:v=>(v/1000).toLocaleString('pt-BR',{maximumFractionDigits:1})},grid:{color:gr}}}}};
+ if(hasY1)cfg.options.scales.y1={position:'right',beginAtZero:false,afterDataLimits:headRoom,ticks:{color:GOLD,font:{weight:'600'},callback:v=>GST.cart==='var'?v.toFixed(1)+'%':(v/1000).toLocaleString('pt-BR',{maximumFractionDigits:1})},grid:{drawOnChartArea:false,color:gr}};
  gId('gUn').textContent=diffs?'R$ mil · ▲▼ sobrou no mês':'R$ mil';
  if(touch)cfg.options.events=[];
- if(diffs){cfg.plugins=[sobPlug];cfg.options.layout={padding:{top:stripH}}}
+ if(diffs)cfg.plugins=[sobPlug];
  chart=new Chart(gId('cv'),cfg);
  gId('cv').onclick=touch?e=>gTip(chart,e):null;
  gId('gCap').textContent=T.includes('cart')&&GST.cart==='eixo'?'Carteira · eixo da direita':T.includes('cart')&&GST.cart==='var'?'Variação % da carteira · eixo da direita':'';
