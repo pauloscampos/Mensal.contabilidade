@@ -270,6 +270,37 @@ label:has(>#fMes){order:2;flex:1 1 120px}label:has(>#fVal){display:none}#nCatBtn
 #t-graf .gkc{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:8px 10px;min-width:0}
 #t-graf .gkc small{display:block;font-size:11px;font-weight:600;color:var(--mu);white-space:nowrap}
 #t-graf .gkc b{font-size:14px;white-space:nowrap}
+/* Importar fatura (2026-10-20) */
+.fi-bar{display:flex;gap:8px;align-items:stretch}.fi-bar .lsr{flex:1;min-width:0}
+.fi-imp{height:auto;min-height:40px;white-space:nowrap;padding:0 14px;font-weight:800}
+.fi-drop{display:flex;align-items:center;gap:12px;padding:14px;border:1.5px dashed var(--bd);border-radius:16px;background:var(--bg);cursor:pointer}
+.fi-ic{width:42px;height:42px;border-radius:10px;background:var(--ac2);display:flex;align-items:center;justify-content:center;font-size:20px;flex:none}
+.fi-tx{flex:1;min-width:0;display:flex;flex-direction:column}.fi-tx b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.fi-tx small{color:var(--mu);font-size:12px}
+.fi-lk{color:var(--ac);font-weight:700;font-size:13px}.fi-hint{font-size:12px;margin:6px 0 4px}
+.fi-err{margin:8px 0;padding:8px 10px;border-radius:10px;border:1px solid var(--neg);color:var(--neg);font-size:13px}
+.fi-priv{margin-top:14px;padding:10px 12px;border-radius:12px;background:var(--ac2);font-size:12.5px;line-height:1.45}
+.fi-go{width:100%;height:50px;margin-top:14px;font-weight:700}.fi-go:disabled{opacity:.45}.fi-lst{width:100%;margin-top:8px}
+.fi-card{padding:12px;border:1px solid var(--bd);border-radius:14px;background:var(--card);margin-bottom:10px}
+.fi-big{font-size:26px;font-weight:800;margin:2px 0}
+.fi-ok,.fi-wr{margin-top:8px;padding:7px 10px;border-radius:10px;font-size:12px;line-height:1.4}
+.fi-ok{border:1px solid var(--ac);background:var(--ac2)}.fi-wr{border:1px solid #f4c542;background:rgba(244,197,66,.10)}
+.fi-all{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:12px;background:var(--card);border:1px solid var(--bd);cursor:pointer;margin-bottom:8px}.fi-all b{flex:1}
+.fi-ck{width:20px;height:20px;border-radius:6px;border:1.5px solid var(--mu);display:inline-flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;flex:none;color:var(--card)}
+.fi-ck.on{background:var(--ac);border-color:var(--ac)}.fi-ck.part{border-color:var(--ac);background:var(--ac2);color:var(--ac);font-size:15px}
+.fi-chips{display:flex;gap:6px;margin:0 0 6px;flex-wrap:wrap}
+.fi-chip{height:30px;padding:0 12px;border-radius:15px;border:1px solid var(--bd);color:var(--mu);font-size:12px;font-weight:600;display:inline-flex;align-items:center;cursor:pointer}
+.fi-chip.on{border-color:var(--ac);background:var(--ac2);color:var(--tx)}
+.fi-list{max-height:44vh;overflow:auto;-webkit-overflow-scrolling:touch}
+.fi-r,.fi-tag,.fi-fl{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--bd);cursor:pointer}
+.fi-r.off{opacity:.5}.fi-d{width:34px;color:var(--mu);font-size:12px;font-weight:600;flex:none}
+.fi-n{flex:1;min-width:0;display:flex;flex-direction:column}.fi-n b{font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.fi-n small{color:var(--mu);font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fi-n em{color:#f4c542;font-size:11px;font-style:normal;font-weight:600}.fi-v{font-weight:700;font-size:13.5px;white-space:nowrap}.fi-v.cr{color:var(--pos)}
+.fi-foot{position:sticky;bottom:0;padding-top:10px;background:var(--card)}.fi-foot .btn{width:100%;height:48px;font-weight:700}
+.fi-tag{margin:0 0 8px;padding:9px 12px;border:1px solid var(--bd);border-radius:12px}
+.fsug{display:flex;align-items:center;gap:10px;margin:10px 0 0;padding:10px 12px;border-radius:14px;border:1.5px solid #f4c542;background:rgba(244,197,66,.10);width:100%;box-sizing:border-box}
+.fsi{font-size:18px}.fst{flex:1;min-width:0;display:flex;flex-direction:column}.fst small{color:var(--mu);font-size:11.5px}
+.fsb{background:#f4c542!important;color:#161614!important;border-color:#f4c542!important;font-weight:800;border-radius:16px}
+.fi-toast{position:fixed;left:16px;right:16px;bottom:96px;z-index:99;padding:12px 14px;border-radius:14px;background:var(--card);border:1px solid var(--ac);color:var(--tx);font-size:13px;box-shadow:0 8px 30px rgba(0,0,0,.4);opacity:0;pointer-events:none;transform:translateY(8px);transition:.25s}.fi-toast.show{opacity:1;transform:none}
 </style>
 </head>
 <body><div class="app">
@@ -311,7 +342,7 @@ label:has(>#fMes){order:2;flex:1 1 120px}label:has(>#fVal){display:none}#nCatBtn
 <div class="card"><div class="ct">Dados e backup</div><div class="row" style="margin-top:8px"><button class="btn sm" id="reset">Apagar dados locais</button></div>
   <div class="row" style="margin-top:10px;align-items:center"><span class="mu">Backup:</span><button class="btn sm" id="bkExp">Exportar backup (JSON)</button><label class="btn sm" style="flex-direction:row;font-size:12px;color:var(--tx);cursor:pointer;min-width:0">Importar backup (substitui os dados atuais)<input type="file" id="bkImp" hidden></label></div><div id="bkMsg" class="mu" style="margin-top:6px;min-height:18px"></div><details style="margin-top:6px"><summary class="mu" style="cursor:pointer">Importar colando o texto do backup</summary><textarea id="bkTxt" rows="4" style="width:100%;margin-top:6px;font-size:12px" placeholder="Cole aqui o conteúdo do arquivo de backup (.json)"></textarea><button class="btn sm" id="bkPaste" type="button" style="margin-top:6px">Importar texto colado</button></details></div>
 <div class="card"><div class="ct">Sobre</div>
- <div class="cfr" style="border-top:0"><span>Versão do app</span><b id="appVer">2026-10-19.1</b></div>
+ <div class="cfr" style="border-top:0"><span>Versão do app</span><b id="appVer">2026-10-20.1</b></div>
  <div class="cfr"><span>Atualização</span><button class="btn sm" id="appUpd">Buscar atualização</button></div>
 </div>
 </section>
@@ -319,7 +350,7 @@ label:has(>#fMes){order:2;flex:1 1 120px}label:has(>#fVal){display:none}#nCatBtn
 <section id="t-lanc" class="hide">
  <div class="card">
   <div class="hd"><div><div class="ct">Lançamentos</div><div class="cs" id="lSum">…</div></div><button class="btn sm" id="lAll">Expandir tudo</button></div>
-  <div class="lsr"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input id="lBusca" type="search" placeholder="Buscar (ex.: Aluguel)" autocomplete="off" enterkeyhint="search"><button class="lclr hide" id="lClr" aria-label="Limpar busca" type="button">×</button></div>
+  <div class="fi-bar"><div class="lsr"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input id="lBusca" type="search" placeholder="Buscar (ex.: Aluguel)" autocomplete="off" enterkeyhint="search"><button class="lclr hide" id="lClr" aria-label="Limpar busca" type="button">×</button></div><button class="btn pri fi-imp" id="impBtn" type="button">⬆ Importar fatura</button></div>
   <div class="row" style="margin-top:10px"><label>Categoria<select id="lCat"></select></label></div>
  </div>
  <div id="lista"></div>
@@ -346,7 +377,7 @@ label:has(>#fMes){order:2;flex:1 1 120px}label:has(>#fVal){display:none}#nCatBtn
 </section>
 
 </main></div>
-<div id="sheet" class="modal hide"><div class="mbox"><div class="row" style="justify-content:space-between;align-items:center;margin-bottom:12px"><span class="ct" id="shTitle"></span><button class="btn sm" id="shClose" aria-label="Fechar">✕</button></div><div id="shBody"></div></div></div>
+<input type="file" id="fiFile" class="hide" accept=".csv,.txt,text/csv,text/plain"><div id="sheet" class="modal hide"><div class="mbox"><div class="row" style="justify-content:space-between;align-items:center;margin-bottom:12px"><span class="ct" id="shTitle"></span><button class="btn sm" id="shClose" aria-label="Fechar">✕</button></div><div id="shBody"></div></div></div>
 <div id="login" class="loginov"><div class="wl"><div class="wl-top"><div class="wl-logo"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M5 20V14M12 20V9M19 20V4"/></svg></div><h1>Contabilidade</h1><p class="wl-sub">Seu dinheiro do mês, num só lugar.</p></div><div class="wl-feat"><div class="wl-f"><div class="wl-i"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></div><div><b>Lance em poucos toques</b><span>Teclado numérico próprio, categorias e fechamento do mês passo a passo.</span></div></div><div class="wl-f"><div class="wl-i"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-8M22 20H2"/></svg></div><div><b>Veja para onde o dinheiro vai</b><span>Carteira, gastos por categoria e o que mudou em relação ao mês anterior.</span></div></div><div class="wl-f"><div class="wl-i"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6M17 11a3 3 0 100-6M21 20c0-2.6-1.6-4.8-4-5.6"/></svg></div><div><b>Divida contas sem confusão</b><span>Quem deve a quem, e um aviso no celular quando alguém lança algo para você.</span></div></div></div><div class="wl-bot"><div id="loadBox"><p class="mu">Carregando…</p><p id="ldHint" class="mu" style="font-size:13px;margin-top:8px"></p></div><div id="loginBox" class="hide"><button class="btn wl-go" id="btnLogin"><span class="wl-g">G</span>Entrar com Google</button><p class="wl-note">Primeira vez? Basta entrar: a conta é criada na hora.<br>Só você vê os seus lançamentos.</p><p id="loginMsg" class="mu" style="margin-top:10px"></p></div><p id="wlVer" class="mu" style="font-size:11px;margin-top:18px;opacity:.7"></p></div></div></div>
 <div id="kp" class="kp hide"><div class="kph"><button class="btn sm hide" id="kpHide" data-k="hide">Ocultar teclado ▾</button></div><div class="g"><button data-k="7">7</button><button data-k="8">8</button><button data-k="9">9</button><button data-k="⌫" class="o">⌫</button><button data-k="4">4</button><button data-k="5">5</button><button data-k="6">6</button><button data-k="÷" class="o">÷</button><button data-k="1">1</button><button data-k="2">2</button><button data-k="3">3</button><button data-k="×" class="o">×</button><button data-k="00">00</button><button data-k="0">0</button><button data-k="−" class="o">−</button><button data-k="+" class="o">+</button><button data-k="=" class="o">=</button><button data-k="go" class="go">Lançar</button></div></div>
 <div id="tipBox" class="tipbox hide" role="tooltip"></div>
@@ -357,7 +388,7 @@ label:has(>#fMes){order:2;flex:1 1 120px}label:has(>#fVal){display:none}#nCatBtn
   <div class="row" style="margin-top:8px">
    <label>Categoria<select id="fCat"></select></label><button class="btn sm" id="nCatBtn" type="button">+ Nova categoria</button>
    <label>Mês<input type="month" id="fMes"></label>
-   <div id="qDisp"><div id="qEx" class="mu"></div><div id="qBig">R$ 0,00</div><div class="mu" style="font-size:12px">Digite só os números: os centavos entram sozinhos</div></div><label>Valor (R$)<input id="fVal" placeholder="0,00 ou =12+30*2" autocomplete="off"><small id="fPrev" class="mu"></small></label>
+   <div id="qDisp"><div id="qEx" class="mu"></div><div id="qBig">R$ 0,00</div><div class="mu" style="font-size:12px">Digite só os números: os centavos entram sozinhos</div></div><div id="qSug" class="hide" style="width:100%"></div><label>Valor (R$)<input id="fVal" placeholder="0,00 ou =12+30*2" autocomplete="off"><small id="fPrev" class="mu"></small></label>
    <label style="flex:1">Observação<input id="fObs" placeholder="opcional"></label>
    <button class="btn pri" id="fAdd">Adicionar</button><button class="btn hide" id="fCancel" type="button">Cancelar edição</button>
   </div><div class="row hide" id="nCatBox" style="margin-top:8px"><label>Nome da categoria<input id="nCatN"></label><label>Tipo<select id="nCatT"><option value="d">Despesa</option><option value="r">Receita</option><option value="s">Saldo / rendimento</option></select></label><button class="btn pri sm" id="nCatOk" type="button">Criar</button></div><div id="fMsg" class="mu" style="margin-top:6px"></div>
@@ -476,7 +507,7 @@ function lista(){const c=lCat.value,S=new Set(selAll()),q=nrm(lBusca.value).trim
   '<div class="lm-r" data-row="'+x.id+'"><span class="lm-i">'+cIc(x.c)+'</span><span class="lm-t"><b>'+esc(x.c)+'</b>'+(x.o?'<small>'+esc(x.o)+'</small>':'')+'</span><span class="lm-a '+cl+'"'+(x.f?' data-tip="Memória de cálculo: '+esc(x.f)+' = '+brl(x.v)+'"':'')+'>'+brl(x.v)+(x.f?' ƒ':'')+'</span><span class="lm-x"><button class="btn sm" data-edit="'+x.id+'" title="Editar">✎</button><button class="btn sm" data-del="'+x.id+'" title="Excluir">×</button></span></div>').join('');
  lista_.innerHTML=ms.length?ms.map(m=>{const a=by[m],rc=a.filter(x=>tp(x)==='r'),ds=a.filter(x=>tp(x)==='d'),sl=a.filter(x=>tp(x)==='s'),open=!!q||LEXP.has(m);
   return '<div class="lm'+(open?' open':'')+'"><button class="lm-h" data-mt="'+m+'" aria-expanded="'+open+'"><span class="lm-m"><b>'+lblM(m)+'</b><small>'+a.length+' lançamento'+(a.length===1?'':'s')+'</small></span><span class="lm-v"><small>Receita</small><b class="pos">'+brl(sum(rc))+'</b></span><span class="lm-v"><small>Despesa</small><b class="lm-neg">'+brl(sum(ds))+'</b></span><span class="lm-chev">'+LCH+'</span></button>'
-   +(open?'<div class="lm-b">'+sec('Receita',rc,'pos')+sec('Despesa',ds,'lm-neg')+sec('Saldo / rendimento',sl,'')+'</div>':'')+'</div>'}).join(''):'<div class="lm-e">Nenhum lançamento encontrado'+(q?' para “'+esc(lBusca.value.trim())+'”':'')+'.</div>';
+   +(open?'<div class="lm-b">'+fatTags(m)+sec('Receita',rc,'pos')+sec('Despesa',ds,'lm-neg')+sec('Saldo / rendimento',sl,'')+'</div>':'')+'</div>'}).join(''):'<div class="lm-e">Nenhum lançamento encontrado'+(q?' para “'+esc(lBusca.value.trim())+'”':'')+'.</div>';
  const rec=sum(r.filter(x=>tp(x)==='r')),des=sum(r.filter(x=>tp(x)==='d')),p=[r.length+' lançamento'+(r.length===1?'':'s')+' em '+ms.length+(ms.length===1?' mês':' meses')];
  if(q||c!=='all'){if(rec)p.push('Receita '+brl(rec));if(des)p.push('Despesa '+brl(des))}
  lSum.textContent=p.join(' · ');const all=ms.length&&ms.every(m=>LEXP.has(m));lAll.textContent=all?'Recolher tudo':'Expandir tudo';lAll.classList.toggle('hide',!!q||!ms.length)}
@@ -526,7 +557,7 @@ function fech(){const m=fcMes.value;
  fcBox.innerHTML='<div class="fnav"><button class="btn fa" data-nav="-1" aria-label="Anterior">'+IL+'</button><div class="fc"><div class="fn">'+esc(c.n)+'</div><div class="mu">'+kd+' · mês anterior '+(lv!=null?brl(lv):'—')+'</div>'+(S==='ok'?'<span class="fok">'+ICK+' Lançado</span>':S==='sk'?'<span class="fok" style="background:var(--bd);color:var(--mu)">Pulado</span>':'')+'</div><button class="btn fa" data-nav="1" aria-label="Próximo">'+IR+'</button></div>'
  +(S==='ok'?'<div class="fv ok"><div class="mu" style="text-align:left;font-size:12px">VALOR LANÇADO</div><div class="fvb">'+brl(cell(M,c.n,m))+'</div></div><div class="fact"><button class="btn" data-a="edit">Editar valor</button><button class="btn" data-a="undo" style="color:var(--neg)">Desfazer</button></div>'
  :'<div class="fv" data-a="open"><div class="mu" style="text-align:left;font-size:12px">VALOR</div><div id="fvEx" class="mu" style="min-height:18px"></div><div class="fvb" id="fvBig">R$ 0,00</div><div class="mu" style="font-size:12px">Toque para digitar (teclado numérico)</div></div>'
- +(lv!=null?'<button class="btn" data-a="rep" style="width:100%;height:50px;margin-top:10px;color:var(--ac);border-color:var(--ac);font-weight:700">Replicar mês anterior · '+brl(lv)+'</button>':'')
+ +fatBtn(c.n,m)+(lv!=null?'<button class="btn" data-a="rep" style="width:100%;height:50px;margin-top:10px;color:var(--ac);border-color:var(--ac);font-weight:700">Replicar mês anterior · '+brl(lv)+'</button>':'')
  +'<div class="fact"><button class="btn" data-a="skip">Pular</button><button class="btn pri w" data-a="go">Lançar</button></div>')
  +'<div class="flist">'+CATS.map((x,i)=>'<div class="fl" data-i="'+i+'"'+(i===FI?' style="font-weight:700"':'')+'><span class="fd '+st(x.n)+(i===FI?' cur':'')+'">'+(st(x.n)==='ok'?ICK:'')+'</span><span style="flex:1">'+esc(x.n)+'</span><span class="mu">'+(st(x.n)==='ok'?brl(cell(M,x.n,m)):st(x.n)==='sk'?'pulado':'—')+'</span></div>').join('')+'</div>';
  kRender()}
@@ -539,6 +570,7 @@ fcBox.addEventListener('click',e=>{const T=CATS.length,n=e.target.closest('[data
  if(A==='go'){fLaunch();return}
  if(A==='skip'){(SK[m]=SK[m]||[]).push(c.n);saveSk();fNext();fcMsg.textContent='';fech();return}
  const M=matrix();
+ if(A==='sug'){const f=fatFor(c.n,m);if(f){FS[fcKey(c.n)]={p:[],d:String(Math.round(Math.abs(fatTot(f))*100))};fech();kRender()}return}
  if(A==='rep'){const am=allMonths().filter(x=>x<m).reverse(),k=am.find(x=>M[c.n][x]);if(k){addL({c:c.n,m,v:M[c.n][k],o:'',s:'novo',f:''});fNext();fcMsg.textContent='';initSelects();refresh()}return}
  if(A==='undo'||A==='edit'){const v=cell(M,c.n,m);L.filter(x=>x.m===m&&x.c===c.n).forEach(delL);if(A==='edit'){FS[fcKey(c.n)]={p:[],d:String(Math.round(Math.abs(v)*100))};KPo=true}initSelects();refresh();kpSync()}});
 kp.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const k=b.dataset.k;
@@ -692,6 +724,169 @@ function openCats(){
  const totRows=TOTS.map(([k,l])=>row('data-gt',k,l,GST.tot.includes(k),false,k==='cart'&&GST.cart==='eixo'?'eixo direito':'')).join('');
  openSheet('O que mostrar',top+sec('TOTAIS',totRows)+sec('RECEITAS',recs.map(c=>row('data-gs',c.n,c.n,SEL.has(c.n),false,'')).join(''))+sec('DESPESAS VARIÁVEIS',vars.map(c=>row('data-gs',c.n,c.n,SEL.has(c.n),false,'')).join(''))+sec(GST.fix?'DESPESAS FIXAS · ocultas':'DESPESAS FIXAS',fixs.map(c=>row('data-gs',c.n,c.n,SEL.has(c.n)&&!GST.fix,GST.fix,GST.fix?'fixa':'')).join(''))+`<div class="row" style="margin-top:16px"><button class="btn" data-act="clr" style="flex:1">Limpar</button><button class="btn pri" data-act="apl" style="flex:2">Aplicar</button></div>`);
 }
+
+// ---- Importar fatura (CSV) — etapa 1
+let FAT=[];try{FAT=JSON.parse(localStorage.getItem('contab_fat_v1')||'[]')||[]}catch(e){FAT=[]}
+const fatSave=()=>{try{localStorage.setItem('contab_fat_v1',JSON.stringify(FAT))}catch(e){}};
+const r2=v=>Math.round(v*100)/100;
+const fatTot=f=>r2(f.itens.reduce((s,i)=>s+(i.k?i.v:0),0));
+const fatFor=(cat,mes)=>FAT.find(f=>f.cat===cat&&f.mes===mes)||null;
+function cloudF(list){FAT=list||[];try{refresh()}catch(e){}}
+function fatPut(f){FAT=FAT.filter(x=>x.id!==f.id).concat([f]);
+ if(CLOUD.on&&window.CLOUDAPI&&window.CLOUDAPI.fatPut){try{window.CLOUDAPI.fatPut(f).catch(window.cloudErr||(()=>{}))}catch(e){}}else fatSave()}
+function fatDelete(id){FAT=FAT.filter(x=>x.id!==id);
+ if(CLOUD.on&&window.CLOUDAPI&&window.CLOUDAPI.fatDel){try{window.CLOUDAPI.fatDel(id).catch(window.cloudErr||(()=>{}))}catch(e){}}else fatSave()}
+const fmtD=s=>s?s.slice(8,10)+'/'+s.slice(5,7)+'/'+s.slice(0,4):'';
+const fnorm=s=>String(s).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+// ---------- leitura do CSV ----------
+function csvDecode(buf){let t=new TextDecoder('utf-8').decode(buf);if(t.indexOf('\uFFFD')>-1){try{t=new TextDecoder('windows-1252').decode(buf)}catch(e){}}return t.replace(/^\uFEFF/,'')}
+function csvDelim(t){const ls=t.split(/\r?\n/).filter(l=>l.trim()).slice(0,12);let best=';',bs=-1;
+ for(const d of [';',',','\t','|']){const c=ls.map(l=>l.split(d).length-1),mx=Math.max(0,...c),ok=c.filter(x=>x===mx&&x>0).length,sc=mx>0?ok*10+mx:0;if(sc>bs){bs=sc;best=d}}return best}
+function csvRows(t,d){const R=[];let r=[],c='',q=false;
+ for(let i=0;i<t.length;i++){const ch=t[i];
+  if(q){if(ch==='"'){if(t[i+1]==='"'){c+='"';i++}else q=false}else c+=ch}
+  else if(ch==='"')q=true;
+  else if(ch===d){r.push(c);c=''}
+  else if(ch==='\n'||ch==='\r'){if(ch==='\r'&&t[i+1]==='\n')i++;r.push(c);c='';if(r.some(x=>x.trim()!==''))R.push(r);r=[]}
+  else c+=ch}
+ if(c!==''||r.length){r.push(c);if(r.some(x=>x.trim()!==''))R.push(r)}return R}
+function parseNum(s){if(s==null)return NaN;let x=String(s).trim();if(!x)return NaN;let sg=1;
+ if(/^\(.*\)$/.test(x)){sg=-1;x=x.slice(1,-1)}
+ x=x.replace(/R\$|BRL|[\s\u00a0]/gi,'').replace(/[A-Za-z]/g,'').replace('−','-');
+ if(x[0]==='-'){sg=-sg;x=x.slice(1)}else if(x[0]==='+')x=x.slice(1);
+ if(x.endsWith('-')){sg=-sg;x=x.slice(0,-1)}
+ const lc=x.lastIndexOf(','),ld=x.lastIndexOf('.');
+ if(lc>-1&&ld>-1){x=lc>ld?x.replace(/\./g,'').replace(',','.'):x.replace(/,/g,'')}
+ else if(lc>-1)x=x.replace(/\./g,'').replace(',','.');
+ else if(ld>-1&&/^\d{1,3}(\.\d{3})+$/.test(x))x=x.replace(/\./g,'');
+ if(!/^\d*\.?\d+$/.test(x))return NaN;return sg*parseFloat(x)}
+function parseDate(s,ref){s=String(s||'').trim();let m;
+ const ok=(y,mo,d)=>mo>=1&&mo<=12&&d>=1&&d<=31?y+'-'+String(mo).padStart(2,'0')+'-'+String(d).padStart(2,'0'):'';
+ if(m=s.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/))return ok(m[1],+m[2],+m[3]);
+ if(m=s.match(/^(\d{1,2})[\/.-](\d{1,2})[\/.-](\d{2,4})/)){let y=m[3];if(y.length===2)y='20'+y;return ok(y,+m[2],+m[1])}
+ if(ref&&(m=s.match(/^(\d{1,2})[\/.-](\d{1,2})$/))){let y=ref.y;if(+m[2]>ref.m)y--;return ok(String(y),+m[2],+m[1])}
+ return ''}
+const PAY=/pagamento|pagto|pgto|payment|fatura anterior|saldo anterior|obrigado|credito em conta/i;
+const ALI=[[/(^|[^A-Z])IFD\*|IFOOD/,'iFood'],[/(^|[^A-Z])UBER/,'Uber'],[/(^|\W)99\s*\*?\s*(APP|POP|TAXI)|(^|\W)99\s*\*/,'99'],[/NETFLIX/,'Netflix'],[/SPOTIFY/,'Spotify'],[/AMAZON|AMZN/,'Amazon'],[/MERCADO\s*LIVRE|MERCADOLIVRE|MERCADOPAGO/,'Mercado Livre'],[/MAGALU|MAGAZINE\s*LUIZA/,'Magalu'],[/SHOPEE/,'Shopee'],[/RAPPI/,'Rappi'],[/AIRBNB/,'Airbnb'],[/YOUTUBE/,'YouTube'],[/DISNEY/,'Disney+'],[/PRIME\s*VIDEO/,'Prime Video'],[/APPLE\.COM|APPLE\s*BILL/,'Apple'],[/GOOGLE\s*\*?\s*(ONE|PLAY|STORAGE)/,'Google']];
+function fatName(o){const u=String(o).toUpperCase().replace(/\s+/g,' ').trim();
+ for(const [re,n] of ALI)if(re.test(u))return n;
+ let s=u.replace(/^(PAG|PG|MP|PP|PAYPAL|IZ|EC|SP|DL|PIX)\s*\*\s*/,'').replace(/\s+\d{1,2}\/\d{1,2}$/,'').replace(/\s+\d{2,}$/,'').replace(/\s*\*\s*/g,' ').trim();
+ if(!s)s=u;const sm=new Set(['DE','DA','DO','DAS','DOS','E','EM']);
+ return s.toLowerCase().split(' ').map((w,i)=>i&&sm.has(w.toUpperCase())?w:w.length<=2?w.toUpperCase():w.charAt(0).toUpperCase()+w.slice(1)).join(' ')}
+function fnVenc(n){let m=String(n||'').match(/(\d{4})[-_.](\d{2})[-_.](\d{2})/);if(m&&+m[2]>=1&&+m[2]<=12)return m[1]+'-'+m[2]+'-'+m[3];
+ m=String(n||'').match(/(\d{2})[-_.](\d{2})[-_.](\d{4})/);if(m&&+m[2]>=1&&+m[2]<=12)return m[3]+'-'+m[2]+'-'+m[1];return ''}
+function mapCols(h){const H=h.map(fnorm),pick=(re,ex)=>H.findIndex(x=>re.test(x)&&!(ex&&ex.test(x)));
+ let vi=-1;H.forEach((x,i)=>{if(/valor|amount|quantia|montante/.test(x)&&!/us\$|usd|dolar|cotacao|iof|limite/.test(x))vi=i});
+ return{di:pick(/data|date/,/vencim|pagamento|fechamento/),ds:pick(/descri|historico|estabelec|merchant|lancamento|title|titulo|detalhe/,/nome no cartao|categoria/),vi,pi:pick(/parcela/),ci:pick(/categoria|category/)}}
+function inferCols(rows){const n=Math.max(...rows.slice(0,30).map(r=>r.length)),samp=rows.slice(0,40);let di=-1,vi=-1,ds=-1,best=0;
+ const frac=(i,f)=>samp.filter(r=>f(r[i])).length/samp.length;
+ for(let i=0;i<n;i++){if(frac(i,x=>!!parseDate(x,{y:2026,m:12}))>=.6){di=i;break}}
+ for(let i=n-1;i>=0;i--){if(i!==di&&frac(i,x=>!isNaN(parseNum(x))&&!parseDate(x,{y:2026,m:12}))>=.7){vi=i;break}}
+ for(let i=0;i<n;i++){if(i===di||i===vi)continue;const l=samp.reduce((s,r)=>s+(r[i]||'').length,0)/samp.length;if(l>best){best=l;ds=i}}
+ return di>=0&&vi>=0&&ds>=0?{di,ds,vi,pi:-1,ci:-1}:null}
+function csvParseFatura(text,fname){
+ const rows=csvRows(text,csvDelim(text));if(rows.length<2)return{err:'O arquivo parece vazio.'};
+ const HW=/data|date|descri|historico|estabelec|lancamento|title|valor|amount|merchant|parcela|categoria|category/;
+ let hi=-1,bs=1;rows.slice(0,15).forEach((r,i)=>{const sc=r.filter(c=>HW.test(fnorm(c))&&c.trim().length<40).length;if(sc>bs){bs=sc;hi=i}});
+ let cols=hi>=0?mapCols(rows[hi]):null,data=hi>=0?rows.slice(hi+1):rows;
+ if(!cols||cols.di<0||cols.ds<0||cols.vi<0){cols=inferCols(data);data=hi>=0?data:rows;if(!cols)return{err:'Não consegui identificar as colunas de data, descrição e valor.'}}
+ const venc=fnVenc(fname),now=new Date(),ref=venc?{y:+venc.slice(0,4),m:+venc.slice(5,7)}:{y:now.getFullYear(),m:now.getMonth()+1};
+ const it=[];let totalArq=null,skip=0;
+ for(const r of data){const ds=(r[cols.ds]||'').replace(/\s+/g,' ').trim(),d=parseDate(r[cols.di],ref),v=parseNum(r[cols.vi]);
+  if(!d&&/^total/i.test(fnorm(ds))&&!isNaN(v)){totalArq=Math.abs(v);continue}
+  if(!d||isNaN(v)||!ds){skip++;continue}
+  let p='';if(cols.pi>=0){const m=String(r[cols.pi]||'').match(/(\d{1,2})\s*(?:\/|de)\s*(\d{1,2})/i);if(m)p=+m[1]+'/'+(+m[2])}
+  if(!p){const m=ds.match(/(?:parc(?:ela)?\.?\s*)(\d{1,2})\s*\/\s*(\d{1,2})\s*$/i);if(m)p=+m[1]+'/'+(+m[2])}
+  let c=cols.ci>=0?(r[cols.ci]||'').trim():'';if(/^[-–—]*$/.test(c))c='';
+  it.push({d,n:fatName(ds),o:ds,v,p,c,k:1})}
+ if(!it.length)return{err:'Não encontrei compras neste arquivo.'};
+ const np=it.filter(i=>!PAY.test(i.o)),pos=np.filter(i=>i.v>0).length,neg=np.filter(i=>i.v<0).length;let flip=false;
+ if(neg>pos){flip=true;it.forEach(i=>{i.v=-i.v})}
+ it.forEach(i=>{i.v=r2(i.v);if(i.v<0&&PAY.test(i.o))i.k=0});
+ return{itens:it,venc,totalArq,flip,skip,ultima:it.reduce((m,i)=>i.d>m?i.d:m,'')}}
+// ---------- avisos ----------
+function fiToast(t){let e=document.getElementById('fiToast');if(!e){e=document.createElement('div');e.id='fiToast';e.className='fi-toast';document.body.appendChild(e)}
+ e.textContent=t;e.classList.add('show');clearTimeout(e._t);e._t=setTimeout(()=>e.classList.remove('show'),4500)}
+// ---------- tela 1: importar ----------
+let IMP={file:null,res:null,cat:'',mes:'',it:[],f:'all'};
+const fiMonths=b=>{const[y,m]=b.split('-').map(Number),o=[];for(let i=3;i>=-24;i--){const d=new Date(y,m-1+i,1);o.push(d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0'))}return o};
+function fiMesFill(base){const b=base||new Date().toISOString().slice(0,7);gId('fiMes').innerHTML=fiMonths(b).map(m=>'<option value="'+m+'">'+lblM(m)+'</option>').join('');gId('fiMes').value=b}
+function impOpen(){IMP={file:null,res:null,cat:'',mes:'',it:[],f:'all'};
+ const ds=CATS.filter(c=>c.t==='d');
+ if(!ds.length){openSheet('Importar fatura','<div class="mu">Crie uma categoria de despesa para a fatura (por exemplo, “Fatura C6”) em Configurações antes de importar.</div>');return}
+ const pref=(ds.find(c=>/fatura|cart[aã]o|cr[eé]dito/i.test(c.n))||ds[0]).n;IMP.cat=pref;
+ openSheet('Importar fatura','<div class="fi-drop" data-fi="pick"><span class="fi-ic">📄</span><span class="fi-tx"><b id="fiName">Escolher arquivo</b><small id="fiSub">CSV da fatura, de qualquer banco</small></span><span class="fi-lk" id="fiLk">Escolher</span></div>'
+ +'<div class="mu fi-hint">Formato aceito agora: CSV. Excel e PDF virão depois.</div><div id="fiErr" class="fi-err hide"></div>'
+ +'<label>Cartão (categoria)<select id="fiCat">'+ds.map(c=>'<option value="'+esc(c.n)+'"'+(c.n===pref?' selected':'')+'>'+esc(c.n)+'</option>').join('')+'</select></label>'
+ +'<label>Lançar no mês<select id="fiMes"></select></label><small id="fiVenc" class="mu"></small>'
+ +'<div class="fi-priv">🔒 A leitura acontece no seu aparelho, e o arquivo é descartado. Os itens (data, descrição e valor) ficam salvos na sua conta, no Firebase do Google, como os seus lançamentos. O nome do titular não é salvo.</div>'
+ +'<button class="btn pri fi-go" id="fiGo" data-fi="go" disabled>Ler fatura</button>'
+ +(FAT.length?'<button class="btn fi-lst" data-fi="list">Faturas importadas ('+FAT.length+')</button>':''));
+ fiMesFill('')}
+function impPick(file){if(!file)return;const fr=new FileReader();
+ fr.onload=()=>{let res;try{res=csvParseFatura(csvDecode(fr.result),file.name)}catch(e){res={err:'Não consegui ler este arquivo.'}}
+  const er=gId('fiErr');if(!er)return;gId('fiName').textContent=file.name;
+  if(res.err){IMP.res=null;er.textContent=res.err;er.classList.remove('hide');gId('fiGo').disabled=true;gId('fiSub').textContent='não foi possível ler';return}
+  er.classList.add('hide');IMP.file=file;IMP.res=res;gId('fiSub').textContent='✓ '+res.itens.length+' linhas lidas · CSV';gId('fiLk').textContent='Trocar';
+  const base=(res.venc||res.ultima).slice(0,7);fiMesFill(base);
+  gId('fiVenc').textContent=res.venc?'Vencimento '+fmtD(res.venc)+', lido no nome do arquivo':'Não achei o vencimento no nome do arquivo. Confira o mês.';gId('fiGo').disabled=false};
+ fr.onerror=()=>{const er=gId('fiErr');if(er){er.textContent='Não consegui abrir o arquivo.';er.classList.remove('hide')}};
+ fr.readAsArrayBuffer(file)}
+// ---------- tela 2: conferir ----------
+const fiSum=()=>{let c=0,cr=0,nc=0,nk=0,n=0;IMP.it.forEach(i=>{if(!i.k)return;n++;if(i.v>=0){c+=i.v;nc++}else{cr-=i.v;nk++}});return{n,c:r2(c),cr:r2(cr),nc,nk,tot:r2(c-cr)}};
+function impReview(){IMP.cat=gId('fiCat').value;IMP.mes=gId('fiMes').value;IMP.it=IMP.res.itens.map(i=>({...i}));IMP.f='all';
+ IMP.ord=IMP.it.map((_,i)=>i).sort((a,b)=>IMP.it[a].d<IMP.it[b].d?-1:IMP.it[a].d>IMP.it[b].d?1:a-b);
+ openSheet('Conferir itens','<div id="fiSumB"></div><div class="fi-all" data-fi="all"><span class="fi-ck" id="fiAllCk"></span><b>Marcar todos</b><span class="mu" id="fiAllN"></span></div><div class="fi-chips" id="fiChips"></div><div class="fi-list" id="fiList"></div><div class="fi-foot"><button class="btn pri" id="fiSave" data-fi="save"></button></div>');
+ impDraw()}
+function impRow(i){const x=IMP.it[i],ign=!x.k&&x.v<0&&PAY.test(x.o),sub=[x.p?'parcela '+x.p:'',x.c,x.n!==x.o?x.o:''].filter(Boolean).join(' · ');
+ return '<div class="fi-r'+(x.k?'':' off')+'" data-i="'+i+'"><span class="fi-ck'+(x.k?' on':'')+'">'+(x.k?'✓':'')+'</span><span class="fi-d">'+x.d.slice(8,10)+'/'+x.d.slice(5,7)+'</span><span class="fi-n"><b>'+esc(x.n)+'</b>'+((sub||ign)?'<small>'+(ign?'<em>ignorado</em>'+(sub?' · ':''):'')+esc(sub)+'</small>':'')+'</span><span class="fi-v'+(x.v<0?' cr':'')+'">'+(x.v<0?'− ':'')+brl(Math.abs(x.v))+'</span></div>'}
+function impUpd(){const s=fiSum(),r=IMP.res,N=IMP.it.length,v=r.venc;
+ const warn=r.totalArq!=null?(Math.abs(s.tot-r.totalArq)<.01?'<div class="fi-ok">✓ Confere com o total do arquivo ('+brl(r.totalArq)+')</div>':'<div class="fi-wr">⚠ O total do arquivo é '+brl(r.totalArq)+' e a soma dá '+brl(s.tot)+'.</div>'):'<div class="fi-wr">⚠ Este arquivo não traz o total da fatura. Confira com o valor no app do banco.</div>';
+ gId('fiSumB').innerHTML='<div class="fi-card"><small class="mu">'+esc(IMP.cat)+' · '+(v?'vence '+fmtD(v):lblM(IMP.mes))+' · lançar em '+lblM(IMP.mes)+'</small><div class="fi-big">'+brl(s.tot)+'</div><small class="mu">'+s.nc+' compra'+(s.nc===1?'':'s')+' '+brl(s.c)+(s.nk?' − '+s.nk+' crédito'+(s.nk===1?'':'s')+' '+brl(s.cr):'')+'</small>'+warn+(r.flip?'<div class="fi-wr">O arquivo lista as compras com sinal negativo. Inverti os sinais.</div>':'')+'</div>';
+ const ck=gId('fiAllCk');ck.className='fi-ck '+(s.n===N?'on':s.n?'part':'');ck.textContent=s.n===N?'✓':s.n?'−':'';gId('fiAllN').textContent=s.n+' de '+N+' marcados';
+ const cnt={all:N,buy:IMP.it.filter(i=>i.v>=0).length,off:IMP.it.filter(i=>!i.k).length};
+ gId('fiChips').innerHTML=[['all','Todos ('+cnt.all+')'],['buy','Compras ('+cnt.buy+')'],['off','Ignorados ('+cnt.off+')']].map(a=>'<span class="fi-chip'+(IMP.f===a[0]?' on':'')+'" data-fi="chip" data-f="'+a[0]+'">'+a[1]+'</span>').join('');
+ const b=gId('fiSave');b.textContent='Salvar fatura · '+s.n+' iten'+(s.n===1?'':'s')+' · '+brl(s.tot);b.disabled=!s.n}
+function impDraw(){const ok=i=>IMP.f==='all'||(IMP.f==='buy'?IMP.it[i].v>=0:!IMP.it[i].k);
+ gId('fiList').innerHTML=IMP.ord.filter(ok).map(impRow).join('')||'<div class="mu" style="padding:14px 0">Nenhum item neste filtro.</div>';impUpd()}
+function impSave(){const s=fiSum();if(!s.n)return;const cat=IMP.cat,mes=IMP.mes,r=IMP.res;
+ const id=mes+'_'+fnorm(cat).replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,30),old=FAT.find(f=>f.id===id);
+ if(old&&!confirm('Já existe uma fatura de “'+cat+'” em '+lblM(mes)+' ('+old.itens.length+' itens, '+brl(fatTot(old))+'). Substituir?'))return;
+ fatPut({id,cat,mes,venc:r.venc||'',arq:IMP.file?IMP.file.name:'',n:IMP.it.length,tot:s.tot,t:Date.now(),itens:IMP.it.map(i=>({d:i.d,n:i.n,o:i.o,v:i.v,p:i.p||'',c:i.c||'',k:i.k?1:0}))});
+ closeSheet();fiToast('Fatura salva: '+brl(s.tot)+' em '+cat+' ('+lblM(mes)+'). O total já aparece como sugestão ao lançar.');try{refresh()}catch(e){}}
+// ---------- ver / excluir fatura importada ----------
+function fatList(){openSheet('Faturas importadas',FAT.slice().sort((a,b)=>a.mes<b.mes?1:-1).map(f=>'<div class="fi-fl" data-fat="'+esc(f.id)+'"><span>💳</span><span class="fi-n"><b>'+esc(f.cat)+' · '+lblM(f.mes)+'</b><small>'+f.itens.length+' itens</small></span><b>'+brl(fatTot(f))+'</b><span class="mu">›</span></div>').join('')||'<div class="mu">Nenhuma fatura importada.</div>')}
+function fatView(id){const f=FAT.find(x=>x.id===id);if(!f)return;
+ openSheet(f.cat+' · '+lblM(f.mes),'<div class="fi-card"><small class="mu">'+(f.venc?'vence '+fmtD(f.venc)+' · ':'')+esc(f.arq||'')+'</small><div class="fi-big">'+brl(fatTot(f))+'</div><small class="mu">'+f.itens.filter(i=>i.k).length+' de '+f.itens.length+' itens contam no total</small></div><div class="fi-list">'
+ +f.itens.slice().sort((a,b)=>a.d<b.d?-1:1).map(x=>'<div class="fi-r'+(x.k?'':' off')+'" style="cursor:default"><span class="fi-d">'+x.d.slice(8,10)+'/'+x.d.slice(5,7)+'</span><span class="fi-n"><b>'+esc(x.n)+'</b>'+((x.p||x.c)?'<small>'+esc([x.p?'parcela '+x.p:'',x.c].filter(Boolean).join(' · '))+'</small>':'')+'</span><span class="fi-v'+(x.v<0?' cr':'')+'">'+(x.v<0?'− ':'')+brl(Math.abs(x.v))+'</span></div>').join('')
+ +'</div><div class="fi-foot"><button class="btn" data-fi="del" data-id="'+esc(f.id)+'" style="color:var(--neg)">Excluir fatura</button></div>')}
+const fatTags=m=>FAT.filter(f=>f.mes===m).map(f=>'<div class="fi-tag" data-fat="'+esc(f.id)+'"><span>💳</span><span class="fi-n"><b>'+esc(f.cat)+' · importada</b><small>'+f.itens.length+' itens da fatura</small></span><b>'+brl(fatTot(f))+'</b><span class="mu">›</span></div>').join('');
+// ---------- eventos ----------
+gId('impBtn').onclick=impOpen;
+gId('fiFile').onchange=e=>{const f=e.target.files&&e.target.files[0];e.target.value='';if(f)impPick(f)};
+gId('shBody').addEventListener('click',e=>{const t=e.target.closest('[data-fi],[data-i],[data-fat]');if(!t)return;
+ if(t.dataset.fat&&!t.dataset.fi){fatView(t.dataset.fat);return}
+ const a=t.dataset.fi;
+ if(a==='pick'){gId('fiFile').click();return}
+ if(a==='go'){if(IMP.res)impReview();return}
+ if(a==='list'){fatList();return}
+ if(a==='all'){const s=fiSum(),on=s.n!==IMP.it.length;IMP.it.forEach(i=>{i.k=on?1:0});impDraw();return}
+ if(a==='chip'){IMP.f=t.dataset.f;impDraw();return}
+ if(a==='save'){impSave();return}
+ if(a==='del'){const f=FAT.find(x=>x.id===t.dataset.id);if(f&&confirm('Excluir a fatura “'+f.cat+'” de '+lblM(f.mes)+'? Os lançamentos já feitos não mudam.')){fatDelete(f.id);closeSheet();fiToast('Fatura excluída.');try{refresh()}catch(e){}}return}
+ if(t.classList.contains('fi-r')&&t.dataset.i!==undefined&&IMP.it.length){const i=+t.dataset.i;IMP.it[i].k=IMP.it[i].k?0:1;if(IMP.f==='all')t.outerHTML=impRow(i);else impDraw();impUpd()}});
+lista_.addEventListener('click',e=>{const t=e.target.closest('[data-fat]');if(t)fatView(t.dataset.fat)});
+// ---------- sugestão do total ao lançar ----------
+function fatBtn(n,m){const f=fatFor(n,m);if(!f)return'';return '<div class="fsug"><span class="fsi">💡</span><span class="fst"><b>Sugerido: '+brl(fatTot(f))+'</b><small>da fatura importada · '+f.itens.filter(i=>i.k).length+' itens</small></span><button class="btn sm fsb" data-a="sug">Usar</button></div>'}
+function qSugUpd(){const el=document.getElementById('qSug');if(!el)return;let f=null;
+ try{if(isA()&&!EDIT&&QS.d===''&&!QS.p.length){f=fatFor(fCat.value,fMes.value);if(f&&cell(matrix(),fCat.value,fMes.value))f=null}}catch(e){f=null}
+ if(!f){el.classList.add('hide');el.innerHTML='';return}
+ el.innerHTML='<div class="fsug"><span class="fsi">💡</span><span class="fst"><b>Sugerido: '+brl(fatTot(f))+'</b><small>da fatura importada · '+f.itens.filter(i=>i.k).length+' itens</small></span><button class="btn sm fsb" data-qsug="1" type="button">Usar</button></div>';el.classList.remove('hide')}
+gId('qSug').addEventListener('click',e=>{if(!e.target.closest('[data-qsug]'))return;const f=fatFor(fCat.value,fMes.value);if(f){QS.p=[];QS.d=String(Math.round(Math.abs(fatTot(f))*100));kRender()}});
+{const _k=kRender;kRender=function(){_k.apply(this,arguments);try{qSugUpd()}catch(e){}};const _r=refresh;refresh=function(){_r.apply(this,arguments);try{qSugUpd()}catch(e){}}}
+fCat.addEventListener('change',()=>qSugUpd());fMes.addEventListener('change',()=>qSugUpd());fMes.addEventListener('input',()=>qSugUpd());
+try{const mo=new MutationObserver(()=>{try{qSugUpd()}catch(e){}});mo.observe(gId('modal'),{attributes:true,attributeFilter:['class']});mo.observe(gId('mAvulso'),{attributes:true,attributeFilter:['class']})}catch(e){}
+
 
 // ---- eventos
 let TAB='resumo';
@@ -1287,13 +1482,13 @@ function cloudL(list,meta){cs.pending=!!meta.pending;gotL=true;const s=list.slic
  if(!resolved)cloudResolve();cloudStatus()}
 function cloudAuth(u){authSeen=true;const ov=$('login');lastSig='';lastCfg='';gotL=false;gotC=false;resolved=false;cfgDoc=null;
  dvReset();
- if(!u){CLOUD.on=false;cloudUser=null;L=[];uid=1;CATS=[];SEL=null;$('loadBox').classList.add('hide');$('loginBox').classList.remove('hide');ov.classList.remove('hide');try{initSelects();refresh()}catch(e){diag(e&&e.message)}return}
+ if(!u){CLOUD.on=false;cloudUser=null;L=[];FAT=[];uid=1;CATS=[];SEL=null;$('loadBox').classList.add('hide');$('loginBox').classList.remove('hide');ov.classList.remove('hide');try{initSelects();refresh()}catch(e){diag(e&&e.message)}return}
  cloudUser=u;CLOUD.on=true;CLOUD.put=x=>CLOUDAPI.put(x).catch(cloudErr);CLOUD.del=x=>CLOUDAPI.del(x).catch(cloudErr);CLOUD.cfg=o=>CLOUDAPI.cfg(o).catch(cloudErr);CLOUD.bulk=(i,o)=>CLOUDAPI.bulk(i,o).catch(cloudErr);
  DV.on=true;DV.me=String(u.email||'').toLowerCase();DV.uid=u.uid;DV.name=u.name||'';DV.api=CLOUDAPI;try{DV.myPhoto=localStorage.getItem('ct_ph_'+u.uid)||''}catch(e){DV.myPhoto=''}DV.phPulled=0;
  reset.style.display='none';L=[];uid=1;CATS=[];$('loginBox').classList.add('hide');$('loadBox').classList.remove('hide');ov.classList.remove('hide');
  $('loadBox').innerHTML='<p class="mu">Carregando os dados de <b>'+esc(u.email||'')+'</b>…</p><p id="ldHint" class="mu" style="font-size:13px;margin-top:8px"></p>';
  clearTimeout(window._ldT);window._ldT=setTimeout(()=>{if(resolved)return;$('loadBox').innerHTML='<p style="margin-bottom:6px">Entrou como <b>'+esc(u.email||'')+'</b>, mas os dados não chegaram.</p><p class="mu" style="font-size:13px;margin-bottom:14px">'+(navigator.onLine?'Confira a conexão e tente de novo, ou entre com outra conta.':'Sem conexão com a internet.')+'<span id="ldHint"></span></p><div class="fact"><button class="btn" onclick="location.reload()">Tentar de novo</button><button class="btn" onclick="CLOUDAPI.logout()">Sair da conta</button></div><div class="fact" style="margin-top:8px"><button class="btn" onclick="hardReload()">Limpar e recarregar</button></div>';diag()},12000);
- CLOUDAPI.start({onL:cloudL,onCfg:cloudCfg,onErr:cloudErr});CLOUDAPI.groupsStart(DV.me,{onG:dvGroups,onErr:cloudErr});cloudStatus()}
+ CLOUDAPI.start({onL:cloudL,onCfg:cloudCfg,onF:cloudF,onErr:cloudErr});CLOUDAPI.groupsStart(DV.me,{onG:dvGroups,onErr:cloudErr});cloudStatus()}
 $('btnLogin').onclick=()=>{$('loginMsg').textContent='Abrindo o login do Google…';CLOUDAPI.login().then(()=>{$('loginMsg').textContent=''}).catch(e=>{$('loginMsg').textContent='Não foi possível entrar ('+(e.code||e.message)+'). Se a janela do Google não abriu, permita pop-ups para este site e tente de novo.'})};
 function diag(m){if(m!=null&&m!=='')window._dg=String(m).slice(0,160);const el=$('ldHint');if(el&&!resolved&&window._dg)el.textContent=' Detalhe: '+window._dg}
 addEventListener('error',e=>diag(e.message||(e.target&&(e.target.src||e.target.href))||'erro'),true);addEventListener('unhandledrejection',e=>diag(e.reason&&(e.reason.code||e.reason.message)||e.reason));
@@ -1324,7 +1519,7 @@ const auth=getAuth(app);
 const db=initializeFirestore(app,{localCache:persistentLocalCache({tabManager:persistentMultipleTabManager()}),experimentalAutoDetectLongPolling:true});
 let uid=null,unsubs=[],gU=null;
 const VAPID='BDMqA3cjsIrY2t8RQK9h-x_agnZB2hKFhDRVbStR09VeD2Q0LRymmfx3HMWDMDmVmKpwBUZE8jPnthXTYp1yLrI';const WORKER='https://contab-avisos.phenriquecsouza.workers.dev';const notify=b=>{if(!WORKER||!auth.currentUser)return;auth.currentUser.getIdToken().then(t=>fetch(WORKER,{method:'POST',headers:{authorization:'Bearer '+t,'content-type':'application/json'},body:JSON.stringify(b)})).catch(()=>{})};const PK='contab_push_on',PT='contab_push_tok',tdoc=t=>doc(db,'pushTokens',t);
-const lcol=()=>collection(db,'users',uid,'lancamentos'),ccfg=()=>doc(db,'users',uid,'config','main');
+const lcol=()=>collection(db,'users',uid,'lancamentos'),ccfg=()=>doc(db,'users',uid,'config','main'),fcol=()=>collection(db,'users',uid,'faturas');
 const clean=x=>({c:x.c,m:x.m,v:Number(x.v),o:x.o||'',s:x.s||'novo',f:x.f||'',t:x.t||Date.now()});
 window.CLOUDAPI={
  login:()=>{const p=new GoogleAuthProvider();p.setCustomParameters({prompt:'select_account'});return signInWithPopup(auth,p)},
@@ -1332,10 +1527,13 @@ window.CLOUDAPI={
  put:x=>setDoc(doc(lcol(),x.cid),clean(x)),
  del:x=>deleteDoc(doc(lcol(),x.cid)),
  cfg:o=>setDoc(ccfg(),o),
+ fatPut:f=>setDoc(doc(fcol(),f.id),f),
+ fatDel:id=>deleteDoc(doc(fcol(),id)),
  async bulk(items,oldCids){const ops=[...oldCids.map(c=>({d:c})),...items.map(x=>({s:x}))];for(let i=0;i<ops.length;i+=400){const b=writeBatch(db);ops.slice(i,i+400).forEach(o=>o.d?b.delete(doc(lcol(),o.d)):b.set(doc(lcol(),o.s.cid),clean(o.s)));await b.commit()}},
  start(h){unsubs.forEach(f=>f());unsubs=[];
   unsubs.push(onSnapshot(lcol(),{includeMetadataChanges:true},s=>h.onL(s.docs.map(d=>({cid:d.id,...d.data()})),{pending:s.metadata.hasPendingWrites}),h.onErr));
-  unsubs.push(onSnapshot(ccfg(),{includeMetadataChanges:true},s=>h.onCfg(s.exists()?s.data():null,{pending:s.metadata.hasPendingWrites}),h.onErr))},
+  unsubs.push(onSnapshot(ccfg(),{includeMetadataChanges:true},s=>h.onCfg(s.exists()?s.data():null,{pending:s.metadata.hasPendingWrites}),h.onErr));
+  if(h.onF)unsubs.push(onSnapshot(fcol(),{includeMetadataChanges:true},s=>h.onF(s.docs.map(d=>({id:d.id,...d.data()}))),h.onErr))},
  groupsStart(email,h){if(gU)gU();gU=onSnapshot(query(collection(db,'groups'),where('memberEmails','array-contains',email)),{includeMetadataChanges:true},s=>h.onG(s.docs.map(d=>({id:d.id,...d.data()}))),h.onErr)},
  groupSave(gid,o,ne){const r=gid?doc(db,'groups',gid):doc(collection(db,'groups')),pr=setDoc(r,o,{merge:true});pr.catch(window.cloudErr);if(ne&&ne.length)pr.then(()=>notify({kind:'members',gid:r.id,emails:ne})).catch(()=>{});return r.id},
  groupDel(gid,ids){const b=writeBatch(db);ids.forEach(i=>b.delete(doc(db,'groups',gid,'expenses',i)));b.delete(doc(db,'groups',gid));b.commit().catch(window.cloudErr)},
