@@ -301,6 +301,24 @@ label:has(>#fMes){order:2;flex:1 1 120px}label:has(>#fVal){display:none}#nCatBtn
 .fsi{font-size:18px}.fst{flex:1;min-width:0;display:flex;flex-direction:column}.fst small{color:var(--mu);font-size:11.5px}
 .fsb{background:#f4c542!important;color:#161614!important;border-color:#f4c542!important;font-weight:800;border-radius:16px}
 .fi-toast{position:fixed;left:16px;right:16px;bottom:96px;z-index:99;padding:12px 14px;border-radius:14px;background:var(--card);border:1px solid var(--ac);color:var(--tx);font-size:13px;box-shadow:0 8px 30px rgba(0,0,0,.4);opacity:0;pointer-events:none;transform:translateY(8px);transition:.25s}.fi-toast.show{opacity:1;transform:none}
+
+#sheet{z-index:70}
+.fi-imp2{width:100%;margin-top:10px;height:46px;font-weight:700;border:1.5px solid var(--ac);color:var(--ac);background:var(--ac2)}
+.fi-re{width:100%;margin-top:6px}.fi-hint2{font-size:12px;margin-top:6px;text-align:center}
+/* Análise do cartão + remover conta (2026-10-20.2) */
+#t-graf .amodo{margin:0 0 10px;background:var(--card);border:1px solid var(--bd)}
+.cv-row{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 10px}
+.cv-sc{height:28px;padding:0 12px;border-radius:14px;border:1px solid var(--bd);color:var(--mu);font-size:12px;font-weight:600;display:inline-flex;align-items:center;cursor:pointer}
+.cv-sc.on{border-color:var(--ac);background:var(--ac2);color:var(--tx)}
+.cv-vg{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.cv-vc{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:8px 10px;min-width:0}
+.cv-vc small{display:block;font-size:11px;color:var(--mu);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cv-vc b{font-size:15px}.cv-pc{font-size:12px;font-weight:700}.cv-pc.pos{color:var(--pos)}.cv-pc.neg{color:var(--neg)}
+.cv-rk{display:flex;align-items:center;gap:8px;margin-top:8px;cursor:pointer}
+.cv-rn{width:118px;font-size:11.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cv-rb{flex:1;height:14px;border-radius:5px;background:var(--bg);overflow:hidden}.cv-rb i{display:block;height:14px;border-radius:5px;opacity:.85}
+.cv-rv{width:92px;text-align:right;font-size:11px;font-weight:700;white-space:nowrap}.cv-rv small{color:var(--mu);font-weight:600}
+.cv-al{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--bd);cursor:pointer}.cv-al input{width:18px;height:18px}
 </style>
 </head>
 <body><div class="app">
@@ -321,7 +339,7 @@ label:has(>#fMes){order:2;flex:1 1 120px}label:has(>#fVal){display:none}#nCatBtn
 <section id="t-metas" class="hide"><div class="card"><div class="ct">Metas e classificação</div><div class="cs" style="margin-bottom:8px">Defina se cada despesa é fixa ou variável e um teto mensal (R$). Sem meta, a categoria não é acompanhada.</div><div class="scroll"><table id="metaTb"></table></div></div></section>
 <section id="t-div" class="hide"><div id="divRoot"></div></section>
 <section id="t-conf" class="hide">
-<div class="card"><div class="ct">Conta</div><div class="acc"><span class="acv" id="avL" title="Trocar foto">?</span><div style="min-width:0"><div class="an" id="avN">…</div><div class="mu" id="avE" style="font-size:14px;overflow:hidden;text-overflow:ellipsis"></div><div style="margin-top:8px;display:flex;gap:6px"><button class="btn sm" id="avPick">Trocar foto</button><button class="btn sm hide" id="avDel">Remover</button></div></div></div><input type="file" id="avFile" accept="image/*" style="display:none"><div class="cs" id="syncSt" style="margin:0 0 12px">…</div><div class="fact" style="margin-top:0"><button class="btn" id="btnSwitch">Trocar de conta</button><button class="btn" id="btnLogout" style="color:var(--neg)">Sair da conta</button></div></div>
+<div class="card"><div class="ct">Conta</div><div class="acc"><span class="acv" id="avL" title="Trocar foto">?</span><div style="min-width:0"><div class="an" id="avN">…</div><div class="mu" id="avE" style="font-size:14px;overflow:hidden;text-overflow:ellipsis"></div><div style="margin-top:8px;display:flex;gap:6px"><button class="btn sm" id="avPick">Trocar foto</button><button class="btn sm hide" id="avDel">Remover</button></div></div></div><input type="file" id="avFile" accept="image/*" style="display:none"><div class="cs" id="syncSt" style="margin:0 0 12px">…</div><div class="fact" style="margin-top:0"><button class="btn" id="btnSwitch">Trocar de conta</button><button class="btn" id="btnLogout" style="color:var(--neg)">Sair da conta</button></div><div class="fact" style="margin-top:8px"><button class="btn" id="btnDelAcc" style="color:var(--neg)">Remover conta</button></div></div>
 <div class="card"><div class="ct">Aparência</div>
  <div class="cs" style="margin:2px 0 8px">Tema do aplicativo. Automático segue o modo do seu celular.</div>
  <div class="seg" id="thSeg"><button data-m="auto">Automático</button><button data-m="light">Claro</button><button data-m="dark">Escuro</button></div>
@@ -342,7 +360,7 @@ label:has(>#fMes){order:2;flex:1 1 120px}label:has(>#fVal){display:none}#nCatBtn
 <div class="card"><div class="ct">Dados e backup</div><div class="row" style="margin-top:8px"><button class="btn sm" id="reset">Apagar dados locais</button></div>
   <div class="row" style="margin-top:10px;align-items:center"><span class="mu">Backup:</span><button class="btn sm" id="bkExp">Exportar backup (JSON)</button><label class="btn sm" style="flex-direction:row;font-size:12px;color:var(--tx);cursor:pointer;min-width:0">Importar backup (substitui os dados atuais)<input type="file" id="bkImp" hidden></label></div><div id="bkMsg" class="mu" style="margin-top:6px;min-height:18px"></div><details style="margin-top:6px"><summary class="mu" style="cursor:pointer">Importar colando o texto do backup</summary><textarea id="bkTxt" rows="4" style="width:100%;margin-top:6px;font-size:12px" placeholder="Cole aqui o conteúdo do arquivo de backup (.json)"></textarea><button class="btn sm" id="bkPaste" type="button" style="margin-top:6px">Importar texto colado</button></details></div>
 <div class="card"><div class="ct">Sobre</div>
- <div class="cfr" style="border-top:0"><span>Versão do app</span><b id="appVer">2026-10-20.1</b></div>
+ <div class="cfr" style="border-top:0"><span>Versão do app</span><b id="appVer">2026-10-20.2</b></div>
  <div class="cfr"><span>Atualização</span><button class="btn sm" id="appUpd">Buscar atualização</button></div>
 </div>
 </section>
@@ -350,13 +368,15 @@ label:has(>#fMes){order:2;flex:1 1 120px}label:has(>#fVal){display:none}#nCatBtn
 <section id="t-lanc" class="hide">
  <div class="card">
   <div class="hd"><div><div class="ct">Lançamentos</div><div class="cs" id="lSum">…</div></div><button class="btn sm" id="lAll">Expandir tudo</button></div>
-  <div class="fi-bar"><div class="lsr"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input id="lBusca" type="search" placeholder="Buscar (ex.: Aluguel)" autocomplete="off" enterkeyhint="search"><button class="lclr hide" id="lClr" aria-label="Limpar busca" type="button">×</button></div><button class="btn pri fi-imp" id="impBtn" type="button">⬆ Importar fatura</button></div>
+  <div class="lsr"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input id="lBusca" type="search" placeholder="Buscar (ex.: Aluguel)" autocomplete="off" enterkeyhint="search"><button class="lclr hide" id="lClr" aria-label="Limpar busca" type="button">×</button></div>
   <div class="row" style="margin-top:10px"><label>Categoria<select id="lCat"></select></label></div>
  </div>
  <div id="lista"></div>
 </section>
 
 <section id="t-graf" class="hide">
+ <div class="gseg amodo" id="aModo"><button data-m="g" class="on">Geral</button><button data-m="c">Cartão</button></div>
+<div id="aGeral">
  <div class="card gc">
   <div class="gseg" id="gTipoSeg"><button data-v="line" class="on">Linhas</button><button data-v="bar">Barras</button><button data-v="stack">Empilhado</button></div>
   <input type="hidden" id="gTipo" value="line"><input type="hidden" id="gAgg" value="m">
@@ -374,6 +394,7 @@ label:has(>#fMes){order:2;flex:1 1 120px}label:has(>#fVal){display:none}#nCatBtn
   <div class="gkc"><small>Desp. média</small><b id="kD" style="color:#f28b7d"></b></div>
   <div class="gkc"><small>Carteira hoje</small><b id="kC" style="color:#f4c542"></b></div>
  </div>
+</div><div id="aCartao" class="hide"></div>
 </section>
 
 </main></div>
@@ -431,7 +452,7 @@ function cfgUp(){if(!CLOUD.on||applyingCfg)return;cfgDirty=true;clearTimeout(cfg
 function save(){if(CLOUD.on)return;try{localStorage.setItem(KEY,JSON.stringify(L))}catch(e){}}
 loadCats();load();
 
-const allMonths=()=>{const ms=L.map(x=>x.m).sort();if(!ms.length){const d=new Date();return[d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')]}let [y,m]=ms[0].split('-').map(Number);const [ey,em]=ms[ms.length-1].split('-').map(Number);const out=[];
+const allMonths=()=>{const ms=L.map(x=>x.m).concat((window.FAT||[]).map(f=>f.mes)).sort();if(!ms.length){const d=new Date();return[d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')]}let [y,m]=ms[0].split('-').map(Number);const [ey,em]=ms[ms.length-1].split('-').map(Number);const out=[];
  while(y<ey||(y===ey&&m<=em)){out.push(y+'-'+String(m).padStart(2,'0'));if(++m>12){m=1;y++}}return out};
 // matriz cat -> mês -> valor
 function matrix(){const M={};CATS.forEach(c=>M[c.n]={});
@@ -501,11 +522,11 @@ const LEXP=new Set();let LMS=[];
 const LCH='<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>';
 function lista(){const c=lCat.value,S=new Set(selAll()),q=nrm(lBusca.value).trim();
  const r=L.filter(x=>(c==='all'||x.c===c)&&S.has(x.m)&&(!q||nrm(x.c+' '+(x.o||'')+' '+lblM(x.m)).includes(q)));
- const by={};r.forEach(x=>(by[x.m]=by[x.m]||[]).push(x));
+ const by={};r.forEach(x=>(by[x.m]=by[x.m]||[]).push(x));if(c==='all'&&!q)(window.FAT||[]).forEach(f=>{if(S.has(f.mes)&&!by[f.mes])by[f.mes]=[]});
  const ms=Object.keys(by).sort().reverse(),tp=x=>tipo(x.c)||'d',sum=a=>a.reduce((s,x)=>s+x.v,0);LMS=ms;
  const sec=(t,a,cl)=>!a.length?'':'<div class="lm-s"><span>'+t+' · '+a.length+'</span><span class="'+cl+'">'+brl(sum(a))+'</span></div>'+a.slice().sort((x,y)=>Math.abs(y.v)-Math.abs(x.v)||y.id-x.id).map(x=>
   '<div class="lm-r" data-row="'+x.id+'"><span class="lm-i">'+cIc(x.c)+'</span><span class="lm-t"><b>'+esc(x.c)+'</b>'+(x.o?'<small>'+esc(x.o)+'</small>':'')+'</span><span class="lm-a '+cl+'"'+(x.f?' data-tip="Memória de cálculo: '+esc(x.f)+' = '+brl(x.v)+'"':'')+'>'+brl(x.v)+(x.f?' ƒ':'')+'</span><span class="lm-x"><button class="btn sm" data-edit="'+x.id+'" title="Editar">✎</button><button class="btn sm" data-del="'+x.id+'" title="Excluir">×</button></span></div>').join('');
- lista_.innerHTML=ms.length?ms.map(m=>{const a=by[m],rc=a.filter(x=>tp(x)==='r'),ds=a.filter(x=>tp(x)==='d'),sl=a.filter(x=>tp(x)==='s'),open=!!q||LEXP.has(m);
+ lista_.innerHTML=ms.length?ms.map(m=>{const a=by[m],rc=a.filter(x=>tp(x)==='r'),ds=a.filter(x=>tp(x)==='d'),sl=a.filter(x=>tp(x)==='s'),open=!!q||LEXP.has(m)||!a.length;
   return '<div class="lm'+(open?' open':'')+'"><button class="lm-h" data-mt="'+m+'" aria-expanded="'+open+'"><span class="lm-m"><b>'+lblM(m)+'</b><small>'+a.length+' lançamento'+(a.length===1?'':'s')+'</small></span><span class="lm-v"><small>Receita</small><b class="pos">'+brl(sum(rc))+'</b></span><span class="lm-v"><small>Despesa</small><b class="lm-neg">'+brl(sum(ds))+'</b></span><span class="lm-chev">'+LCH+'</span></button>'
    +(open?'<div class="lm-b">'+fatTags(m)+sec('Receita',rc,'pos')+sec('Despesa',ds,'lm-neg')+sec('Saldo / rendimento',sl,'')+'</div>':'')+'</div>'}).join(''):'<div class="lm-e">Nenhum lançamento encontrado'+(q?' para “'+esc(lBusca.value.trim())+'”':'')+'.</div>';
  const rec=sum(r.filter(x=>tp(x)==='r')),des=sum(r.filter(x=>tp(x)==='d')),p=[r.length+' lançamento'+(r.length===1?'':'s')+' em '+ms.length+(ms.length===1?' mês':' meses')];
@@ -570,6 +591,7 @@ fcBox.addEventListener('click',e=>{const T=CATS.length,n=e.target.closest('[data
  if(A==='go'){fLaunch();return}
  if(A==='skip'){(SK[m]=SK[m]||[]).push(c.n);saveSk();fNext();fcMsg.textContent='';fech();return}
  const M=matrix();
+ if(A==='imp'){impOpen({cat:c.n,mes:m});return}
  if(A==='sug'){const f=fatFor(c.n,m);if(f){FS[fcKey(c.n)]={p:[],d:String(Math.round(Math.abs(fatTot(f))*100))};fech();kRender()}return}
  if(A==='rep'){const am=allMonths().filter(x=>x<m).reverse(),k=am.find(x=>M[c.n][x]);if(k){addL({c:c.n,m,v:M[c.n][k],o:'',s:'novo',f:''});fNext();fcMsg.textContent='';initSelects();refresh()}return}
  if(A==='undo'||A==='edit'){const v=cell(M,c.n,m);L.filter(x=>x.m===m&&x.c===c.n).forEach(delL);if(A==='edit'){FS[fcKey(c.n)]={p:[],d:String(Math.round(Math.abs(v)*100))};KPo=true}initSelects();refresh();kpSync()}});
@@ -726,16 +748,19 @@ function openCats(){
 }
 
 // ---- Importar fatura (CSV) — etapa 1
-let FAT=[];try{FAT=JSON.parse(localStorage.getItem('contab_fat_v1')||'[]')||[]}catch(e){FAT=[]}
+var FAT=[];try{FAT=JSON.parse(localStorage.getItem('contab_fat_v1')||'[]')||[]}catch(e){FAT=[]}
 const fatSave=()=>{try{localStorage.setItem('contab_fat_v1',JSON.stringify(FAT))}catch(e){}};
 const r2=v=>Math.round(v*100)/100;
 const fatTot=f=>r2(f.itens.reduce((s,i)=>s+(i.k?i.v:0),0));
 const fatFor=(cat,mes)=>FAT.find(f=>f.cat===cat&&f.mes===mes)||null;
+let _fatErrAt=0;
+function cloudFatErr(e){const k=(e&&e.code)||'';if(Date.now()-_fatErrAt<60000)return;_fatErrAt=Date.now();
+ fiToast(k==='permission-denied'?'Não consegui sincronizar as faturas: faltam regras de acesso no Firestore para a coleção “faturas”. O resto do app continua funcionando.':'Não consegui sincronizar as faturas agora ('+(k||(e&&e.message)||'erro')+'). O resto do app continua funcionando.')}
 function cloudF(list){FAT=list||[];try{refresh()}catch(e){}}
 function fatPut(f){FAT=FAT.filter(x=>x.id!==f.id).concat([f]);
- if(CLOUD.on&&window.CLOUDAPI&&window.CLOUDAPI.fatPut){try{window.CLOUDAPI.fatPut(f).catch(window.cloudErr||(()=>{}))}catch(e){}}else fatSave()}
+ if(CLOUD.on&&window.CLOUDAPI&&window.CLOUDAPI.fatPut){try{window.CLOUDAPI.fatPut(f).catch(cloudFatErr)}catch(e){}}else fatSave()}
 function fatDelete(id){FAT=FAT.filter(x=>x.id!==id);
- if(CLOUD.on&&window.CLOUDAPI&&window.CLOUDAPI.fatDel){try{window.CLOUDAPI.fatDel(id).catch(window.cloudErr||(()=>{}))}catch(e){}}else fatSave()}
+ if(CLOUD.on&&window.CLOUDAPI&&window.CLOUDAPI.fatDel){try{window.CLOUDAPI.fatDel(id).catch(cloudFatErr)}catch(e){}}else fatSave()}
 const fmtD=s=>s?s.slice(8,10)+'/'+s.slice(5,7)+'/'+s.slice(0,4):'';
 const fnorm=s=>String(s).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
 // ---------- leitura do CSV ----------
@@ -811,10 +836,10 @@ function fiToast(t){let e=document.getElementById('fiToast');if(!e){e=document.c
 let IMP={file:null,res:null,cat:'',mes:'',it:[],f:'all'};
 const fiMonths=b=>{const[y,m]=b.split('-').map(Number),o=[];for(let i=3;i>=-24;i--){const d=new Date(y,m-1+i,1);o.push(d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0'))}return o};
 function fiMesFill(base){const b=base||new Date().toISOString().slice(0,7);gId('fiMes').innerHTML=fiMonths(b).map(m=>'<option value="'+m+'">'+lblM(m)+'</option>').join('');gId('fiMes').value=b}
-function impOpen(){IMP={file:null,res:null,cat:'',mes:'',it:[],f:'all'};
+function impOpen(o){o=o||{};IMP={file:null,res:null,cat:'',mes:'',it:[],f:'all',mes0:o.mes||''};
  const ds=CATS.filter(c=>c.t==='d');
  if(!ds.length){openSheet('Importar fatura','<div class="mu">Crie uma categoria de despesa para a fatura (por exemplo, “Fatura C6”) em Configurações antes de importar.</div>');return}
- const pref=(ds.find(c=>/fatura|cart[aã]o|cr[eé]dito/i.test(c.n))||ds[0]).n;IMP.cat=pref;
+ const pref=(ds.find(c=>c.n===o.cat)||ds.find(c=>isCard(c.n))||ds[0]).n;IMP.cat=pref;
  openSheet('Importar fatura','<div class="fi-drop" data-fi="pick"><span class="fi-ic">📄</span><span class="fi-tx"><b id="fiName">Escolher arquivo</b><small id="fiSub">CSV da fatura, de qualquer banco</small></span><span class="fi-lk" id="fiLk">Escolher</span></div>'
  +'<div class="mu fi-hint">Formato aceito agora: CSV. Excel e PDF virão depois.</div><div id="fiErr" class="fi-err hide"></div>'
  +'<label>Cartão (categoria)<select id="fiCat">'+ds.map(c=>'<option value="'+esc(c.n)+'"'+(c.n===pref?' selected':'')+'>'+esc(c.n)+'</option>').join('')+'</select></label>'
@@ -822,13 +847,13 @@ function impOpen(){IMP={file:null,res:null,cat:'',mes:'',it:[],f:'all'};
  +'<div class="fi-priv">🔒 A leitura acontece no seu aparelho, e o arquivo é descartado. Os itens (data, descrição e valor) ficam salvos na sua conta, no Firebase do Google, como os seus lançamentos. O nome do titular não é salvo.</div>'
  +'<button class="btn pri fi-go" id="fiGo" data-fi="go" disabled>Ler fatura</button>'
  +(FAT.length?'<button class="btn fi-lst" data-fi="list">Faturas importadas ('+FAT.length+')</button>':''));
- fiMesFill('')}
+ fiMesFill(o.mes||'')}
 function impPick(file){if(!file)return;const fr=new FileReader();
  fr.onload=()=>{let res;try{res=csvParseFatura(csvDecode(fr.result),file.name)}catch(e){res={err:'Não consegui ler este arquivo.'}}
   const er=gId('fiErr');if(!er)return;gId('fiName').textContent=file.name;
   if(res.err){IMP.res=null;er.textContent=res.err;er.classList.remove('hide');gId('fiGo').disabled=true;gId('fiSub').textContent='não foi possível ler';return}
   er.classList.add('hide');IMP.file=file;IMP.res=res;gId('fiSub').textContent='✓ '+res.itens.length+' linhas lidas · CSV';gId('fiLk').textContent='Trocar';
-  const base=(res.venc||res.ultima).slice(0,7);fiMesFill(base);
+  const base=(res.venc||IMP.mes0||res.ultima).slice(0,7);fiMesFill(base);
   gId('fiVenc').textContent=res.venc?'Vencimento '+fmtD(res.venc)+', lido no nome do arquivo':'Não achei o vencimento no nome do arquivo. Confira o mês.';gId('fiGo').disabled=false};
  fr.onerror=()=>{const er=gId('fiErr');if(er){er.textContent='Não consegui abrir o arquivo.';er.classList.remove('hide')}};
  fr.readAsArrayBuffer(file)}
@@ -853,7 +878,7 @@ function impSave(){const s=fiSum();if(!s.n)return;const cat=IMP.cat,mes=IMP.mes,
  const id=mes+'_'+fnorm(cat).replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,30),old=FAT.find(f=>f.id===id);
  if(old&&!confirm('Já existe uma fatura de “'+cat+'” em '+lblM(mes)+' ('+old.itens.length+' itens, '+brl(fatTot(old))+'). Substituir?'))return;
  fatPut({id,cat,mes,venc:r.venc||'',arq:IMP.file?IMP.file.name:'',n:IMP.it.length,tot:s.tot,t:Date.now(),itens:IMP.it.map(i=>({d:i.d,n:i.n,o:i.o,v:i.v,p:i.p||'',c:i.c||'',k:i.k?1:0}))});
- closeSheet();fiToast('Fatura salva: '+brl(s.tot)+' em '+cat+' ('+lblM(mes)+'). O total já aparece como sugestão ao lançar.');try{refresh()}catch(e){}}
+ closeSheet();fiToast('Fatura salva: '+brl(s.tot)+' em '+cat+' ('+lblM(mes)+'). O total já aparece como sugestão ao lançar, e a análise está em Análise > Cartão.');try{refresh()}catch(e){}}
 // ---------- ver / excluir fatura importada ----------
 function fatList(){openSheet('Faturas importadas',FAT.slice().sort((a,b)=>a.mes<b.mes?1:-1).map(f=>'<div class="fi-fl" data-fat="'+esc(f.id)+'"><span>💳</span><span class="fi-n"><b>'+esc(f.cat)+' · '+lblM(f.mes)+'</b><small>'+f.itens.length+' itens</small></span><b>'+brl(fatTot(f))+'</b><span class="mu">›</span></div>').join('')||'<div class="mu">Nenhuma fatura importada.</div>')}
 function fatView(id){const f=FAT.find(x=>x.id===id);if(!f)return;
@@ -862,7 +887,6 @@ function fatView(id){const f=FAT.find(x=>x.id===id);if(!f)return;
  +'</div><div class="fi-foot"><button class="btn" data-fi="del" data-id="'+esc(f.id)+'" style="color:var(--neg)">Excluir fatura</button></div>')}
 const fatTags=m=>FAT.filter(f=>f.mes===m).map(f=>'<div class="fi-tag" data-fat="'+esc(f.id)+'"><span>💳</span><span class="fi-n"><b>'+esc(f.cat)+' · importada</b><small>'+f.itens.length+' itens da fatura</small></span><b>'+brl(fatTot(f))+'</b><span class="mu">›</span></div>').join('');
 // ---------- eventos ----------
-gId('impBtn').onclick=impOpen;
 gId('fiFile').onchange=e=>{const f=e.target.files&&e.target.files[0];e.target.value='';if(f)impPick(f)};
 gId('shBody').addEventListener('click',e=>{const t=e.target.closest('[data-fi],[data-i],[data-fat]');if(!t)return;
  if(t.dataset.fat&&!t.dataset.fi){fatView(t.dataset.fat);return}
@@ -877,15 +901,101 @@ gId('shBody').addEventListener('click',e=>{const t=e.target.closest('[data-fi],[
  if(t.classList.contains('fi-r')&&t.dataset.i!==undefined&&IMP.it.length){const i=+t.dataset.i;IMP.it[i].k=IMP.it[i].k?0:1;if(IMP.f==='all')t.outerHTML=impRow(i);else impDraw();impUpd()}});
 lista_.addEventListener('click',e=>{const t=e.target.closest('[data-fat]');if(t)fatView(t.dataset.fat)});
 // ---------- sugestão do total ao lançar ----------
-function fatBtn(n,m){const f=fatFor(n,m);if(!f)return'';return '<div class="fsug"><span class="fsi">💡</span><span class="fst"><b>Sugerido: '+brl(fatTot(f))+'</b><small>da fatura importada · '+f.itens.filter(i=>i.k).length+' itens</small></span><button class="btn sm fsb" data-a="sug">Usar</button></div>'}
-function qSugUpd(){const el=document.getElementById('qSug');if(!el)return;let f=null;
- try{if(isA()&&!EDIT&&QS.d===''&&!QS.p.length){f=fatFor(fCat.value,fMes.value);if(f&&cell(matrix(),fCat.value,fMes.value))f=null}}catch(e){f=null}
- if(!f){el.classList.add('hide');el.innerHTML='';return}
- el.innerHTML='<div class="fsug"><span class="fsi">💡</span><span class="fst"><b>Sugerido: '+brl(fatTot(f))+'</b><small>da fatura importada · '+f.itens.filter(i=>i.k).length+' itens</small></span><button class="btn sm fsb" data-qsug="1" type="button">Usar</button></div>';el.classList.remove('hide')}
-gId('qSug').addEventListener('click',e=>{if(!e.target.closest('[data-qsug]'))return;const f=fatFor(fCat.value,fMes.value);if(f){QS.p=[];QS.d=String(Math.round(Math.abs(fatTot(f))*100));kRender()}});
+const isCard=n=>/fatura|cart[aã]o|cr[eé]dito|c6|nubank|visa|master|amex|\belo\b/i.test(n||'')||FAT.some(f=>f.cat===n);
+const sugHtml=(f,at)=>'<div class="fsug"><span class="fsi">💡</span><span class="fst"><b>Sugerido: '+brl(fatTot(f))+'</b><small>da fatura importada · '+f.itens.filter(i=>i.k).length+' itens</small></span><button class="btn sm fsb" '+at+'>Usar</button></div>';
+function fatBtn(n,m){const f=fatFor(n,m);
+ if(f)return sugHtml(f,'data-a="sug"')+'<button class="btn sm fi-re" data-a="imp">Importar outra fatura</button>';
+ return isCard(n)?'<button class="btn fi-imp2" data-a="imp">⬆ Importar fatura do cartão</button><div class="mu fi-hint2">Leia o CSV da fatura: o total vira sugestão aqui.</div>':''}
+function qSugUpd(){const el=document.getElementById('qSug');if(!el)return;let h='';
+ try{if(isA()&&!EDIT&&QS.d===''&&!QS.p.length){const cat=fCat.value,mes=fMes.value;
+  if(!cell(matrix(),cat,mes)){const f=fatFor(cat,mes);
+   if(f)h=sugHtml(f,'data-qsug="1" type="button"')+'<button class="btn sm fi-re" data-qimp="1" type="button">Importar outra fatura</button>';
+   else if(isCard(cat))h='<button class="btn fi-imp2" data-qimp="1" type="button">⬆ Importar fatura do cartão</button>'}}}catch(e){h=''}
+ if(!h){el.classList.add('hide');el.innerHTML='';return}el.innerHTML=h;el.classList.remove('hide')}
+gId('qSug').addEventListener('click',e=>{
+ if(e.target.closest('[data-qimp]')){impOpen({cat:fCat.value,mes:fMes.value});return}
+ if(!e.target.closest('[data-qsug]'))return;const f=fatFor(fCat.value,fMes.value);if(f){QS.p=[];QS.d=String(Math.round(Math.abs(fatTot(f))*100));kRender()}});
 {const _k=kRender;kRender=function(){_k.apply(this,arguments);try{qSugUpd()}catch(e){}};const _r=refresh;refresh=function(){_r.apply(this,arguments);try{qSugUpd()}catch(e){}}}
 fCat.addEventListener('change',()=>qSugUpd());fMes.addEventListener('change',()=>qSugUpd());fMes.addEventListener('input',()=>qSugUpd());
 try{const mo=new MutationObserver(()=>{try{qSugUpd()}catch(e){}});mo.observe(gId('modal'),{attributes:true,attributeFilter:['class']});mo.observe(gId('mAvulso'),{attributes:true,attributeFilter:['class']})}catch(e){}
+
+
+// ---- Análise do cartão (Análise > Cartão) e remover conta
+let CV={mode:'g',card:'',metric:'v',sel:null,chart:null};
+const hashN=s=>{let h=0;for(let i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))>>>0;return h};
+const merColor=n=>PAL[hashN(n)%PAL.length];
+const cvKey=()=>CV.metric==='v'?'v':'n';
+const cvFmt=v=>CV.metric==='v'?brl(v):v+'×';
+function cvData(){const ms=sel(),S=new Set(ms),fs=FAT.filter(f=>S.has(f.mes)&&(!CV.card||f.cat===CV.card)),mer={};let comp=0,gasto=0;
+ fs.forEach(f=>f.itens.forEach(i=>{if(!i.k||i.v<=0)return;comp++;gasto+=i.v;const m=mer[i.n]||(mer[i.n]={name:i.n,v:0,n:0,mm:{}});m.v+=i.v;m.n++;const x=m.mm[f.mes]||(m.mm[f.mes]={v:0,n:0});x.v+=i.v;x.n++}));
+ return{ms,fs,mer,comp,gasto:r2(gasto),total:r2(fs.reduce((s,f)=>s+fatTot(f),0))}}
+function cvDestroy(){if(CV.chart){CV.chart.destroy();CV.chart=null}}
+function cardView(){const box=gId('aCartao');if(!box||CV.mode!=='c')return;
+ if(!FAT.length){cvDestroy();box.innerHTML='<div class="card gc"><div class="ct">Nenhuma fatura importada</div><div class="mu" style="margin-top:6px;font-size:13px;line-height:1.5">Ao lançar a fatura do cartão (botão +), use “Importar fatura do cartão”. Depois, a análise aparece aqui.</div></div>';return}
+ const D=cvData(),cards=[...new Set(FAT.map(f=>f.cat))].sort();if(CV.card&&cards.indexOf(CV.card)<0)CV.card='';
+ const k=cvKey(),list=Object.values(D.mer).sort((a,b)=>(b[k]-a[k])||b.v-a.v);
+ if(!CV.sel)CV.sel=new Set(list.slice(0,2).map(m=>m.name));
+ let vis=list.slice(0,7);const must=list.filter(m=>CV.sel.has(m.name)&&vis.indexOf(m)<0);
+ if(must.length)vis=vis.slice(0,Math.max(0,7-must.length)).concat(must);vis=list.filter(m=>vis.indexOf(m)>-1);
+ const names=[...CV.sel].filter(n=>D.mer[n]);
+ const chipsC=cards.length>1?'<span class="cv-sc'+(!CV.card?' on':'')+'" data-cv="card" data-v="">Todos os cartões</span>':'';
+ const cardsH='<div class="cv-row">'+cards.map(c=>'<span class="cv-sc'+((cards.length===1||CV.card===c)?' on':'')+'" data-cv="card" data-v="'+esc(c)+'">'+esc(c)+'</span>').join('')+chipsC+'</div>';
+ const mer=vis.map(m=>'<span class="gx c'+(CV.sel.has(m.name)?' on':'')+'" data-cv="mer" data-n="'+esc(m.name)+'" title="'+esc(m.name)+'" style="--cc:'+merColor(m.name)+'"><i style="background:'+merColor(m.name)+'"></i><span class="tx">'+esc(m.name)+'</span></span>').join('')+'<span class="gx" data-cv="all"><span class="tx">Ver todos</span></span>';
+ const fm=D.ms.filter(m=>D.fs.some(f=>f.mes===m)),lastM=fm[fm.length-1],prevM=fm[fm.length-2];
+ const vcard=n=>{const mm=D.mer[n].mm,v=(mm[lastM]||{})[k]||0,p=prevM?((mm[prevM]||{})[k]||0):null,pct=p>0?(v-p)/p*100:null;
+  const tag=pct==null?'<span class="mu">'+(prevM?'novo':'—')+'</span>':'<span class="cv-pc '+(pct<0?'pos':pct>0?'neg':'')+'">'+(pct<0?'▼ −':pct>0?'▲ +':'')+Math.abs(Math.round(pct))+'%</span>';
+  return '<div class="cv-vc"><small><i style="color:'+merColor(n)+'">●</i> '+esc(n)+' · '+lblM(lastM)+'</small><div><b>'+cvFmt(v)+'</b> '+tag+'</div><small>'+(prevM?'vs. '+lblM(prevM):'sem mês anterior')+'</small></div>'};
+ const vars=lastM&&names.length?'<div class="cv-vg">'+names.slice(0,4).map(vcard).join('')+'</div>':'';
+ const mx=Math.max(1,...list.slice(0,8).map(m=>m[k]));
+ const rank=list.slice(0,8).map(m=>'<div class="cv-rk" data-cv="mer" data-n="'+esc(m.name)+'"><span class="cv-rn">'+esc(m.name)+'</span><span class="cv-rb"><i style="width:'+Math.round(m[k]/mx*100)+'%;background:'+merColor(m.name)+'"></i></span><span class="cv-rv">'+m.n+'× <small>'+brl(m.v)+'</small></span></div>').join('');
+ box.innerHTML=cardsH
+ +'<div class="card gc"><div class="gseg" id="cvMet"><button data-cv="met" data-v="v"'+(CV.metric==='v'?' class="on"':'')+'>Valor (R$)</button><button data-cv="met" data-v="n"'+(CV.metric==='n'?' class="on"':'')+'>Vezes</button></div><div class="gl">Estabelecimentos</div><div class="gg">'+mer+'</div></div>'
+ +'<div class="card gc"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px"><span class="mu" style="font-size:11.5px;font-weight:600">'+(CV.metric==='v'?'R$ por mês':'Compras por mês')+'</span><span class="mu" style="font-size:11.5px;font-weight:600">'+names.map(n=>'<span style="color:'+merColor(n)+'">●</span> '+esc(n)).join(' &nbsp;')+'</span></div>'
+ +(names.length?'<div class="gcv"><canvas id="cvC"></canvas></div><div class="mu" style="font-size:11.5px;margin-top:4px">Meses sem fatura importada ficam sem ponto.</div>':'<div class="mu" style="padding:18px 0;text-align:center">Escolha um estabelecimento acima.</div>')+'</div>'
+ +vars
+ +'<div class="gk" style="margin-top:10px"><div class="gkc"><small>Total no período</small><b>'+fk(D.total)+'</b></div><div class="gkc"><small>Compras</small><b>'+D.comp+'</b></div><div class="gkc"><small>Ticket médio</small><b>'+(D.comp?brl(D.gasto/D.comp):'—')+'</b></div></div>'
+ +(list.length?'<div class="card gc" style="margin-top:10px"><div class="ct" style="font-size:14px">Mais recorrentes</div>'+rank+'<div class="mu" style="font-size:11.5px;margin-top:6px">Nomes parecidos são somados. Toque para marcar no gráfico.</div></div>':'<div class="mu" style="padding:12px 2px">Nenhuma fatura neste período. Ajuste a linha do tempo.</div>')
+ +'<button class="btn" data-cv="manage" style="width:100%;margin-top:8px">Gerenciar faturas ('+FAT.length+')</button>';
+ cvDestroy();
+ if(window.Chart&&names.length&&gId('cvC')){const css=getComputedStyle(document.documentElement),tx=css.getPropertyValue('--mu').trim(),gr=css.getPropertyValue('--bd').trim(),card=css.getPropertyValue('--card').trim()||'#ffffff',has=new Set(D.fs.map(f=>f.mes)),touch=gTouch();
+  const ds=names.map(n=>({label:n,data:D.ms.map(m=>has.has(m)?((D.mer[n].mm[m]||{})[k]||0):null),borderColor:merColor(n),backgroundColor:'transparent',borderWidth:1.6,pointRadius:3,pointBackgroundColor:card,pointBorderColor:merColor(n),pointBorderWidth:1.5,tension:.25,spanGaps:false}));
+  const opt={responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' '+c.dataset.label+': '+(c.parsed.y==null?'—':cvFmt(c.parsed.y))}}},scales:{x:{ticks:{color:tx,maxRotation:0,autoSkip:true,maxTicksLimit:7},grid:{display:false}},y:{beginAtZero:true,ticks:{color:tx,precision:0,callback:v=>CV.metric==='v'&&v>=1000?(v/1000).toLocaleString('pt-BR',{maximumFractionDigits:1})+'k':v},grid:{color:gr}}}};
+  if(touch)opt.events=[];
+  CV.chart=new Chart(gId('cvC'),{type:'line',data:{labels:D.ms.map(lblM),datasets:ds},options:opt});
+  gId('cvC').onclick=touch?e=>gTip(CV.chart,e):null}}
+function cvAll(){const D=cvData(),k=cvKey(),list=Object.values(D.mer).sort((a,b)=>(b[k]-a[k])||b.v-a.v);
+ openSheet('Estabelecimentos','<input id="cvQ" placeholder="Buscar estabelecimento" autocomplete="off" style="margin-bottom:8px"><div class="fi-list" id="cvL">'+(list.map(m=>'<label class="cv-al" data-q="'+esc(fnorm(m.name))+'"><input type="checkbox" data-cvs="'+esc(m.name)+'"'+(CV.sel&&CV.sel.has(m.name)?' checked':'')+'><span class="fi-n"><b>'+esc(m.name)+'</b><small>'+m.n+'× · '+brl(m.v)+'</small></span></label>').join('')||'<div class="mu">Nenhum item neste período.</div>')+'</div><div class="fi-foot"><button class="btn pri" data-cvdone="1">Concluir</button></div>')}
+// eventos do cartão
+gId('aModo').onclick=e=>{const b=e.target.closest('[data-m]');if(!b)return;CV.mode=b.dataset.m;
+ [...gId('aModo').children].forEach(x=>x.classList.toggle('on',x.dataset.m===CV.mode));
+ gId('aGeral').classList.toggle('hide',CV.mode==='c');gId('aCartao').classList.toggle('hide',CV.mode!=='c');
+ if(CV.mode==='c')cardView();else{cvDestroy();try{graf()}catch(e){}}};
+gId('aCartao').addEventListener('click',e=>{const t=e.target.closest('[data-cv]');if(!t)return;const a=t.dataset.cv;
+ if(a==='card'){CV.card=t.dataset.v;CV.sel=null;cardView()}
+ else if(a==='met'){CV.metric=t.dataset.v;cardView()}
+ else if(a==='mer'){const n=t.dataset.n;if(!CV.sel)CV.sel=new Set();CV.sel.has(n)?CV.sel.delete(n):CV.sel.add(n);cardView()}
+ else if(a==='all')cvAll();
+ else if(a==='manage')fatList()});
+gId('shBody').addEventListener('change',e=>{const n=e.target.dataset.cvs;if(n===undefined)return;if(!CV.sel)CV.sel=new Set();e.target.checked?CV.sel.add(n):CV.sel.delete(n);cardView()});
+gId('shBody').addEventListener('input',e=>{if(e.target.id!=='cvQ')return;const q=fnorm(e.target.value).trim();gId('cvL').querySelectorAll('.cv-al').forEach(r=>{r.style.display=!q||r.dataset.q.indexOf(q)>-1?'':'none'})});
+gId('shBody').addEventListener('click',e=>{if(e.target.closest('[data-cvdone]'))closeSheet()});
+{const _r2=refresh;refresh=function(){_r2.apply(this,arguments);try{if(CV.mode==='c')cardView()}catch(e){}}}
+// ---------- remover conta ----------
+function delAccOpen(){
+ if(!CLOUD.on||!window.CLOUDAPI||!window.CLOUDAPI.deleteAccount){openSheet('Remover conta','<div class="mu">Entre com a sua conta Google para poder removê-la.</div>');return}
+ openSheet('Remover conta','<div class="fi-wr" style="margin:0 0 10px">⚠ Isso apaga para sempre a sua conta e tudo o que está nela. Não dá para desfazer.</div><div style="font-size:13.5px;line-height:1.55">Serão apagados: <b>lançamentos</b>, <b>categorias e metas</b>, <b>faturas importadas</b> e o seu <b>login</b> neste aplicativo.<br><span class="mu">Os grupos do Dividir continuam existindo para as outras pessoas.</span></div><button class="btn" data-da="bk" style="width:100%;margin-top:12px">Baixar backup antes (JSON)</button><label style="margin-top:12px"><span>Digite <b>REMOVER</b> para confirmar</span><input id="daTxt" autocomplete="off" autocapitalize="characters"></label><div id="daErr" class="fi-err hide"></div><button class="btn" id="daGo" data-da="go" style="width:100%;height:48px;margin-top:12px;color:var(--neg);border-color:var(--neg);font-weight:700" disabled>Remover conta para sempre</button>')}
+async function delAccRun(){const b=gId('daGo'),er=gId('daErr');b.disabled=true;b.textContent='Removendo…';er.classList.add('hide');
+ try{await window.CLOUDAPI.deleteAccount();
+  try{Object.keys(localStorage).filter(k=>/^contab/i.test(k)).forEach(k=>localStorage.removeItem(k))}catch(e){}
+  closeSheet();fiToast('Conta removida. Seus dados foram apagados.')}
+ catch(e){const c=(e&&e.code)||'';
+  const m=(c==='auth/popup-closed-by-user'||c==='auth/cancelled-popup-request')?'Confirmação cancelada. Nada foi apagado.':(c==='auth/user-mismatch'||c==='auth/wrong-password')?'Você entrou com outra conta Google. Nada foi apagado.':c==='auth/popup-blocked'?'O navegador bloqueou a janela de confirmação. Permita pop-ups e tente de novo.':'Não consegui concluir ('+((e&&e.message)||'erro desconhecido')+'). Recarregue o app e tente de novo; se algo já tiver sido apagado, a nova tentativa termina o serviço.';
+  er.textContent=m;er.classList.remove('hide');b.disabled=false;b.textContent='Remover conta para sempre'}}
+gId('btnDelAcc').onclick=delAccOpen;
+gId('shBody').addEventListener('input',e=>{if(e.target.id==='daTxt'){const g=gId('daGo');if(g)g.disabled=e.target.value.trim().toUpperCase()!=='REMOVER'}});
+gId('shBody').addEventListener('click',e=>{const t=e.target.closest('[data-da]');if(!t)return;
+ if(t.dataset.da==='bk'){gId('bkExp').click();return}
+ if(t.dataset.da==='go'&&!t.disabled)delAccRun()});
 
 
 // ---- eventos
@@ -934,7 +1044,7 @@ csv.onclick=()=>{const rows=['mes;categoria;valor;obs',...[...L].sort((a,b)=>a.m
 async function saveFile(name,text,mime){try{const d=window.claude&&claude.use?await claude.use('downloads'):null;if(d){await d.save({filename:name,data:text});return}}catch(e){if(e&&e.code==='declined')return}
  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([text],{type:mime||'application/json'}));a.download=name;a.click()}
 function mkBackup(){let ord=null;try{ord=JSON.parse(localStorage.getItem(OK)||'null')}catch(e){}
- return JSON.stringify({app:'contabilidade',v:1,at:new Date().toISOString(),lancamentos:L,categorias:CATS.map(c=>({n:c.n,t:c.t})),metas:CFG,pulados:SK,paleta:PK,ordem:ord},null,1)}
+ return JSON.stringify({app:'contabilidade',v:1,at:new Date().toISOString(),lancamentos:L,categorias:CATS.map(c=>({n:c.n,t:c.t})),metas:CFG,pulados:SK,paleta:PK,ordem:ord,faturas:FAT},null,1)}
 function restore(txt){const j=JSON.parse(String(txt).replace(/^\uFEFF/,'').trim());if(!j||j.app!=='contabilidade'||!Array.isArray(j.lancamentos))throw new Error('arquivo inválido');
  const okT=c=>c&&c.n&&c.t&&'rds'.includes(c.t),C2=[];
  if(Array.isArray(j.categorias)&&j.categorias.some(okT))j.categorias.filter(okT).forEach(c=>{if(!C2.some(x=>x.n===c.n))C2.push({n:String(c.n),t:c.t})});
@@ -946,6 +1056,7 @@ function restore(txt){const j=JSON.parse(String(txt).replace(/^\uFEFF/,'').trim(
  CFG=(j.metas&&typeof j.metas==='object')?j.metas:{};SK=(j.pulados&&typeof j.pulados==='object')?j.pulados:{};PK=PALS[j.paleta]?j.paleta:'sage';
  if(CLOUD.on){CLOUD.bulk(L,old);cfgUp()}else{save();saveCats();saveCfg();saveSk()}
  try{localStorage.setItem('contab_pal_v1',PK);if(j.ordem)localStorage.setItem(OK,JSON.stringify(j.ordem));else localStorage.removeItem(OK)}catch(e){}
+ if(Array.isArray(j.faturas))j.faturas.filter(f=>f&&f.id&&f.cat&&/^\d{4}-\d{2}$/.test(f.mes)&&Array.isArray(f.itens)).forEach(fatPut);
  palSel.value=PK;SEL=null;applyOrd();initSelects();chips();refresh();return [ok.length,j.lancamentos.length-ok.length]}
 bkExp.onclick=async()=>{await saveFile('backup-contabilidade-'+new Date().toISOString().slice(0,10)+'.json',mkBackup());bkMsg.textContent='Backup gerado com '+L.length+' lançamentos.'};
 const bkSay=(s,ok)=>{bkMsg.textContent=s;bkMsg.style.color=ok===true?'var(--pos)':ok===false?'var(--neg)':''};
@@ -1488,7 +1599,7 @@ function cloudAuth(u){authSeen=true;const ov=$('login');lastSig='';lastCfg='';go
  reset.style.display='none';L=[];uid=1;CATS=[];$('loginBox').classList.add('hide');$('loadBox').classList.remove('hide');ov.classList.remove('hide');
  $('loadBox').innerHTML='<p class="mu">Carregando os dados de <b>'+esc(u.email||'')+'</b>…</p><p id="ldHint" class="mu" style="font-size:13px;margin-top:8px"></p>';
  clearTimeout(window._ldT);window._ldT=setTimeout(()=>{if(resolved)return;$('loadBox').innerHTML='<p style="margin-bottom:6px">Entrou como <b>'+esc(u.email||'')+'</b>, mas os dados não chegaram.</p><p class="mu" style="font-size:13px;margin-bottom:14px">'+(navigator.onLine?'Confira a conexão e tente de novo, ou entre com outra conta.':'Sem conexão com a internet.')+'<span id="ldHint"></span></p><div class="fact"><button class="btn" onclick="location.reload()">Tentar de novo</button><button class="btn" onclick="CLOUDAPI.logout()">Sair da conta</button></div><div class="fact" style="margin-top:8px"><button class="btn" onclick="hardReload()">Limpar e recarregar</button></div>';diag()},12000);
- CLOUDAPI.start({onL:cloudL,onCfg:cloudCfg,onF:cloudF,onErr:cloudErr});CLOUDAPI.groupsStart(DV.me,{onG:dvGroups,onErr:cloudErr});cloudStatus()}
+ CLOUDAPI.start({onL:cloudL,onCfg:cloudCfg,onF:cloudF,onFErr:cloudFatErr,onErr:cloudErr});CLOUDAPI.groupsStart(DV.me,{onG:dvGroups,onErr:cloudErr});cloudStatus()}
 $('btnLogin').onclick=()=>{$('loginMsg').textContent='Abrindo o login do Google…';CLOUDAPI.login().then(()=>{$('loginMsg').textContent=''}).catch(e=>{$('loginMsg').textContent='Não foi possível entrar ('+(e.code||e.message)+'). Se a janela do Google não abriu, permita pop-ups para este site e tente de novo.'})};
 function diag(m){if(m!=null&&m!=='')window._dg=String(m).slice(0,160);const el=$('ldHint');if(el&&!resolved&&window._dg)el.textContent=' Detalhe: '+window._dg}
 addEventListener('error',e=>diag(e.message||(e.target&&(e.target.src||e.target.href))||'erro'),true);addEventListener('unhandledrejection',e=>diag(e.reason&&(e.reason.code||e.reason.message)||e.reason));
@@ -1511,9 +1622,9 @@ sel.addEventListener('change',paint);new MutationObserver(build).observe(sel,{ch
 </script>
 <script type="module">
 import {initializeApp} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js';
-import {getAuth,GoogleAuthProvider,signInWithPopup,onAuthStateChanged,signOut} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js';
+import {getAuth,GoogleAuthProvider,signInWithPopup,onAuthStateChanged,signOut,deleteUser,reauthenticateWithPopup} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js';
 import {getMessaging,getToken,deleteToken,isSupported} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-messaging.js';
-import {initializeFirestore,persistentLocalCache,persistentMultipleTabManager,doc,collection,setDoc,deleteDoc,onSnapshot,writeBatch,query,where} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js';
+import {initializeFirestore,persistentLocalCache,persistentMultipleTabManager,doc,collection,setDoc,deleteDoc,onSnapshot,writeBatch,query,where,getDocs} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js';
 const app=initializeApp({apiKey:"AIzaSyCquhK6tRdX7pLBzNTNGKkcL6Aw3OtgTQ8",authDomain:"mensal-contabilidade.firebaseapp.com",projectId:"mensal-contabilidade",storageBucket:"mensal-contabilidade.firebasestorage.app",messagingSenderId:"1084552414987",appId:"1:1084552414987:web:74fe5046bb0f588e71c40e"});
 const auth=getAuth(app);
 const db=initializeFirestore(app,{localCache:persistentLocalCache({tabManager:persistentMultipleTabManager()}),experimentalAutoDetectLongPolling:true});
@@ -1524,6 +1635,14 @@ const clean=x=>({c:x.c,m:x.m,v:Number(x.v),o:x.o||'',s:x.s||'novo',f:x.f||'',t:x
 window.CLOUDAPI={
  login:()=>{const p=new GoogleAuthProvider();p.setCustomParameters({prompt:'select_account'});return signInWithPopup(auth,p)},
  async logout(){try{await window.CLOUDAPI.push.unlink()}catch(e){}return signOut(auth)},
+ async deleteAccount(){const u=auth.currentUser;if(!u)throw new Error('Você não está logado.');
+  const p=new GoogleAuthProvider();p.setCustomParameters({prompt:'select_account',login_hint:u.email||''});
+  await reauthenticateWithPopup(u,p);
+  unsubs.forEach(f=>f());unsubs=[];if(gU){gU();gU=null}
+  const me=uid;
+  for(const c of ['lancamentos','faturas','config']){const s=await getDocs(collection(db,'users',me,c));const ds=s.docs;for(let i=0;i<ds.length;i+=400){const b=writeBatch(db);ds.slice(i,i+400).forEach(d=>b.delete(d.ref));await b.commit()}}
+  try{await window.CLOUDAPI.push.unlink()}catch(e){}
+  await deleteUser(u)},
  put:x=>setDoc(doc(lcol(),x.cid),clean(x)),
  del:x=>deleteDoc(doc(lcol(),x.cid)),
  cfg:o=>setDoc(ccfg(),o),
@@ -1533,7 +1652,7 @@ window.CLOUDAPI={
  start(h){unsubs.forEach(f=>f());unsubs=[];
   unsubs.push(onSnapshot(lcol(),{includeMetadataChanges:true},s=>h.onL(s.docs.map(d=>({cid:d.id,...d.data()})),{pending:s.metadata.hasPendingWrites}),h.onErr));
   unsubs.push(onSnapshot(ccfg(),{includeMetadataChanges:true},s=>h.onCfg(s.exists()?s.data():null,{pending:s.metadata.hasPendingWrites}),h.onErr));
-  if(h.onF)unsubs.push(onSnapshot(fcol(),{includeMetadataChanges:true},s=>h.onF(s.docs.map(d=>({id:d.id,...d.data()}))),h.onErr))},
+  if(h.onF)unsubs.push(onSnapshot(fcol(),{includeMetadataChanges:true},s=>h.onF(s.docs.map(d=>({id:d.id,...d.data()}))),h.onFErr||h.onErr))},
  groupsStart(email,h){if(gU)gU();gU=onSnapshot(query(collection(db,'groups'),where('memberEmails','array-contains',email)),{includeMetadataChanges:true},s=>h.onG(s.docs.map(d=>({id:d.id,...d.data()}))),h.onErr)},
  groupSave(gid,o,ne){const r=gid?doc(db,'groups',gid):doc(collection(db,'groups')),pr=setDoc(r,o,{merge:true});pr.catch(window.cloudErr);if(ne&&ne.length)pr.then(()=>notify({kind:'members',gid:r.id,emails:ne})).catch(()=>{});return r.id},
  groupDel(gid,ids){const b=writeBatch(db);ids.forEach(i=>b.delete(doc(db,'groups',gid,'expenses',i)));b.delete(doc(db,'groups',gid));b.commit().catch(window.cloudErr)},
