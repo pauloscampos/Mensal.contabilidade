@@ -274,7 +274,7 @@ label:has(>#fMes){order:2;flex:1 1 120px}label:has(>#fVal){display:none}#nCatBtn
 <div class="card"><div class="ct">Dados e backup</div><div class="row" style="margin-top:8px"><button class="btn sm" id="reset">Apagar dados locais</button></div>
   <div class="row" style="margin-top:10px;align-items:center"><span class="mu">Backup:</span><button class="btn sm" id="bkExp">Exportar backup (JSON)</button><label class="btn sm" style="flex-direction:row;font-size:12px;color:var(--tx);cursor:pointer;min-width:0">Importar backup (substitui os dados atuais)<input type="file" id="bkImp" hidden></label></div><div id="bkMsg" class="mu" style="margin-top:6px;min-height:18px"></div><details style="margin-top:6px"><summary class="mu" style="cursor:pointer">Importar colando o texto do backup</summary><textarea id="bkTxt" rows="4" style="width:100%;margin-top:6px;font-size:12px" placeholder="Cole aqui o conteúdo do arquivo de backup (.json)"></textarea><button class="btn sm" id="bkPaste" type="button" style="margin-top:6px">Importar texto colado</button></details></div>
 <div class="card"><div class="ct">Sobre</div>
- <div class="cfr" style="border-top:0"><span>Versão do app</span><b id="appVer">2026-10-18.1</b></div>
+ <div class="cfr" style="border-top:0"><span>Versão do app</span><b id="appVer">2026-10-18.2</b></div>
  <div class="cfr"><span>Atualização</span><button class="btn sm" id="appUpd">Buscar atualização</button></div>
 </div>
 </section>
@@ -580,7 +580,7 @@ const TTL={resumo:'Início',lanc:'Lançamentos',graf:'Análise',metas:'Metas',di
 function setTab(t){TAB=t;$id('perBar').classList.toggle('hide',t==='div'||t==='conf');[...tabs.children].forEach(b=>b.classList.toggle('on',b.dataset.t===t));
  ['resumo','lanc','graf','metas','div','conf'].forEach(k=>document.getElementById('t-'+k).classList.toggle('hide',k!==t));
  document.body.classList.toggle('inconf',t==='conf');$id('tbTitle').textContent=TTL[t]||'';$id('cfBack').classList.toggle('hide',t!=='conf'&&t!=='metas');$id('gearBtn').classList.toggle('hide',t==='conf'||t==='metas');
- if(t==='graf')graf();if(t==='div')divRender();if(t==='conf'){confNtfUI();try{confPushUI()}catch(e){}}}
+ if(t==='graf')graf();if(t==='div'){scrollTo(0,0);divRender()}if(t==='conf'){confNtfUI();try{confPushUI()}catch(e){}}}
 tabs.onclick=e=>{const t=e.target.dataset.t;if(!t)return;setTab(t);navSync()};
 lCat.onchange=lista;
 lBusca.oninput=()=>{lClr.classList.toggle('hide',!lBusca.value);lista()};lClr.onclick=()=>{lBusca.value='';lClr.classList.add('hide');lista();lBusca.focus()};
@@ -832,7 +832,7 @@ function dvGroup(root){const g=dvCur();if(!g){dvBack();return}
  ${others.length?`<div class="card"><div class="ct">Entre os outros</div>${others.map(d=>`<div class="dvr" style="cursor:default"><span>${esc(dvName(g,d.f))} deve a ${esc(dvName(g,d.t))}</span><b>${dvF(d.a)}</b></div>`).join('')}</div>`:''}
  ${tot?`<div class="card"><div class="ct">Gastos por categoria</div><div style="margin-top:8px">${Object.entries(catSum).sort((a,b)=>b[1]-a[1]).map(([c,v])=>{const ci=dvCI(c);return `<div class="mrow" style="grid-template-columns:130px 1fr auto"><span>${ci[1]} ${ci[2]}</span><div class="bar"><i style="width:${Math.round(v/tot*100)}%;background:${col}"></i></div><span>${dvF(v)}</span></div>`}).join('')}</div></div>`:''}
  <div class="card"><div class="ct">Despesas</div><div style="margin-top:6px">${exps.length?list:'<div class="mu" style="padding:8px 0">Nenhuma despesa ainda. Toque em "+ Despesa" para começar.</div>'}</div></div>`;
- $id('dvBack').onclick=dvBack;$id('dvMng').onclick=dvManage;$id('dvAdd').onclick=()=>dvExpForm(null);$id('dvSimp').onchange=e=>{const on=e.target.checked;g.simp=on;DV.api.groupSave(g.id,{simp:on});divRender()};
+ $id('dvBack').onclick=dvBack;$id('dvMng').onclick=dvManage;$id('dvAdd').onclick=()=>dvExpForm(null);$id('dvSimp').onchange=e=>{const on=e.target.checked;g.simp=on;try{navigator.vibrate&&navigator.vibrate(on?12:8)}catch(x){}DV.api.groupSave(g.id,{simp:on});divRender()};
 $id('dvQuit').onclick=dvQuit;
  root.querySelectorAll('[data-copy]').forEach(b=>{b.onclick=()=>dvCopy(b.dataset.copy)});
  root.querySelectorAll('[data-x]').forEach(el=>{el.onclick=()=>{const x=exps.find(y=>y.id===el.dataset.x);if(x)x.k==='p'?dvPayForm(null,x):dvExpForm(x)}})}
@@ -860,7 +860,7 @@ function dvManage(){const g=dvCur(),bal=dvBal(g,dvExps()),own=g.ownerUid===DV.ui
  <label>Adicionar pessoa (e-mail do Google)<div class="row"><input id="mE" type="email" placeholder="nome@gmail.com" style="flex:1"><button class="btn sm" id="mEa">Adicionar</button></div></label><div id="mMsg" class="mu" style="min-height:18px"></div>
  <div class="ct" style="margin:10px 0 4px">Pessoas e chaves Pix</div><div class="mu" style="font-size:12px;margin-bottom:6px">Qualquer pessoa do grupo pode editar a chave. Confirme com a pessoa antes de pagar.</div>
  ${g.memberEmails.map(e=>`<div class="dvr" style="cursor:default;flex-wrap:wrap">${dvAv(g,e,1)}<span style="flex:1;min-width:0"><b>${esc(dvName(g,e))}</b>${e===DV.me?' (você)':''}<br><small class="mu">${esc(e)}</small></span><button class="btn sm" data-rm="${esc(e)}">${e===DV.me?'Sair':'Remover'}</button><div class="row" style="width:100%;flex-wrap:nowrap"><input class="pxi" data-e="${esc(e)}" value="${esc(dvPix(g,e))}" placeholder="Chave Pix (CPF, e-mail, telefone ou aleatória)" style="flex:1"><button class="btn sm" data-pxs="${esc(e)}">Salvar Pix</button></div></div>`).join('')}
- <div class="row" style="margin-top:12px"><button class="btn" id="mInv">Copiar convite</button>${own?'<button class="btn" id="mDel">Excluir grupo</button>':''}</div></div>`);dvPickWire(st);
+ <div class="row" style="margin-top:12px"><button class="btn" id="mInv">Copiar convite</button>${own?'<button class="btn" id="mDel">Excluir grupo</button>':'<button class="btn" id="mLeave" style="color:var(--neg)">Sair do grupo</button>'}</div></div>`);dvPickWire(st);
  $id('mNs').onclick=()=>{const v=$id('mN').value.trim();if(!v){msg('Informe o nome.');return}DV.api.groupSave(g.id,{name:v});g.name=v;dvManage();msg('Nome salvo.')};
  $id('mIs').onclick=()=>{DV.api.groupSave(g.id,{icon:st.ic,color:st.co,img:st.img});g.icon=st.ic;g.color=st.co;g.img=st.img;dvManage();msg('Foto, ícone e cor salvos.')};
  $id('mMes').onclick=()=>{dvSetMember(g,DV.me,{n:$id('mMe').value.trim()});dvManage();msg('Nome salvo.')};
@@ -871,7 +871,8 @@ function dvManage(){const g=dvCur(),bal=dvBal(g,dvExps()),own=g.ownerUid===DV.ui
   const rest=g.memberEmails.filter(x=>x!==e);if(!rest.length){if(confirm('Você é a última pessoa. Excluir o grupo?')){DV.api.groupDel(g.id,dvExps().map(x=>x.id));closeSheet();dvBack()}return}
   const p={memberEmails:rest,members:(g.members||[]).filter(m=>m.e!==e)};DV.api.groupSave(g.id,p);Object.assign(g,p);if(e===DV.me){closeSheet();dvBack()}else{dvManage();msg('Pessoa removida.')}}});
  $id('mInv').onclick=()=>{dvCopy('Entre em '+location.href.split('#')[0]+' com o Google do e-mail que eu cadastrei para ver o grupo "'+g.name+'" e dividir as contas.')};
- if($id('mDel'))$id('mDel').onclick=()=>{if(confirm('Excluir o grupo "'+g.name+'" e todas as despesas dele para todos? Isso não pode ser desfeito.')){DV.api.groupDel(g.id,dvExps().map(x=>x.id));closeSheet();dvBack()}}}
+ if($id('mDel'))$id('mDel').onclick=()=>{if(confirm('Excluir o grupo "'+g.name+'" e todas as despesas dele para todos? Isso não pode ser desfeito.')){DV.api.groupDel(g.id,dvExps().map(x=>x.id));closeSheet();dvBack()}}
+ if($id('mLeave'))$id('mLeave').onclick=()=>{const my=dvBal(g,dvExps())[DV.me]||0;if(Math.abs(my)>0.005){msg('Quite suas contas antes de sair (saldo: '+dvF(Math.abs(my))+').');return}if(confirm('Sair do grupo "'+g.name+'"? Você deixa de ver o grupo e os avisos dele.')){DV.api.groupSave(g.id,{memberEmails:g.memberEmails.filter(e=>e!==DV.me),members:(g.members||[]).filter(x=>x.e!==DV.me)});closeSheet();dvBack()}}}
 function dvInfo(x){return{d:x.d,a:x.a,k:x.k,e:[...new Set([...(x.s||[]),...(x.p||[]),{e:x.by}].map(q=>String(q&&q.e||'').toLowerCase()).filter(Boolean))]}}
 function dvPay(g,f,t,a,dt){DV.api.expSave(g.id,null,{k:'p',d:'Pagamento',a,dt:dt||dvToday(),p:[{e:f,a}],s:[{e:t,a}],mo:'payment',by:DV.me,t:Date.now(),ed:Date.now()})}
 function dvQuit(){const g=dvCur(),debts=dvDebts(g,dvExps()),owe=debts.filter(d=>d.f===DV.me),recv=debts.filter(d=>d.t===DV.me),msg=t=>{$id('qMsg').textContent=t};
@@ -949,7 +950,7 @@ function dvPayForm(d,x){const g=dvCur(),em=g.memberEmails,opt=(e,sel)=>`<option 
  function canStart(e){const t=e.target;if(!t||!t.closest)return false;
   if(t.closest('.dr,.gr,textarea,input:not([type=checkbox]):not([type=button]):not([type=radio]),.modal,.loginov,#sheet'))return false;return !hscroll(t)}
  function setNb(d){if(d===dir)return;if(nb){nb.classList.add('hide');clr(nb);nb=null;nbk=null}dir=d;const i=order.indexOf(ck)+(d<0?1:-1);if(i<0||i>=order.length)return;
-  nbk=order[i];nb=sec(nbk);nb.classList.remove('hide');if(nbk==='div')divRender();nb.style.position='absolute';nb.style.top=cur.offsetTop+'px';nb.style.left='0';nb.style.width='100%';nb.style.willChange='transform';nb.style.pointerEvents='none';
+  nbk=order[i];nb=sec(nbk);nb.classList.remove('hide');if(nbk==='div'){try{scrollTo(0,0)}catch(x){}divRender()}nb.style.position='absolute';nb.style.top=cur.offsetTop+'px';nb.style.left='0';nb.style.width='100%';nb.style.willChange='transform';nb.style.pointerEvents='none';
   const k=nbk;if(k==='graf')requestAnimationFrame(()=>{if(nbk===k)graf()})}
  function begin(mx){mode=2;sm=[];ox=Math.sign(mx)*LOCK;ck=curK();cur=sec(ck);W=main.clientWidth||innerWidth;dir=0;x=0;main.style.position='relative';main.style.overflowX='clip';document.documentElement.style.overflowX='hidden';cur.style.willChange='transform'}
  const rub=d=>Math.sign(d)*Math.min(Math.abs(d)*.35,W*.18);
